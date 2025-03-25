@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
+
+body {
+  font-family: 'Outfit', sans-serif;
+}
+.graphContainer {
+    width: 275px;
+    height: 219px;
+    background: #C2CABE;
+    padding: 10px;
+    border-radius: 15px;
+     /* Prevents any unnecessary spacing */
+  }
+  
+  .chartWrapper {
+    width: 100%;
+    height: 130%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0; /* Ensures no unintended right margin */
+    padding: 0; /* Removes extra spacing */
+  }
+  

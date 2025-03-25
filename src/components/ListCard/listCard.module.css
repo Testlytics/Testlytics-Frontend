@@ -1,0 +1,45 @@
+.card {
+    width: 345px;
+    height: 50px;
+    background-color: #5A643C;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .card.selected {
+    background: linear-gradient(to right, #5A643C, #000000);
+  }
+  
+  .name {
+    font-size: 18px;
+    margin-left: 10px;
+    font-weight: 600;
+  }
+  
+  .arrow {
+    font-size: 40px;
+    color: black;
+    display: flex;
+    align-items: center;
+    transition: color 0.3s ease, transform 0.3s ease;
+    transform: rotate(-35deg);
+  }
+  
+  .card.selected .arrow {
+    color: white;
+    display: flex;
+    align-items: center;
+    transform: rotate(0deg);
+  }
+  
+  
+  .card.selected .arrow {
+    color: white;
+  }
+  

@@ -1,0 +1,104 @@
+/* ✅ Main container: Left (Profile + Table + Rectangles) | Right (Graphs) */
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    height: 90vh;
+    padding: 20px;
+}
+
+/* ✅ Left Content (Profile, Table, and Rectangles) */
+.leftContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60%; /* ✅ Majority width */
+    gap: 30px;
+}
+
+/* ✅ Top Section: Profile & Details */
+.topSection {
+    display: flex;
+    gap: 95px; /* ✅ Space between profile & details */
+    justify-content: center;
+    width: 100%;
+}
+
+/* ✅ Table Section */
+.tableSection {
+    margin-top: 45px;
+    width: 90%;
+    display: flex;
+    justify-content: center;
+}
+
+/* ✅ Rectangles below Table */
+.rectangleContainer {
+    display: flex;
+    flex-direction: row; /* ✅ Row layout */
+    gap: 100px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* ✅ Individual Rectangles */
+.RectangleOne,
+.RectangleTwo {
+    width: 260px;
+    height: 100px;
+    border-radius: 10px;
+}
+
+.RectangleOne {
+    background: linear-gradient(to right, #5A643C, #6E7C42);
+}
+
+.RectangleTwo {
+    background: linear-gradient(to right, #6E7C42, #5A643C);
+}
+
+/* ✅ Right Section: Graphs */
+.graphContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 40%; /* ✅ Takes remaining width */
+    gap: 25px;
+}
+
+/* ✅ Graphs Section */
+.graphSection {
+    display: flex;
+    flex-direction: column; /* ✅ Side by side graphs */
+    gap: 50px; /* ✅ Space between Bar Graph and Line Graph */
+    align-items: center;
+}
+
+/* ✅ Graph Wrappers */
+.graphWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+}
+
+/* ✅ Graph Headings */
+.graphHeading {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* ✅ Graph Containers */
+.barGraph,
+.lineGraph {
+    width: 300px;
+    height: 220px;
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

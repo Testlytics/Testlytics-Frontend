@@ -1,0 +1,48 @@
+.tableContainer {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 8px;
+  background: #f3f5ed;
+  padding: 10px;
+}
+
+/* Table Styling */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Header Styling */
+th {
+  font-weight: bold;
+  border-bottom: 2px solid #000000 !important; /* Only header partition */
+  padding: 12px;
+  text-align: left;
+}
+
+/* Row Styling */
+td {
+  padding: 12px;
+  text-align: left;
+}
+
+/* Column Partitions */
+th:not(:last-child),
+td:not(:last-child) {
+  border-right: 1px solid #ddd; /* Only column partitions */
+}
+
+/* No Borders on Full Table */
+.table,
+th,
+td {
+  border: none;
+}
+
+/* No Data Message */
+.noDataMessage {
+  text-align: center;
+  padding: 20px;
+  font-size: 18px;
+  color: #777;
+}
