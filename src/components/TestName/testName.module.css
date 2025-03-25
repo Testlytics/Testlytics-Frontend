@@ -1,0 +1,19 @@
+.rectangle {
+    width: 568px;
+    height: 68px;
+    background-color: #C2CABE;
+    border: 2px solid #ccc;
+    border-radius: 15px;
+    display: flex;
+    margin: 20px auto;
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+
+  }
+  
+  .rectangle-text {
+    font-size: 32px;
+    padding-left: 20px;
+    color: #000000;
+    text-align: left;
+  }
+  

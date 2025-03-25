@@ -1,0 +1,43 @@
+/* Prevent scrolling on the body and html */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden; 
+  overflow-y: auto;
+}
+
+/* Main container */
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+/* Wrapper to hold both sections and fill remaining space */
+.contentWrapper {
+  display: flex;
+  flex-grow: 1; /* Fill available space */
+  width: 100%;
+  margin-top: 0;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+/* Left and Right Sections */
+.leftSection,
+.rightSection {
+  flex: 1; /* Equal space */
+  overflow-y: auto;
+}
+
+/* Optional: Add spacing between sections */
+.rightSection {
+  background-color: #F3F5ED;
+}

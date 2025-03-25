@@ -1,0 +1,48 @@
+/* Main card container */
+.card {
+    width: 606px;
+    height: 30px;
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #C2CABE;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s ease-in-out;
+    justify-content: space-between;
+  }
+  
+  /* Date styling */
+  .date {
+    font-size: 20px;
+    color: #000000;
+    font-weight: bold;
+  }
+  
+  /* Test name styling */
+  .testName {
+    font-size: 28px;
+    font-weight: bold;
+    color: #5A643C;
+    text-align: center;
+    flex-grow: 1;
+  }
+  
+  /* View button styling */
+  .samllViewButton {
+    background-color: #5a643c;
+    color: #fff;
+    padding: 6px 12px; /* Reduced padding */
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background-color 0.3s;
+  }
+  
+  .smallViewButton:hover {
+    background-color: #4a532e;
+  }
+  

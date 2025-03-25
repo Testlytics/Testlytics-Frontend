@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&display=swap');
+
+* {
+    font-family: 'Outfit', sans-serif;
+  }
+
+
+/* Prevent horizontal scrolling */
+body, html {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+ 
+.questions-container {
+  display: flex;
+  flex-direction: column; /* Stack question rows vertically */
+  gap: 12px;
+  padding: 10px;
+  width: 100%;
+}
+
+  .questions-heading {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .search-bar-container {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+    margin-left: 1025px; 
+  }
+  
+  .rectangles-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+  }
+
+  .question-row {
+    display: flex;
+    justify-content: space-between; /* Place TestName and Rectangle on the same row */
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 8px 12px;
+   
+  }
+
+  .test-name-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex: 1;
+  }
+  
