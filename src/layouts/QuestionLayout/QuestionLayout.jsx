@@ -1,0 +1,86 @@
+import React, { useState } from 'react';
+import InputField from '../../components/InputField/InputField';
+import AddImage from '../../components/AddImage/AddImage';
+import Button from '../../components/Button/Button';  // Assuming Button component exists
+import styles from './questionLayout.module.css';
+
+const QuestionLayout = () => {
+  const [options, setOptions] = useState([]);
+  const [questionNo, setQuestionNo] = useState('');
+  const [question, setQuestion] = useState('');
+
+  // Handle adding a new option
+  const handleAddOption = () => {
+    setOptions([...options, '']);
+  };
+
+  // Handle deleting an option
+  const handleDeleteOption = (index) => {
+    const newOptions = options.filter((_, i) => i !== index);
+    setOptions(newOptions);
+  };
+
+  // Handle saving data
+  const handleSave = () => {
+    console.log('Save clicked');
+  };
+
+  // Handle submitting data
+  const handleSubmit = () => {
+    console.log('Submit clicked');
+  };
+
+  return (
+    <div className={styles.container}>
+      {/* Heading */}
+      <h1 className={styles.heading}>Question Layout</h1>
+
+      {/* Question No, Question Input Fields, and Add Image in Row */}
+      <div className={styles.inputFieldsRow}>
+        <InputField label="Question No" placeholder="Enter Question Number" value={questionNo} onChange={(e) => setQuestionNo(e.target.value)} />
+        <InputField label="Question" placeholder="Enter Question" value={question} onChange={(e) => setQuestion(e.target.value)} />
+        <AddImage />
+      </div>
+
+      {/* Choices Heading and Add Option Button */}
+      <div className={styles.choicesHeader}>
+        <h2 className={styles.choicesTitle}>Choices</h2>
+        <button className={styles.addOptionButton} onClick={handleAddOption}>
+          <span className={styles.plusIcon}>+</span> Add Option
+        </button>
+      </div>
+
+      {/* Render Input Fields for Each Option in Rows */}
+      <div className={styles.optionFields}>
+        {options.map((option, index) => (
+          <div key={index} className={styles.optionWrapper}>
+            <InputField 
+              label={`Option ${index + 1}`} 
+              placeholder="Enter option" 
+              value={option}
+              onChange={(e) => {
+                const newOptions = [...options];
+                newOptions[index] = e.target.value;
+                setOptions(newOptions);
+              }} 
+            />
+            <button 
+              className={styles.deleteButton} 
+              onClick={() => handleDeleteOption(index)}
+            >
+              ❌
+            </button>
+          </div>
+        ))}
+      </div>
+
+      {/* Save and Submit Buttons */}
+      <div className={styles.buttonContainer}>
+        <Button text="Save" onClick={handleSave} />
+        <Button text="Submit" onClick={handleSubmit} />
+      </div>
+    </div>
+  );
+};
+
+export default QuestionLayout;

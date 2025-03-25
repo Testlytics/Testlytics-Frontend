@@ -11,6 +11,8 @@ body {
     background: #ffffff;
     color: rgb(0, 0, 0);
     font-family: "Outfit", sans-serif;
+    width: 100%;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   }
   
   .logo {
