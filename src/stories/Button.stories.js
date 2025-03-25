@@ -47,10 +47,3 @@ export const Small = {
     label: 'Button',
   },
 };
-
-export const Testlytics = {
-  args: {
-    primary: false,
-    label: "Button"
-  }
-};

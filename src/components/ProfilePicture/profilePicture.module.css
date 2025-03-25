@@ -1,0 +1,17 @@
+.profileContainer {
+    width: 245px;
+    height: 245px;
+    background-color: #CCCCCC;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+  
+  .profileImage {
+    width: auto;
+    height: 100%;
+    object-fit: cover;
+  }
+  

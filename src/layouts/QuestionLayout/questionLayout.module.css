@@ -1,0 +1,65 @@
+.container {
+    max-width: 75%;
+    margin: 0 auto;
+  }
+  
+  .inputFieldsRow {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+.heading{
+    font-weight: 500;
+}
+  .choicesHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .choicesTitle {
+    font-size: 40px;
+    font-weight: 500;
+    color: black;
+  }
+  
+  .addOptionButton {
+    background-color: transparent;
+    border: none;
+    color: #5A643C;
+    font-size: 24px;
+    font-weight: normal;
+    cursor: pointer;
+  }
+  
+  .optionFields {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 options in a row */
+    gap: 20px;
+  }
+  
+  .optionWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .deleteButton {
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  .buttonContainer {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin-top: 70px;
+  }
+  
+  .saveButton, .submitButton {
+    width: 48%;
+  }
+  

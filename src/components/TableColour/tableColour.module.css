@@ -1,0 +1,27 @@
+.table {
+    width: 60%;
+    margin: 20px auto;
+    border-collapse: collapse; /* Ensures borders are uniform */
+    border: 2px solid black; /* Adds border around the table */
+}
+
+th, td {
+    padding: 10px;
+    color: black;
+    border-left: 1px solid black;  /* ✅ Vertical partitioning */
+    border-right: 1px solid black; /* ✅ Vertical partitioning */
+}
+
+th {
+    background-color: #3E4727; /* Dark greenish shade */
+    color: white;
+    text-align: left;
+}
+
+.rowEven {
+    background-color: #B0BEA8; /* First alternating color */
+}
+
+.rowOdd {
+    background-color: #C2CABE; /* Second alternating color */
+}

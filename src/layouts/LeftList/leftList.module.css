@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
+
+body {
+  font-family: 'Outfit', sans-serif;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 30px;
+    margin-left: 40px;
+    min-height: 100vh;
+  }
+  
+  .title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #000000;
+  }
+  
+  .listContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    max-width: 400px;
+  }
+  

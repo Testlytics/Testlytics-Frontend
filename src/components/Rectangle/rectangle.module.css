@@ -1,0 +1,22 @@
+.rectangle {
+    width: 260px;
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    border-radius: 15px;
+    background: linear-gradient(to right, #5A643C, #6E7C42);
+    color: white;
+  }
+  
+  .leftText {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .rightText {
+    font-size: 38px;
+    font-weight: bold;
+  }
+  

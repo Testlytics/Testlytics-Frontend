@@ -4,7 +4,4 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  server: {
-    port: 6006, // Optional: to avoid conflicts with Storybook
-  },
 })
