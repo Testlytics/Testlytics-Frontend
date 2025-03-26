@@ -1,0 +1,164 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&display=swap');
+
+* {
+  font-family: 'Outfit', sans-serif;
+}
+
+/* Main container */
+.qnaContainer {
+  display: flex;
+  align-items: flex-start; /* Align image and question text */
+  padding: 20px;
+  max-width: 775px;
+  height: 266px;
+  margin: 20px auto;
+  gap: 15px; /* Increased gap for better spacing */
+  background-color: #C2CABE;
+  border-radius: 15px;
+  position: relative; /* Required for absolute positioning of icons */
+}
+
+/* Wrapper for Question and Options */
+.questionWrapper {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  position: relative; /* Allows icons to be positioned absolutely */
+}
+
+/* Image and Icon Wrapper */
+.imageIconWrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px; /* Gap between image and icons */
+}
+
+/* Question Image */
+.questionImage {
+  width: 150px; /* Set the width of the image */
+  height: 150px; /* Set a fixed height */
+  border-radius: 8px;
+  object-fit: cover; /* Maintain aspect ratio and fit */
+  margin-top: 4px; /* Slight top margin for alignment */
+}
+
+/* Icons Container */
+.iconContainer {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin-top: 4px; /* Align icons with the top of the image */
+}
+
+/* Question Text */
+.questionText {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  text-align: left;
+}
+
+/* Options Container */
+.optionsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Option Text */
+.optionText {
+  font-size: 19px;
+  padding: 10px;
+  border-radius: 8px;
+  margin: 0;
+}
+
+/* Highlight Correct Option */
+.correctOption {
+  color: #28a745;
+}
+
+/* Highlight Selected Option */
+.selectedOption {
+  color: #dc3545;
+}
+
+/* Marks Text */
+.markText {
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* Radio Button Wrapper */
+.radioButton {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #5A643C;
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+  margin-right: 8px;
+  position: relative;
+}
+
+/* Default Radio Button Style */
+.radioButton:checked {
+  border-color: #5A643C; /* Green border when selected */
+  background-color: #5A643C; /* Green fill when selected */
+}
+
+/* Add a custom dot in the center when selected */
+.radioButton:checked::before {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: #fff; /* White dot */
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Question Header */
+.questionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Icon Style */
+.icon {
+  cursor: pointer;
+  color: #666;
+  transition: color 0.2s;
+}
+
+.icon:hover {
+  color: #007bff; /* Blue color on hover */
+}
+
+/* Correct Option Styling for Editable Variant */
+.correctEditableOption {
+  color: #28a745; /* Light green for correct option */
+}
+
+/* Handle layout if image exists */
+.qnaContainer.hasImage {
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
+}
+
+/* Ensure icons stay to the right of the image */
+.qnaContainer.hasImage .iconContainer {
+  position: static;
+}
+
+
+/* ✅ New style for selectable variant */
+.selectableStyle {
+  background-color: #ffffff;
+}

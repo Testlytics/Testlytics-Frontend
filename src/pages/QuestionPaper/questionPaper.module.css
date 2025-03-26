@@ -1,0 +1,56 @@
+/* src/pages/QPandQuestionsPage.module.css */
+.pageContainer {
+    display: flex;
+    height: 100vh;
+    background-color: #F3F5ED;
+    overflow-y: auto;
+  }
+  
+  /* Sidebar */
+  .sidebar {
+    width: 20%;
+    background-color: #ffffff;
+    overflow-x: hidden;
+    padding: 20px;
+    height: 100vh; 
+  }
+  
+  /* Main Content */
+  .content {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 854px;
+  }
+  
+  /* Page Title */
+  .pageTitle {
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    margin-top: 60px;
+    margin-left: 40px;
+  }
+  
+  /* Button */
+  .Button {
+    
+    padding: 12px 20px;
+   
+    font-size: 20px;
+    cursor: pointer;
+    margin-top: 20px;
+    align-self: center;
+    margin-bottom: 40px;
+  }
+
+  /* Wrapper for the questions section */
+.questionWrapper {
+    
+    padding: 20px;
+    margin-top: 20px;
+   
+  }
+  

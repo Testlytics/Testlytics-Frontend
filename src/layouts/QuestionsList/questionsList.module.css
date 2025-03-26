@@ -1,0 +1,99 @@
+/* Container */
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Test Info Header */
+  .testInfo {
+    
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  
+  .subjectName {
+    font-size: 40px;
+    font-weight: bold;
+    color: #000000;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  
+  .testDetails {
+    font-size: 24px;
+    margin: 4px 0;
+  }
+
+  .testDetails:nth-child(2) {
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px 0;
+  }
+
+  .testDetails:nth-child(5) {
+    text-align: right;
+   
+  }
+  
+/* Questions Container */
+.questionsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%; /* Ensures the container takes the full width */
+    height: 500px; /* Fixed height for the container */
+    overflow-y: auto; /* Enable scroll if content exceeds the height */
+    border: 1px solid #ddd;
+    padding: 12px;
+    border-radius: 8px;
+    background-color: #ffffff;
+  }
+
+ /* Wrapper for Individual Questions */
+.questionWrapper {
+    position: relative;
+    padding: 10px;
+    
+    border-radius: 8px;
+    background-color: #fdfdfd;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Flex container to align question text and icons */
+  .questionWithIcons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  /* Style for Question Text */
+  .questionText {
+    flex: 1; /* Takes available space */
+  }
+  
+  .editIcons {
+    display: flex;
+    gap: 12px;
+    margin-left: 12px;
+    justify-content: flex-end;
+    margin-top: 8px;
+  }
+  
+  .icon {
+    cursor: pointer;
+    font-size: 18px;
+    color: #666;
+    transition: color 0.2s ease;
+  }
+  
+  .icon:hover {
+    color: #333;
+  }
+  

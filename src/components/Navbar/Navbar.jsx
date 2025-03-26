@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
-import { userRoleState } from "../../state/UserState";
+import { userRoleState } from "../../states/UserState";
 import styles from "./navbar.module.css";
 
 const Navbar = () => {

@@ -1,0 +1,72 @@
+/* src/layouts/ClickableList/ClickableList.module.css */
+.listContainer {
+    width: 100%;
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+
+    
+  }
+  
+  .listTitle {
+    font-size: 36px;
+    margin-bottom: 80px;
+    text-align: left;
+    color:#000000;
+    font-weight: bold;
+    margin-left: 30px;
+  }
+  
+  .list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .listItem {
+    padding: 12px 16px;
+    
+    cursor: pointer;
+    font-size: 36px;
+    display: flex;
+    justify-content: space-between;
+    align-items: left;
+    transition: background-color 0.2s;
+    color:#5A643C;
+  }
+  
+
+/* ✅ To ensure text remains aligned left */
+.listItem span,
+.listItem div {
+  display: inline-block;
+  flex-grow: 1; /* Ensures text stays aligned left */
+}
+
+
+  .listItem:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .selectedItem {
+    background-color: #ffffff;
+  }
+  
+  .icon {
+    color: #5A643C;
+    margin-left: 5px;
+    font-size: 18px;
+    width: 32px;
+    height: 32px;
+    margin-top: 5px;
+  }
+  
+  .index {
+   
+    margin-right: 8px;
+    color: #5A643C; /* Optional: Change color if needed */
+  }
+  
+  .itemContent {
+    display: flex;
+    align-items: center;
+  }
