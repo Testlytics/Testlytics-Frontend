@@ -1,14 +1,17 @@
 import React from "react";
-import { RecoilRoot } from "recoil";
 import TestReports from "./TestReports";
+import { MemoryRouter } from "react-router-dom";
+import { RecoilRoot } from "recoil"; // If using Recoil
 
 export default {
   title: "Pages/TestReports",
   component: TestReports,
-  decorators: [(Story) => <RecoilRoot><Story /></RecoilRoot>], // ✅ Wrap with RecoilRoot
 };
 
-const Template = (args) => <TestReports {...args} />;
-
-export const Default = Template.bind({});
-Default.args = {};
+export const Default = () => (
+  <RecoilRoot> {/* If using Recoil */}
+    <MemoryRouter initialEntries={["/test-reports"]}>
+      <TestReports />
+    </MemoryRouter>
+  </RecoilRoot>
+);

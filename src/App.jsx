@@ -1,16 +1,13 @@
-import "./App.css";
-import StudentPage from "./pages/StudentPage/StudentPage";
-import { RecoilRoot } from "recoil"; // ✅ Import RecoilRoot
-import TestReports from "./pages/TestReports/TestReports";
+import { RecoilRoot } from "recoil";
+import { BrowserRouter } from "react-router-dom";
+import AppRoutes from "./routes/AppRoutes";
 
 function App() {
   return (
-    <RecoilRoot> {/* ✅ Wrap everything inside RecoilRoot */}
-      <div className="App">
-        <StudentPage />
-        <TestReports />
-
-      </div>
+    <RecoilRoot>
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
     </RecoilRoot>
   );
 }

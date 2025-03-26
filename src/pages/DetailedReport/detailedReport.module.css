@@ -1,0 +1,56 @@
+.detailedReportContainer {
+    padding: 20px;
+  }
+  
+  .heading {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .infoRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .averageScore {
+    font-size: 20px;
+    font-weight: bold;
+    color: #3E4727;
+  }
+  
+  .tableContainer {
+    margin-top: 20px;
+  }
+  .headerRow {
+    display: flex;
+    justify-content: space-between; /* Align items to left & right */
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .testTitle {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .classAverage {
+    font-size: 20px;
+    font-weight: bold;
+    color: #050505; /* Optional: Highlight in blue */
+  }
+  
+  .feedbackInput {
+    width: 150px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+  }
+  
+  .feedbackInput:focus {
+    border-color: #007bff;
+  }
+  
