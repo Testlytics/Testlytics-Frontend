@@ -1,0 +1,31 @@
+.container {
+    width: 900px;
+    height: 190px;
+    background: linear-gradient(to bottom right, #5A643C, #6E7C42);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 70px;
+    border-radius: 10px;
+  }
+  
+  .detail {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .heading {
+    font-size: 40px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 7px;
+    text-align: center;
+  }
+  
+  .value {
+    font-size: 36px;
+    font-weight: 400;
+    color: white;
+    text-align: center;
+  }
+  

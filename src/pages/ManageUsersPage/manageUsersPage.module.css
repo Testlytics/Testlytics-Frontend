@@ -1,0 +1,35 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  
+  .navbar {
+    height: 60px; /* Adjust the height of Navbar */
+    width: 100%;
+    background-color: white; /* Ensure it stands out */
+    position: fixed; /* Keeps it at the top */
+    top: 0;
+    left: 0;
+    z-index: 1000; /* Ensures Navbar stays above content */
+  }
+  
+  .content {
+    display: flex;
+    flex: 1;
+    padding-top: 60px; /* Ensures content does not go under Navbar */
+  }
+  
+  .leftSection {
+    width: 25%;
+    background-color: white;
+    padding: 20px;
+  }
+  
+  .rightSection {
+    width: 75%;
+    background-color: #F3F5ED;
+    padding: 20px;
+    overflow-y: auto;
+  }
+  

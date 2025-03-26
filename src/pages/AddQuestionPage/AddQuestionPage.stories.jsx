@@ -1,14 +1,14 @@
 import React from 'react';
 import { RecoilRoot } from 'recoil';
-import QuestionLayout from './QuestionLayout';
+import AddQuestionPage from './AddQuestionPage';
 
 export default {
-  title: 'Layouts/QuestionLayout',
-  component: QuestionLayout,
+  title: 'Pages/AddQuestionPage',
+  component: AddQuestionPage,
 };
 
 export const Default = () => (
   <RecoilRoot>
-    <QuestionLayout />
+    <AddQuestionPage />
   </RecoilRoot>
 );

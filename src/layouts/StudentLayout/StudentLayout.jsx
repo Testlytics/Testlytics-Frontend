@@ -7,7 +7,15 @@ import BarGraph from "../../components/BarGraph/BarGraph";
 import LineGraph from "../../components/LineGraph/LineGraph";
 import Rectangle from "../../components/Rectangle/Rectangle";
 
-const StudentLayout = ({ profilePicture, studentDetails, tableData, barGraphData, lineGraphData }) => {
+const StudentLayout = ({ 
+  profilePicture, 
+  studentDetails, 
+  tableData, 
+  barGraphData, 
+  lineGraphData,
+  rectangleOneText, 
+  rectangleTwoText 
+}) => {
   return (
     <div className={styles.container}>
       {/* ✅ Left Section: Profile, Table & Rectangles */}
@@ -29,8 +37,8 @@ const StudentLayout = ({ profilePicture, studentDetails, tableData, barGraphData
 
         {/* ✅ Rectangles below Table */}
         <div className={styles.rectangleContainer}>
-          <Rectangle variant="one" />
-          <Rectangle variant="two" />
+          <Rectangle leftText={rectangleOneText.left} rightText={rectangleOneText.right} />
+          <Rectangle leftText={rectangleTwoText.left} rightText={rectangleTwoText.right} />
         </div>
       </div>
 
@@ -76,6 +84,14 @@ StudentLayout.propTypes = {
   }),
   barGraphData: PropTypes.array,
   lineGraphData: PropTypes.array,
+  rectangleOneText: PropTypes.shape({
+    left: PropTypes.string.isRequired,
+    right: PropTypes.string.isRequired,
+  }),
+  rectangleTwoText: PropTypes.shape({
+    left: PropTypes.string.isRequired,
+    right: PropTypes.string.isRequired,
+  }),
 };
 
 // ✅ **Default Props to Prevent Undefined Errors**
@@ -85,6 +101,8 @@ StudentLayout.defaultProps = {
   tableData: { columns: [], data: [] },
   barGraphData: [],
   lineGraphData: [],
+  rectangleOneText: { left: "Performance", right: "85%" },
+  rectangleTwoText: { left: "Improvements", right: "+5%" },
 };
 
 export default StudentLayout;

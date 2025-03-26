@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import InputField from '../../components/InputField/InputField';
 import AddImage from '../../components/AddImage/AddImage';
-import Button from '../../components/Button/Button';  // Assuming Button component exists
+import Button from '../../components/Button/Button';  
 import styles from './questionLayout.module.css';
 
 const QuestionLayout = () => {
-  const [options, setOptions] = useState([]);
+  const [options, setOptions] = useState(['', '', '', '']); // Default 4 options
   const [questionNo, setQuestionNo] = useState('');
   const [question, setQuestion] = useState('');
 
@@ -16,8 +16,9 @@ const QuestionLayout = () => {
 
   // Handle deleting an option
   const handleDeleteOption = (index) => {
-    const newOptions = options.filter((_, i) => i !== index);
-    setOptions(newOptions);
+    if (options.length > 4) { // Prevents deleting below 4 options
+      setOptions(options.filter((_, i) => i !== index));
+    }
   };
 
   // Handle saving data
@@ -33,7 +34,7 @@ const QuestionLayout = () => {
   return (
     <div className={styles.container}>
       {/* Heading */}
-      <h1 className={styles.heading}>Question Layout</h1>
+      <h1 className={styles.heading}>Add Question</h1>
 
       {/* Question No, Question Input Fields, and Add Image in Row */}
       <div className={styles.inputFieldsRow}>
@@ -64,12 +65,14 @@ const QuestionLayout = () => {
                 setOptions(newOptions);
               }} 
             />
-            <button 
-              className={styles.deleteButton} 
-              onClick={() => handleDeleteOption(index)}
-            >
-              ❌
-            </button>
+            {options.length > 4 && ( // Only show delete button if more than 4 options exist
+              <button 
+                className={styles.deleteButton} 
+                onClick={() => handleDeleteOption(index)}
+              >
+                ❌
+              </button>
+            )}
           </div>
         ))}
       </div>

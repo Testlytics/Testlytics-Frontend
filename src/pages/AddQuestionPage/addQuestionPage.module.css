@@ -1,0 +1,43 @@
+/* Ensures no unwanted scrolling */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden; /* Prevents scrolling */
+  }
+  
+  /* Main container taking full viewport height */
+  .pageContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;  /* Full viewport height */
+    margin-top: 110px;
+    overflow: hidden; /* Prevents inner scrolling */
+  }
+  
+  /* Content container fills remaining space */
+  .contentContainer {
+    display: flex;
+    flex: 1;  /* Allows dynamic resizing */
+    min-height: 0; /* Prevents content from overflowing */
+  }
+  
+  /* Sidebar / Left section */
+  .leftSection {
+    flex-basis: 25%; /* Takes 1/4 of the screen */
+    background-color: #ffffff;
+    padding: 20px;
+    overflow: hidden; /* Prevents unwanted scroll */
+  }
+  
+  /* Main content area */
+  .rightSection {
+    flex-basis: 75%;  /* Takes 3/4 of the screen */
+    background-color: #F3F5ED;
+    padding: 20px;
+    display: flex;
+    justify-content: center; /* Centers content inside */
+    align-items: flex-start; /* Aligns content at the top */
+    overflow: hidden; /* Prevents scroll */
+  }
+  

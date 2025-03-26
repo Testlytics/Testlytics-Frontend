@@ -10,6 +10,7 @@
 .table {
   width: 100%;
   border-collapse: collapse;
+  font-size: 25px;
 }
 
 /* Header Styling */
@@ -17,13 +18,13 @@ th {
   font-weight: bold;
   border-bottom: 2px solid #000000 !important; /* Only header partition */
   padding: 12px;
-  text-align: left;
+  text-align: center;
 }
 
 /* Row Styling */
 td {
   padding: 12px;
-  text-align: left;
+  text-align: center;
 }
 
 /* Column Partitions */

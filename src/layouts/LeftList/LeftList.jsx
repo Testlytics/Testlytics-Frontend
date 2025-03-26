@@ -2,16 +2,14 @@ import { useState } from "react";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import ListCard from "../../components/ListCard/ListCard";
 import styles from "./leftList.module.css";
-import studentsData from "../../pages/StudentPage/students"; // Import the students data
 
-const LeftList = ({ title, onStudentClick, selectedStudentId }) => {
+const LeftList = ({ title, data, onItemClick, selectedItemId, itemKey, itemLabel }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Filter students based on search query
-  const filteredStudents = studentsData.filter(
-    (student) =>
-      student.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      student.studentId.includes(searchQuery)
+  // ✅ Filter items based on search query (Supports any data type)
+  const filteredData = data.filter((item) =>
+    item[itemLabel].toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item[itemKey].toString().includes(searchQuery)
   );
 
   return (
@@ -19,13 +17,13 @@ const LeftList = ({ title, onStudentClick, selectedStudentId }) => {
       <h1 className={styles.title}>{title}</h1>
       <SearchBar onSearch={(query) => setSearchQuery(query)} />
       <div className={styles.listContainer}>
-        {filteredStudents.map((student) => (
+        {filteredData.map((item) => (
           <ListCard
-            key={student.studentId}
-            id={student.studentId}
-            name={student.firstName}
-            isSelected={selectedStudentId === student.studentId} // Highlight selected student
-            onClick={() => onStudentClick(student)} // Pass the selected student to parent
+            key={item[itemKey]}
+            id={item[itemKey]}
+            name={item[itemLabel]}
+            isSelected={selectedItemId === item[itemKey]} // ✅ Highlight selected item
+            onClick={() => onItemClick(item)} // ✅ Pass selected item
           />
         ))}
       </div>
