@@ -2,8 +2,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100vh; /* ✅ Ensure it fits inside the screen */
-    overflow: hidden; /* ✅ Prevent body overflow */
+    height: 100vh; /* ✅ Full viewport height */
+    overflow: hidden;
+    margin-top: 100px; /* ✅ Prevent body overflow */
 }
 
 .mainContent {
@@ -11,7 +12,7 @@
     width: 100%;
     gap: 25px;
     height: 100%; /* ✅ Take full height */
-    overflow: hidden;
+    overflow: hidden; /* ✅ Prevent unwanted scrolling */
 }
 
 /* ✅ Left Sidebar (Fixed Width) */
@@ -19,23 +20,23 @@
     padding: 20px;
 }
 
-/* ✅ Right Section (Scrollable) */
+/* ✅ Right Section (No Scroll) */
 .rightContainer {
-    flex-grow: 1; /* ✅ Takes up remaining space */
+    flex-grow: 1; /* ✅ Takes up all remaining space */
     background-color: #f3f5ed;
     padding: 20px;
     border-radius: 10px;
     position: relative;
-    height: 100%; /* ✅ Take full height */
-    overflow: auto; /* ✅ Allow scrolling inside */
+    height: 100%; /* ✅ Ensures full height */
+    overflow: hidden; /* ✅ Prevents scrolling */
+    display: flex;
+    justify-content: center; /* ✅ Centers content */
+    align-items: center; /* ✅ Aligns content in the middle */
 }
 
-/* ✅ StudentLayout Positioned on Top */
+/* ✅ StudentLayout Positioned Properly */
 .studentLayout {
-    position: absolute;
-    top: 2%;
-    left: 55%;
-    transform: translateX(-50%);
     width: 100%;
+    max-width: 90%; /* ✅ Prevents it from stretching */
     z-index: 2;
 }

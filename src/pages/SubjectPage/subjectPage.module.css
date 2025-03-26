@@ -1,0 +1,35 @@
+body {
+    overflow: hidden; /* ✅ Disables scrolling */
+}
+
+/* ✅ Full Page Layout */
+.pageContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  
+  /* ✅ Main Content (LeftList + SubjectLayout) */
+  .content {
+    display: flex;
+    flex: 1;
+    margin-top: 120px; /* Increased from 100px to 120px */
+    background-color: #F3F5ED;
+}
+
+  
+  /* ✅ Left Sidebar */
+  .leftList {
+    width: 25%;
+    padding: 20px;
+    background-color: white; /* You can change this */
+    
+  }
+  
+  /* ✅ Subject Layout */
+  .subjectLayout {
+    display: flex;
+    padding: 20px;
+    margin-left: 200px;
+  }
+  

@@ -1,4 +1,5 @@
 import React from 'react';
+import { RecoilRoot } from 'recoil';
 import FormLayout from './FormLayout';
 
 export default {
@@ -6,6 +7,8 @@ export default {
   component: FormLayout,
 };
 
-const Template = () => <FormLayout />;
-
-export const Default = Template.bind({});
+export const Default = () => (
+  <RecoilRoot>
+    <FormLayout />
+  </RecoilRoot>
+);

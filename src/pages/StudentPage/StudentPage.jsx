@@ -29,11 +29,13 @@ const StudentPage = ({ navbar }) => {
       <div className={styles.mainContent}>
         {/* Left Sidebar */}
         <div className={styles.leftSidebar}>
-          <h1>Students List</h1>
           <LeftList
-            students={studentsData}
-            selectedStudentId={selectedStudent ? selectedStudent.studentId : null} // Pass selected studentId to LeftList
-            onStudentClick={handleStudentClick} // Pass the click handler to LeftList
+            title="Students"
+            data={studentsData}
+            itemKey="studentId"
+            itemLabel="firstName"
+            selectedItemId={selectedStudent?.studentId} // ✅ Fix: Use selectedStudent?.studentId
+            onItemClick={handleStudentClick} // ✅ Fix: Correct function name
           />
         </div>
 
@@ -44,6 +46,7 @@ const StudentPage = ({ navbar }) => {
             <div className={styles.studentLayout}>
               <StudentLayout
                 studentDetails={{
+                  title: selectedStudent.title,
                   firstName: selectedStudent.firstName,
                   studentId: selectedStudent.studentId,
                   rank: selectedStudent.rank,
@@ -56,9 +59,6 @@ const StudentPage = ({ navbar }) => {
           ) : (
             <p className={styles.noStudent}>No student selected</p>
           )}
-
-          {/* Extra spacing for scrolling */}
-          <div style={{ height: "50px" }}></div>
         </div>
       </div>
     </div>

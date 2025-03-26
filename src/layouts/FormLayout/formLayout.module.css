@@ -6,7 +6,9 @@
     width: 300px;
     margin: 0 auto;
   }
-  
+ .head{
+    font-size: 70px;
+ } 
   .label {
     font-size: 26px;
     margin-bottom: 8px;

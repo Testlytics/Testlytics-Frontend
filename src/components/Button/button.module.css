@@ -2,35 +2,58 @@
 
 body {
   font-family: 'Outfit', sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 .button {
+  width: 100%; /* ✅ Makes it responsive */
+  max-width: 200px; /* ✅ Prevents it from becoming too large on big screens */
   height: 55px;
-  width: 200px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 15px;
-    cursor: pointer;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: center; /* ✅ Ensures text remains centered */
+  display: flex; /* ✅ Helps center text properly */
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+}
+
+/* ✅ Primary Button */
+.primary {
+  background: linear-gradient(to right, #5A643C, #6E7C42);
+  color: white;
+  font-size: 18px;
+}
+
+.primary:hover {
+  background: linear-gradient(to right, #5A643C, #000000);
+  transform: scale(1.05); /* Slightly enlarges */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow */
+}
+
+/* ✅ Secondary Button */
+.secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+/* ✅ Responsive Adjustments */
+@media (max-width: 768px) {
+  .button {
+    max-width: 100%; /* ✅ Full width on small screens */
     font-size: 16px;
+    padding: 12px;
   }
-  
-  .primary {
-    background: linear-gradient(to right, #5A643C, #6E7C42);
-    color: white;
-    font-size: 25px;
-    transition: all 0.3s ease-in-out;
-  
+}
+
+@media (max-width: 480px) {
+  .button {
+    height: 50px;
+    font-size: 14px;
+    padding: 10px;
   }
-  
-  .primary:hover {
-    background: linear-gradient(to right, #5A643C, #000000);
-    transform: scale(1.05); /* Slightly enlarges */
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow */
-  }
-  
-  
-  .secondary {
-    background-color: #6c757d;
-    color: white;
-  }
-  
+}
