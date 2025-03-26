@@ -1,16 +1,15 @@
-// src/App.jsx
-import React from 'react';
-
+import { RecoilRoot } from "recoil";
+import { BrowserRouter } from "react-router-dom";
+import AppRoutes from "./routes/AppRoutes";
 
 function App() {
   return (
-    <div className="App">
-      
-      
-      <StartTest />
-      <Questions />
-    </div>
+    <RecoilRoot>
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
+    </RecoilRoot>
   );
 }
 
-
+export default App;

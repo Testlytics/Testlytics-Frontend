@@ -1,27 +1,64 @@
 import { useState } from "react";
-import { useSetRecoilState } from "recoil";
-import { userRoleState, isAuthenticatedState } from "../../state/UserState";
+import { useSetRecoilState, useRecoilValue } from "recoil";
+import { useNavigate } from "react-router-dom";
+import { 
+  userRoleState, 
+  isAuthenticatedState,
+  userState,
+  authLoadingState,
+  authErrorState
+} from "../../states/UserState";
+import { authService } from "../../services/api";
 import styles from "./login.module.css";
 import LoginImage from "../../assets/images/Login.png";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
+  // Recoil state setters
   const setUserRole = useSetRecoilState(userRoleState);
   const setIsAuthenticated = useSetRecoilState(isAuthenticatedState);
+  const setUser = useSetRecoilState(userState);
+  const setError = useSetRecoilState(authErrorState);
+  const setLoading = useSetRecoilState(authLoadingState);
+  
+  // Recoil state values
+  const error = useRecoilValue(authErrorState);
+  const isLoading = useRecoilValue(authLoadingState);
 
-  const handleLogin = () => {
-    if (email === "admin@test.com" && password === "admin123") {
-      setUserRole("admin");
+  const handleLogin = async () => {
+    setLoading(true);
+    setError("");
+  
+    try {
+      const { token, user } = await authService.login({ email, password });
+      
+      if (!token) {
+        throw new Error("Authentication token missing");
+      }
+  
+      localStorage.setItem("token", token);
+      setUser({
+        email: user.email,
+        role: user.role
+      });
+      setUserRole(user.role);
       setIsAuthenticated(true);
-    } else if (email === "student@test.com" && password === "student123") {
-      setUserRole("student");
-      setIsAuthenticated(true);
-    } else {
-      setError("Invalid email or password!");
+      
+      navigate(user.role === "admin" ? "/admin" : "/student");
+  
+    } catch (err) {
+      setError(err.response?.data?.message || "Invalid credentials");
+      console.error("Login error:", err);
+    } finally {
+      setLoading(false);
     }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") handleLogin();
   };
 
   return (
@@ -37,26 +74,42 @@ const LoginPage = () => {
 
         {error && <p className={styles.error}>{error}</p>}
 
-        <label className={styles.label}>Email</label>
-        <input
-          type="email"
-          placeholder="Enter your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className={styles.inputBox}
-        />
+        <div className={styles.formGroup}>
+          <label className={styles.label}>Email</label>
+          <input
+            type="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            onKeyPress={handleKeyPress}
+            className={styles.inputBox}
+            disabled={isLoading}
+          />
+        </div>
 
-        <label className={styles.label}>Password</label>
-        <input
-          type="password"
-          placeholder="Enter your password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className={styles.inputBox}
-        />
+        <div className={styles.formGroup}>
+          <label className={styles.label}>Password</label>
+          <input
+            type="password"
+            placeholder="Enter your password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            onKeyPress={handleKeyPress}
+            className={styles.inputBox}
+            disabled={isLoading}
+          />
+        </div>
 
-        <button className={styles.loginButton} onClick={handleLogin}>
-          Login
+        <button 
+          className={styles.loginButton} 
+          onClick={handleLogin}
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <span className={styles.spinner}></span>
+          ) : (
+            "Login"
+          )}
         </button>
       </div>
     </div>
