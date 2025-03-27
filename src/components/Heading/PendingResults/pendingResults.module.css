@@ -1,0 +1,41 @@
+.container {
+    height: auto;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+    padding-left:40px ;
+    border-radius: 10px;
+    color: white;
+    font-family: "Outfit", sans-serif;
+    background: linear-gradient(to right, #5A643C, #323822, #000000);
+    text-align: left;
+  }
+  
+  /* Responsive Text */
+  .testName {
+    font-size: 1.2rem;  /* Scales with screen size */
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+  
+  .date {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+  
+  /* Adjustments for smaller screens */
+  @media (max-width: 600px) {
+    .container {
+      width: 95%;
+      padding: 10px;
+    }
+    .testName {
+      font-size: 1rem;
+    }
+    .date {
+      font-size: 0.9rem;
+    }
+  }
+  

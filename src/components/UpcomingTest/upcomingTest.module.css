@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
+
+body {
+  font-family: 'Outfit', sans-serif;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 300px;
+    margin-bottom: 15px;
+}
+
+.heading {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.navButton {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.navButton:disabled {
+    color: gray;
+    cursor: not-allowed;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.box {
+    width: 105px;
+    height: 140px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    padding-top: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: #000000;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Hover effect for all boxes */
+.box:hover {
+    transform: scale(1.05);
+    box-shadow: 4px 4px 10px rgba(255, 255, 255, 0.2);
+}
+
+/* Change background color if there's a test */
+.testDay {
+    background-color: #5A643C;
+    color: white;
+}
+
+/* Hover effect for test days */
+.testDay:hover {
+    background-color: #6D784B; /* Lighter green on hover */
+}
+
+/* Highlight today */
+.today {
+    border: 5px solid #5A643C;
+}
+
+/* Hover effect for today's date */
+.today:hover {
+    border-color: #7D8E56; /* Lighter green border on hover */
+}
+
+/* Text styles */
+.date {
+    font-size: 24px;
+    font-weight: normal;
+    color: white;
+}
+
+.month {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #ffffff;
+}
+
+.day {
+    font-size: 18px;
+    margin-top: 5px;
+    color: white;
+}
+
+.subject {
+    font-size: 18px;
+    font-weight: normal;
+    margin-top: 25px;
+}

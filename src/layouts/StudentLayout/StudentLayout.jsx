@@ -17,57 +17,53 @@ const StudentLayout = ({
   rectangleTwoText 
 }) => {
   return (
-    <div className={styles.container}>
-      {/* ✅ Left Section: Profile, Table & Rectangles */}
-      <div className={styles.leftContainer}>
+    <div className={styles.layout}>
+      {/* ✅ Profile, Rectangles & Performance Graph (Grouped in One Container) */}
+      <div className={styles.profileStatsContainer}>
         {/* ✅ Profile & Student Details */}
-        <div className={styles.topSection}>
+        
           {profilePicture && <ProfilePicture {...profilePicture} />}
           {studentDetails && <StudentDetails {...studentDetails} />}
-        </div>
 
+        {/* ✅ Rectangles & Performance Graph */}
+          <div className={styles.rectangles}>
+            <Rectangle leftText={rectangleOneText.left} rightText={rectangleOneText.right} />
+            <Rectangle leftText={rectangleTwoText.left} rightText={rectangleTwoText.right} />
+          </div>
+          <div className={styles.graphContainer}>
+            <div className={styles.graphTitle}>Performance Graph</div>
+            <div className={styles.graph}>
+              {barGraphData?.length ? <BarGraph data={barGraphData} /> : <p>No bar graph data</p>}
+            </div>
+          </div>
+      </div>
+
+      {/* ✅ Table & Line Graph in One Container */}
+      <div className={styles.dataContainer}>
         {/* ✅ Table Section */}
         {tableData?.columns?.length && tableData?.data?.length ? (
-          <div className={styles.tableSection}>
+          <div className={styles.tableWrapper}>
             <Table columns={tableData.columns} data={tableData.data} />
           </div>
         ) : (
           <p className={styles.noData}>No table data available</p>
         )}
 
-        {/* ✅ Rectangles below Table */}
-        <div className={styles.rectangleContainer}>
-          <Rectangle leftText={rectangleOneText.left} rightText={rectangleOneText.right} />
-          <Rectangle leftText={rectangleTwoText.left} rightText={rectangleTwoText.right} />
-        </div>
-      </div>
-
-      {/* ✅ Right Section: Graphs */}
-      <div className={styles.graphContainer}>
-        <div className={styles.graphSection}>
-          <div className={styles.graphWrapper}>
-            <div className={styles.graphHeading}>Performance Graph</div>
-            <div className={styles.barGraph}>
-              {barGraphData?.length ? <BarGraph data={barGraphData} /> : <p>No bar graph data</p>}
-            </div>
-          </div>
-
-          <div className={styles.graphWrapper}>
-            <div className={styles.graphHeading}>Time vs Score</div>
-            <div className={styles.lineGraph}>
-              {lineGraphData?.length ? (
-                <LineGraph data={lineGraphData} lines={[{ dataKey: "marks", color: "#282A2B" }]} />
-              ) : (
-                <p>No line graph data</p>
-              )}
-            </div>
+        {/* ✅ Line Graph Section */}
+        <div className={styles.graphContainer}>
+          <div className={styles.graphTitle}>Time vs Score</div>
+          <div className={styles.graph}>
+            {lineGraphData?.length ? (
+              <LineGraph data={lineGraphData} lines={[{ dataKey: "marks", color: "#282A2B" }]} />
+            ) : (
+              <p>No line graph data</p>
+            )}
           </div>
         </div>
       </div>
     </div>
   );
 };
-
 // ✅ **Prop Validation**
 StudentLayout.propTypes = {
   profilePicture: PropTypes.shape({
@@ -104,5 +100,4 @@ StudentLayout.defaultProps = {
   rectangleOneText: { left: "Performance", right: "85%" },
   rectangleTwoText: { left: "Improvements", right: "+5%" },
 };
-
 export default StudentLayout;

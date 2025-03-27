@@ -4,6 +4,7 @@ import Navbar from "../../components/Navbar/Navbar";
 import LeftList from "../../layouts/LeftList/LeftList";
 import StudentLayout from "../../layouts/StudentLayout/StudentLayout";
 import studentsData from "./students"; // Import the students data
+import Profile from "../../assets/images/profile.jpg";
 
 const StudentPage = ({ navbar }) => {
   // Ensure default state is set properly
@@ -46,6 +47,7 @@ const StudentPage = ({ navbar }) => {
             <div className={styles.studentLayout}>
               <StudentLayout
                 studentDetails={{
+                  src:Profile,
                   title: selectedStudent.title,
                   firstName: selectedStudent.firstName,
                   studentId: selectedStudent.studentId,

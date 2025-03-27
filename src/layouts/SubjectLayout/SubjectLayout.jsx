@@ -14,24 +14,13 @@ const SubjectLayout = ({
 }) => {
   return (
     <div className={styles.container}>
-      {/* Subject Details */}
-      <SubjectDetails subject={subjectDetails.subject} totalExams={subjectDetails.totalExams} />
-
-      {/* Table Component */}
-      <div className={styles.tableContainer}>
-        <Table columns={tableColumns} data={tableData} />
-      </div>
-
-      {/* Performance Graph, Class Toppers & Class Accuracy Graph in a Single Row */}
-      <div className={styles.row}>
-        {/* Performance Graph */}
-        <div className={styles.graphWrapper}>
-          <h2 className={styles.heading}>Performance Graph</h2>
-          <LineGraph data={performanceGraphData} lines={[{ dataKey: "score", color: "#6E7C42" }]} />
+      {/* First Row: Subject Details, Class Toppers, Performance Graph */}
+      <div className={styles.firstRow}>
+        <div className={`${styles.box} ${styles.details}`}>
+          <SubjectDetails subject={subjectDetails.subject} totalExams={subjectDetails.totalExams} />
         </div>
 
-        {/* Class Toppers */}
-        <div className={styles.classToppers}>
+        <div className={`${styles.box} ${styles.classToppers}`}>
           <h2 className={styles.heading}>Class Toppers</h2>
           <ul className={styles.topperList}>
             {classToppers.length > 0 ? (
@@ -46,7 +35,18 @@ const SubjectLayout = ({
           </ul>
         </div>
 
-        {/* Class Accuracy Graph */}
+        <div className={styles.graphWrapper}>
+          <h2 className={styles.heading}>Performance Graph</h2>
+          <LineGraph data={performanceGraphData} lines={[{ dataKey: "score", color: "#6E7C42" }]} />
+        </div>
+      </div>
+
+      {/* Second Row: Table + Class Accuracy Graph */}
+      <div className={styles.secondRow}>
+        <div className={styles.tableContainer}>
+          <Table columns={["Student ID", "Student", "Test 1", "Test 2", "Test 3"]} data={tableData} />
+        </div>
+
         <div className={styles.graphWrapper}>
           <h2 className={styles.heading}>Class Accuracy</h2>
           <LineGraph data={classAccuracyData} lines={[{ dataKey: "accuracy", color: "#5A643C" }]} />

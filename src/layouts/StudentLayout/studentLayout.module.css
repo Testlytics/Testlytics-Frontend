@@ -1,112 +1,88 @@
-/* ✅ Disable scrolling */
-html, body {
-    overflow: hidden; /* Prevent scrolling */
-    height: 100%; /* Ensure full height coverage */
-}
-
-
-/* ✅ Main container: Left (Profile + Table + Rectangles) | Right (Graphs) */
-.container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
+/* ✅ Main Grid Layout */
+.layout {
+    display: grid;
+    grid-template-rows: auto auto; /* Two rows */
+    gap: 20px;
     width: 100%;
-    height: 90vh;
-    padding: 20px;
+    box-sizing: border-box;
 }
 
-/* ✅ Left Content (Profile, Table, and Rectangles) */
-.leftContainer {
+/* ✅ Profile, Rectangles & Performance Graph (Grouped Container) */
+.profileStatsContainer {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    width: 60%; /* ✅ Majority width */
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+/* ✅ Profile Section */
+.profileSection {
+    display: flex;
+    align-items: center;
     gap: 30px;
 }
 
-/* ✅ Top Section: Profile & Details */
-.topSection {
+/* ✅ Rectangles & Performance Graph Section */
+.statsSection {
     display: flex;
-    gap: 95px; /* ✅ Space between profile & details */
-    justify-content: center;
-    width: 100%;
+    align-items: center;
 }
 
-/* ✅ Table Section */
-.tableSection {
-    margin-top: 45px;
-    width: 90%;
+/* ✅ Rectangles */
+.rectangles {
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+    gap: 20px;
 }
 
-/* ✅ Rectangles below Table */
-.rectangleContainer {
-    display: flex;
-    flex-direction: row; /* ✅ Row layout */
-    gap: 100px;
-    justify-content: center;
-    margin-top: 10px;
-}
-
-/* ✅ Individual Rectangles */
-.RectangleOne,
-.RectangleTwo {
-    width: 260px;
-    height: 100px;
-    border-radius: 10px;
-}
-
-.RectangleOne {
-    background: linear-gradient(to right, #5A643C, #6E7C42);
-}
-
-.RectangleTwo {
-    background: linear-gradient(to right, #6E7C42, #5A643C);
-}
-
-/* ✅ Right Section: Graphs */
+/* ✅ Graph Container */
 .graphContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 47%; /* ✅ Takes remaining width */
-    gap: 25px;
+    gap: 15px;
 }
 
-/* ✅ Graphs Section */
-.graphSection {
-    display: flex;
-    flex-direction: column; /* ✅ Side by side graphs */
-    gap: 30px; /* ✅ Space between Bar Graph and Line Graph */
-    align-items: center;
-    justify-content: space-between;
-}
-
-/* ✅ Graph Wrappers */
-.graphWrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
-}
-
-/* ✅ Graph Headings */
-.graphHeading {
+.graphTitle {
     font-size: 30px;
     font-weight: bold;
     text-align: center;
 }
 
-/* ✅ Graph Containers */
-.barGraph,
-.lineGraph {
-    width: 430px;
-    height: 280px;
-    padding: 10px;
+.graph {
+    width: 100%;
+    height: 250px;
+    padding: 15px;
     border-radius: 8px;
     display: flex;
     justify-content: center;
     align-items: center;
+
+}
+
+/* ✅ Table & Time vs Score in One Container */
+.dataContainer {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+/* ✅ Table Section */
+.tableWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/* ✅ No Data Message */
+.noData {
+    text-align: center;
+    font-size: 18px;
+    color: #666;
 }

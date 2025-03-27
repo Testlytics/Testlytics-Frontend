@@ -1,7 +1,4 @@
 .studentContainer {
-    width: 495px;
-    height: 205px;
-    background: linear-gradient(to bottom right, #5A643C, #6E7C42);
     border-radius: 15px;
     padding: 20px;
     display: flex;
@@ -11,7 +8,7 @@
   
   .text {
     font-size: 28px;
-    color: white;
+    color: rgb(0, 0, 0);
     margin: 5px 0;
     text-align: left;
     font-weight: bold;

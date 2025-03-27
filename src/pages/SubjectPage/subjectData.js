@@ -3,13 +3,14 @@ const subjectsData = [
       subjectId: "MATH101",
       subjectName: "Mathematics",
       totalExams: 5,
+      tableColumns: ["Student ID", "Student", "Test 1", "Test 2", "Test 3"],
       tableData: [
-        { exam: "Midterm", score: 85 },
-        { exam: "Final Exam", score: 90 },
-        { exam: "Quiz 1", score: 80 },
-        { exam: "Quiz 2", score: 88 },
-        { exam: "Assignment", score: 92 },
-      ],
+        { "Student ID": "S101", Student: "Alice Johnson", "Test 1": 85, "Test 2": 90, "Test 3": 88 },
+        { "Student ID": "S102", Student: "Bob Smith", "Test 1": 78, "Test 2": 85, "Test 3": 80 },
+        { "Student ID": "S103", Student: "Charlie Brown", "Test 1": 92, "Test 2": 88, "Test 3": 95 },
+        { "Student ID": "S104", Student: "David Lee", "Test 1": 88, "Test 2": 79, "Test 3": 84 },
+      ]
+      ,
       performanceGraphData: [
         { exam: "Quiz 1", score: 80 },
         { exam: "Midterm", score: 85 },

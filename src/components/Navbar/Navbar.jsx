@@ -8,7 +8,7 @@ const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const menuItems = userRole === "admin" 
-    ? ["Dashboard", "Students", "Exams", "Questions", "Subjects", "Reports", "Manage Users"]
+    ? ["Dashboard", "Students", "Exams",  "Reports", "Manage Users"]
     : ["Dashboard", "Subjects", "Exams", "Questions", "Reports"];
 
   const userName = userRole === "admin" ? "Admin User" : "Student User"; 

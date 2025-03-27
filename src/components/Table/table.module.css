@@ -30,7 +30,7 @@ td {
 /* Column Partitions */
 th:not(:last-child),
 td:not(:last-child) {
-  border-right: 1px solid #ddd; /* Only column partitions */
+  border-right: 1px solid #000; /* Only column partitions */
 }
 
 /* No Borders on Full Table */

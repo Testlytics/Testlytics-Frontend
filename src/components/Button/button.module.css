@@ -7,8 +7,7 @@ body {
 }
 
 .button {
-  width: 100%; /* ✅ Makes it responsive */
-  max-width: 200px; /* ✅ Prevents it from becoming too large on big screens */
+  width: 100%; /* ✅ Makes it responsive */ /* ✅ Prevents it from becoming too large on big screens */
   height: 55px;
   padding: 10px 20px;
   border: none;
