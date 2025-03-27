@@ -63,6 +63,7 @@ export const studentService = {
         studentId: String(student.userId), // Convert userId to a string
         firstName: student.name || "Unknown", // Ensure a valid name
         email: student.email || "No Email",
+        image: student.image || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
         title: "Student", 
         rank: "N/A",
         tableData: [],
