@@ -7,12 +7,11 @@ const Navbar = () => {
   const userRole = useRecoilValue(userRoleState);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Define menu items based on the user role
   const menuItems = userRole === "admin" 
-    ? ["Dashboard", "Students", "Exams", "Questions", "Subjects", "Reports", "Manage Users"]
+    ? ["Dashboard", "Students", "Exams",  "Reports", "Manage Users"]
     : ["Dashboard", "Subjects", "Exams", "Questions", "Reports"];
 
-  const userName = userRole === "admin" ? "Admin User" : "Student User"; // Replace with actual username from state
+  const userName = userRole === "admin" ? "Admin User" : "Student User"; 
 
   return (
     <nav className={styles.navbar}>

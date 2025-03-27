@@ -1,0 +1,28 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding: 30px;
+  }
+  
+  .heading {
+    font-size: 40px;
+    font-weight: 500;
+    color: #5A643C;
+  }
+  
+  .actions {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .editIcon {
+    color: #5A643C;
+    cursor: pointer;
+  }
+  
+  .deleteIcon {
+    color: #992E2E;
+    cursor: pointer;
+  }
+  

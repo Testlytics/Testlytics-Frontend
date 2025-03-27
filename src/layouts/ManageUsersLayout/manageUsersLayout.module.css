@@ -1,0 +1,49 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 30px;
+    width: 400px; /* Adjust width as needed */
+  }
+  
+  .mainHeading {
+    font-size: 40px;
+    font-weight: bold;
+  }
+  
+  .addUserContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .subHeading {
+    font-size: 36px;
+    font-weight: 400;
+  }
+  
+  .passwordContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .eyeButton {
+    position: absolute;
+    right: 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: gray;
+    font-size: 18px;
+    padding: 5px;
+  }
+  
+  /* ✅ Centers the button */
+  .buttonContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  

@@ -1,0 +1,32 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(to bottom right, #5A643C, #6E7C42);
+  padding: 15px;
+  border-radius: 8px;
+  color: white;
+}
+
+.detail {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+}
+
+.detail:not(:last-child) {
+  border-right: 2px solid #ffffff;  /* Adds a vertical line */
+}
+
+.heading {
+  font-size: 36px;
+  font-weight: bold;
+  color: white;
+}
+
+.value {
+  font-size: 28px;
+  color: white;
+}

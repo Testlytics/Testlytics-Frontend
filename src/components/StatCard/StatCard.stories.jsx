@@ -1,0 +1,36 @@
+import React from "react";
+import StatCard from "./StatCard";
+
+export default {
+  title: "Components/StatCard",
+  component: StatCard,
+};
+
+const Template = (args) => <StatCard {...args} />;
+
+// ✅ Default StatCard (without button)
+export const TotalUsers = Template.bind({});
+TotalUsers.args = {
+  heading: "Total Users",
+  value: "150",
+  variant: "default",
+};
+
+// ✅ Default StatCard (without button)
+export const ActiveUsers = Template.bind({});
+ActiveUsers.args = {
+  heading: "Active Users",
+  value: "85",
+  variant: "default",
+};
+
+// ✅ StatCard with Button
+export const UsersWithButton = Template.bind({});
+UsersWithButton.args = {
+  heading: "New Signups",
+  value: "50",
+  variant: "withButton",
+  buttonText: "View More",
+  onButtonClick: () => alert("Button Clicked!"),
+};
+    

@@ -1,6 +1,6 @@
 .container {
-    max-width: 75%;
     margin: 0 auto;
+    margin-top: 25px;
   }
   
   .inputFieldsRow {
@@ -56,10 +56,10 @@
     display: flex;
     justify-content: center;
     gap: 50px;
-    margin-top: 70px;
+    margin-top: 200px;
   }
   
   .saveButton, .submitButton {
-    width: 48%;
+    width: 200px;
   }
   

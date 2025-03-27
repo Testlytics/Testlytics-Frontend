@@ -1,3 +1,4 @@
+import React from "react";
 import LineGraph from "./LineGraph";
 
 export default {
@@ -6,15 +7,23 @@ export default {
 };
 
 const sampleData = [
-  { label: "Jan", value1: 40, value2: 20 },
-  { label: "Feb", value1: 30, value2: 50 },
-  { label: "Mar", value1: 50, value2: 70 },
-  { label: "Apr", value1: 80, value2: 30 },
+  { label: "Jan", value: 10 },
+  { label: "Feb", value: 25 },
+  { label: "Mar", value: 18 },
+  { label: "Apr", value: 30 },
+  { label: "May", value: 40 },
 ];
 
-const sampleLines = [
-  { dataKey: "value1", color: "#992E2E" }, // Red Line
-  { dataKey: "value2", color: "#677727" }, // Blue Line
-];
+export const Default = (args) => <LineGraph {...args} />;
+Default.args = {
+  data: sampleData,
+  lines: [{ dataKey: "value", color: "#5A643C" }],
+  fillColor: "#5A643C",
+};
 
-export const Default = () => <LineGraph data={sampleData} lines={sampleLines} />;
+export const CustomFill = (args) => <LineGraph {...args} />;
+CustomFill.args = {
+  data: sampleData,
+  lines: [{ dataKey: "value", color: "#B6CA7A" }],
+  fillColor: "#B6CA7A",
+};

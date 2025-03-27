@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
 import { studentService } from "../../services/api";
 import styles from "./studentPage.module.css";
+import Navbar from "../../components/Navbar/Navbar";
+import LeftList from "../../layouts/LeftList/LeftList";
+import StudentLayout from "../../layouts/StudentLayout/StudentLayout";
+import studentsData from "./students"; // Import the students data
+import Profile from "../../assets/images/profile.jpg";
 
 const StudentPage = ({ navbar }) => {
   const [students, setStudents] = useState([]);
@@ -45,26 +50,31 @@ const StudentPage = ({ navbar }) => {
       {navbar}
       <div className={styles.mainContent}>
         <div className={styles.leftSidebar}>
-          <h1>Students List</h1>
-          {students.length > 0 ? (
-            <LeftList
-              students={students}
-              selectedStudentId={selectedStudent?.id}
-              onStudentClick={handleStudentClick}
-            />
-          ) : (
-            <p>No students found</p>
-          )}
+          <LeftList
+            title="Students"
+            data={studentsData}
+            itemKey="studentId"
+            itemLabel="firstName"
+            selectedItemId={selectedStudent?.studentId} // ✅ Fix: Use selectedStudent?.studentId
+            onItemClick={handleStudentClick} // ✅ Fix: Correct function name
+          />
         </div>
         <div className={styles.rightContainer}>
           {selectedStudent ? (
-            <StudentLayout
-              studentDetails={{
-                firstName: selectedStudent.username, // Using username as firstName
-                studentId: selectedStudent.id,
-                email: selectedStudent.email
-              }}
-            />
+            <div className={styles.studentLayout}>
+              <StudentLayout
+                studentDetails={{
+                  src:Profile,
+                  title: selectedStudent.title,
+                  firstName: selectedStudent.firstName,
+                  studentId: selectedStudent.studentId,
+                  rank: selectedStudent.rank,
+                }}
+                tableData={selectedStudent.tableData}
+                barGraphData={selectedStudent.barGraphData}
+                lineGraphData={selectedStudent.lineGraphData}
+              />
+            </div>
           ) : (
             <p className={styles.noStudent}>Select a student to view details</p>
           )}
