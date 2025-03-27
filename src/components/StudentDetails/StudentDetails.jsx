@@ -1,20 +1,21 @@
 import PropTypes from "prop-types";
-import styles from "./studentDetails.module.css";
 
-const StudentDetails = ({ firstName, id, rank }) => {
+const StudentDetails = ({ id, firstName, email, rank }) => {
   return (
-    <div className={styles.studentContainer}>
-      <p className={styles.text}>Name: {firstName}</p>
-      <p className={styles.text}>ID: {id}</p>
-      <p className={styles.text}>Rank: {rank}</p>
+    <div>
+      <h2>{firstName}</h2>
+      <p>ID: {id}</p>
+      <p>Email: {email}</p>
+      <p>Rank: {rank}</p>
     </div>
   );
 };
 
 StudentDetails.propTypes = {
+  id: PropTypes.string.isRequired, // Ensure it matches the transformed data
   firstName: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  rank: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
+  rank: PropTypes.string.isRequired
 };
 
 export default StudentDetails;

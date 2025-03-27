@@ -37,9 +37,8 @@ export const authService = {
     return {
       token: response.data.token,
       user: {
-        email: response.data.sub,
         role: response.data.role.toLowerCase(),
-        role_id: response.data.roleId // Assuming backend returns roleId
+       
       }
     };
   },
@@ -48,89 +47,35 @@ export const authService = {
   }
 };
 
-// User/Student Service
-
+// Student Service
 export const studentService = {
   getStudents: async () => {
     try {
-      console.log("Fetching students from API...");
-      const response = await api.get('/users');
-  
-      console.log("Full API response:", response);
-  
-      if (!response.data || !response.data.responseBody || !Array.isArray(response.data.responseBody)) {
-        console.error("Unexpected response structure:", response.data);
-        throw new Error("API returned unexpected data structure");
-      }
-  
-      return response.data.responseBody.map(student => ({
-        id: student.userId,
-        studentId: student.userId,
-        firstName: student.username || student.name,
-        email: student.email,
-        role_id: student.role?.id,
-        image: student.image
+      const response = await api.get('/users'); // Fetch all users
+      const users = response.data.responseBody;
+
+      // Filter only users with role "STUDENT" (assuming role is case-insensitive)
+      const students = users.filter(user => 
+        user.role && user.role.toLowerCase() === "student"
+      );
+
+      return students.map(student => ({
+        studentId: String(student.userId), // Convert userId to a string
+        firstName: student.name || "Unknown", // Ensure a valid name
+        email: student.email || "No Email",
+        title: "Student", 
+        rank: "N/A",
+        tableData: [],
+        barGraphData: [],
+        lineGraphData: []
       }));
+      
     } catch (error) {
-      console.error("Error fetching students:", error);
-      throw new Error("Failed to load student data.");
+      console.error('Error fetching students:', error);
+      throw new Error('Failed to load students. Please try again.');
     }
   }
-};  
-//   // Get student details
-//   getStudentDetails: async (studentId) => {
-//     const response = await api.get(`/users/${studentId}`);
-//     return response.data.data || response.data; // Handle both response structures
-//   },
+};
 
-//   // Create student (admin only)
-//   createStudent: async (studentData) => {
-//     const formData = new FormData();
-//     formData.append('user', JSON.stringify({
-//       username: studentData.username,
-//       email: studentData.email,
-//       password: studentData.password,
-//       role: { id: 2 } // Set role_id to 2 for student
-//     }));
-    
-//     if (studentData.image) {
-//       formData.append('image', studentData.image);
-//     }
-
-//     const response = await api.post('/users', formData, {
-//       headers: {
-//         'Content-Type': 'multipart/form-data'
-//       }
-//     });
-//     return response.data.data || response.data;
-//   },
-
-//   // Update student
-//   updateStudent: async (id, studentData) => {
-//     const formData = new FormData();
-//     formData.append('user', JSON.stringify({
-//       username: studentData.username,
-//       email: studentData.email,
-//       role: { id: 2 } // Ensure role remains student
-//     }));
-    
-//     if (studentData.image) {
-//       formData.append('image', studentData.image);
-//     }
-
-//     const response = await api.put(`/users/${id}`, formData, {
-//       headers: {
-//         'Content-Type': 'multipart/form-data'
-//       }
-//     });
-//     return response.data.data || response.data;
-//   },
-
-//   // Delete student (soft delete)
-//   deleteStudent: async (id) => {
-//     const response = await api.delete(`/users/${id}`);
-//     return response.data.data || response.data;
-//   }
-// };
 
 export default api;
