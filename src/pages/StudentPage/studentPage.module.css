@@ -1,42 +1,62 @@
 .container {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    height: 100vh; /* ✅ Full viewport height */
     overflow: hidden;
-    margin-top: 100px; /* ✅ Prevent body overflow */
+    margin-top: 100px;
+    margin-left: 30px;
+    
 }
 
 .mainContent {
     display: flex;
-    width: 100%;
+    align-items: flex-start;
     gap: 25px;
-    height: 100%; /* ✅ Take full height */
-    overflow: hidden; /* ✅ Prevent unwanted scrolling */
+    height: 100vh;
+    overflow: hidden;
 }
 
-/* ✅ Left Sidebar (Fixed Width) */
+
 .leftSidebar {
-    padding: 20px;
+    z-index: 10;
+    height: 100%;
+    width: 350px;
 }
 
-/* ✅ Right Section (No Scroll) */
+
 .rightContainer {
-    flex-grow: 1; /* ✅ Takes up all remaining space */
+    width: 100%;
+    height: 100%;
     background-color: #f3f5ed;
-    padding: 20px;
-    border-radius: 10px;
-    position: relative;
-    height: 100%; /* ✅ Ensures full height */
-    overflow: hidden; /* ✅ Prevents scrolling */
+    overflow: hidden;
     display: flex;
-    justify-content: center; /* ✅ Centers content */
-    align-items: center; /* ✅ Aligns content in the middle */
+    justify-content: center;
+    
 }
 
-/* ✅ StudentLayout Positioned Properly */
+
 .studentLayout {
     width: 100%;
-    max-width: 90%; /* ✅ Prevents it from stretching */
     z-index: 2;
+    margin-top: 40px;
+}
+
+
+@media (max-width: 1024px) {
+    .leftSidebar {
+        flex-basis: 20%;
+        max-width: 180px;
+    }
+}
+
+@media (max-width: 768px) {
+    .mainContent {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .leftSidebar {
+        width: 100%;
+        max-width: none;
+        text-align: center;
+    }
 }
