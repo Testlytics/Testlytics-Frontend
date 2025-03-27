@@ -47,7 +47,7 @@ const LoginPage = () => {
       setUserRole(user.role);
       setIsAuthenticated(true);
       
-      navigate(user.role === "admin" ? "/admin" : "/student");
+      navigate(user.role === "admin" ? "/studentlist" : "/student");
   
     } catch (err) {
       setError(err.response?.data?.message || "Invalid credentials");

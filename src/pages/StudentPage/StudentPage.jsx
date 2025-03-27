@@ -1,64 +1,73 @@
 import { useState, useEffect } from "react";
+import { studentService } from "../../services/api";
 import styles from "./studentPage.module.css";
-import Navbar from "../../components/Navbar/Navbar";
-import LeftList from "../../layouts/LeftList/LeftList";
-import StudentLayout from "../../layouts/StudentLayout/StudentLayout";
-import studentsData from "./students"; // Import the students data
 
 const StudentPage = ({ navbar }) => {
-  // Ensure default state is set properly
-  const [selectedStudent, setSelectedStudent] = useState(studentsData[0] || null);
+  const [students, setStudents] = useState([]);
+  const [selectedStudent, setSelectedStudent] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // If studentsData changes, update selectedStudent
   useEffect(() => {
-    if (studentsData.length > 0) {
-      setSelectedStudent(studentsData[0]); // Set first student as default
-    }
-  }, [studentsData]);
+    const fetchStudents = async () => {
+      try {
+        setLoading(true);
+        // This will only return users with role_id = 2
+        const studentsData = await studentService.getStudents();
+        setStudents(studentsData);
+        if (studentsData.length > 0) {
+          setSelectedStudent(studentsData[0]);
+        }
+      } catch (err) {
+        setError(err.message || 'Failed to fetch students');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  // Handle student click
+    fetchStudents();
+  }, []);
+
   const handleStudentClick = (student) => {
     setSelectedStudent(student);
   };
 
+  if (loading) {
+    return <div className={styles.container}>Loading students...</div>;
+  }
+
+  if (error) {
+    return <div className={styles.container}>Error: {error}</div>;
+  }
+
   return (
     <div className={styles.container}>
-      {/* Navbar */}
       {navbar}
-
       <div className={styles.mainContent}>
-        {/* Left Sidebar */}
         <div className={styles.leftSidebar}>
           <h1>Students List</h1>
-          <LeftList
-            students={studentsData}
-            selectedStudentId={selectedStudent ? selectedStudent.studentId : null} // Pass selected studentId to LeftList
-            onStudentClick={handleStudentClick} // Pass the click handler to LeftList
-          />
-        </div>
-
-        {/* Right Section */}
-        <div className={styles.rightContainer}>
-          {/* Check if selectedStudent is available */}
-          {selectedStudent ? (
-            <div className={styles.studentLayout}>
-              <StudentLayout
-                studentDetails={{
-                  firstName: selectedStudent.firstName,
-                  studentId: selectedStudent.studentId,
-                  rank: selectedStudent.rank,
-                }}
-                tableData={selectedStudent.tableData}
-                barGraphData={selectedStudent.barGraphData}
-                lineGraphData={selectedStudent.lineGraphData}
-              />
-            </div>
+          {students.length > 0 ? (
+            <LeftList
+              students={students}
+              selectedStudentId={selectedStudent?.id}
+              onStudentClick={handleStudentClick}
+            />
           ) : (
-            <p className={styles.noStudent}>No student selected</p>
+            <p>No students found</p>
           )}
-
-          {/* Extra spacing for scrolling */}
-          <div style={{ height: "50px" }}></div>
+        </div>
+        <div className={styles.rightContainer}>
+          {selectedStudent ? (
+            <StudentLayout
+              studentDetails={{
+                firstName: selectedStudent.username, // Using username as firstName
+                studentId: selectedStudent.id,
+                email: selectedStudent.email
+              }}
+            />
+          ) : (
+            <p className={styles.noStudent}>Select a student to view details</p>
+          )}
         </div>
       </div>
     </div>

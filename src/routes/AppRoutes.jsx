@@ -40,11 +40,11 @@ const AppRoutes = () => {
       <Route path="/" element={<Navigate to="/login" replace />} />
       <Route path="/login" element={<LoginPage />} />
       <Route
-        path="/student"
+        path="/studentlist"
         element={
           <ProtectedRoute>
             <StudentPage />
-          </ProtectedRoute>
+           </ProtectedRoute>
         }
       />
     </Routes>
