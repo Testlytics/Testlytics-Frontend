@@ -12,13 +12,12 @@ const StudentLayout = ({
   studentId = "0",
   rank = "N/A",
   email = "No Email",
-  image = "", // This prop contains the Base64 image
-  tableData = [],
+  image = "",
+  tableData = { columns: [], data: [] }, // Updated default value
   barGraphData = [],
   lineGraphData = [],
 }) => {
   
-  // Ensure image is in the correct format
   const imageUrl = image
     ? `data:image/png;base64,${image}` 
     : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
@@ -26,7 +25,6 @@ const StudentLayout = ({
   return (
     <div className={styles.layout}>
       <div className={styles.profileStatsContainer}>
-        {/* Pass the formatted image URL */}
         <ProfilePicture src={imageUrl} />
         <StudentDetails id={studentId} firstName={firstName} email={email} rank={rank} />
 
@@ -45,7 +43,14 @@ const StudentLayout = ({
 
       <div className={styles.dataContainer}>
         <div className={styles.tableWrapper}>
-          {tableData.length ? <Table columns={tableData.columns} data={tableData.data} /> : <p>No table data</p>}
+          {tableData.columns.length > 0 && tableData.data.length > 0 ? (
+            <Table 
+              columns={tableData.columns} 
+              data={tableData.data} 
+            />
+          ) : (
+            <p>No test score data available</p>
+          )}
         </div>
 
         <div className={styles.graphContainer}>
@@ -68,8 +73,11 @@ StudentLayout.propTypes = {
   studentId: PropTypes.string,
   rank: PropTypes.string,
   email: PropTypes.string,
-  image: PropTypes.string, // Ensure this is a string (Base64)
-  tableData: PropTypes.array,
+  image: PropTypes.string,
+  tableData: PropTypes.shape({
+    columns: PropTypes.arrayOf(PropTypes.string),
+    data: PropTypes.arrayOf(PropTypes.object)
+  }),
   barGraphData: PropTypes.array,
   lineGraphData: PropTypes.array,
 };

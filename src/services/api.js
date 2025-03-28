@@ -63,7 +63,7 @@ export const studentService = {
         studentId: String(student.userId), // Convert userId to a string
         firstName: student.name || "Unknown", // Ensure a valid name
         email: student.email || "No Email",
-        image: student.image || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+        image: student.image ,
         title: "Student", 
         rank: "N/A",
         tableData: [],
@@ -79,4 +79,31 @@ export const studentService = {
 };
 
 
+export const testService = {
+  getAllTests: async () => {
+    const response = await api.get('/tests');
+    return response.data.responseBody;
+  }
+};
+
+export const testAttemptService = {
+  // Get list of test IDs for a user
+  getUserTestIds: async (userId) => {
+    const response = await api.get(`/attempts/user/${userId}/attendance`);
+    return response.data.responseBody || []; // Returns array of test IDs
+  },
+  
+  // Get details for a specific test attempt
+  getTestAttempt: async (testId, userId) => {
+    const response = await api.get(`/attempts/${testId}/user/${userId}`);
+    return response.data.responseBody; // Returns full attempt details
+  }
+};
+
+export const subjectService = {
+  getAllSubjects: async () => {
+    const response = await api.get('/subjects');
+    return response.data.responseBody || [];
+  }
+};
 export default api;
