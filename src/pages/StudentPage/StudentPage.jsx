@@ -90,14 +90,18 @@ const StudentPage = () => {
         onItemClick={handleStudentClick}
       />
 
-      {selectedStudent && (
-        <StudentLayout 
-          {...selectedStudent}
-          tableData={tableData}
-          barGraphData={selectedStudent.barGraphData || []}
-          lineGraphData={selectedStudent.lineGraphData || []}
-        />
-      )}
+{selectedStudent && (
+  <StudentLayout 
+    {...selectedStudent}
+    tableData={
+      (tableData && Array.isArray(tableData.columns) && Array.isArray(tableData.data))
+        ? tableData
+        : { columns: [], data: [] }
+    }
+    barGraphData={selectedStudent.barGraphData || []}
+    lineGraphData={selectedStudent.lineGraphData || []}
+  />
+)}
     </div>
   );
 };

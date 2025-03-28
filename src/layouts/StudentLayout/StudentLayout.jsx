@@ -13,11 +13,20 @@ const StudentLayout = ({
   rank = "N/A",
   email = "No Email",
   image = "",
-  tableData = { columns: [], data: [] }, // Updated default value
+  tableData,
   barGraphData = [],
   lineGraphData = [],
 }) => {
   
+  // Safely handle all data with proper fallbacks
+  const safeTableData = {
+    columns: Array.isArray(tableData?.columns) ? tableData.columns : [],
+    data: Array.isArray(tableData?.data) ? tableData.data : []
+  };
+
+  const safeBarGraphData = Array.isArray(barGraphData) ? barGraphData : [];
+  const safeLineGraphData = Array.isArray(lineGraphData) ? lineGraphData : [];
+
   const imageUrl = image
     ? `data:image/png;base64,${image}` 
     : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
@@ -36,17 +45,17 @@ const StudentLayout = ({
         <div className={styles.graphContainer}>
           <div className={styles.graphTitle}>Performance Graph</div>
           <div className={styles.graph}>
-            {barGraphData.length ? <BarGraph data={barGraphData} /> : <p>No bar graph data</p>}
+            {safeBarGraphData.length ? <BarGraph data={safeBarGraphData} /> : <p>No bar graph data</p>}
           </div>
         </div>
       </div>
 
       <div className={styles.dataContainer}>
         <div className={styles.tableWrapper}>
-          {tableData.columns.length > 0 && tableData.data.length > 0 ? (
+          {safeTableData.columns.length > 0 && safeTableData.data.length > 0 ? (
             <Table 
-              columns={tableData.columns} 
-              data={tableData.data} 
+              columns={safeTableData.columns} 
+              data={safeTableData.data} 
             />
           ) : (
             <p>No test score data available</p>
@@ -56,8 +65,8 @@ const StudentLayout = ({
         <div className={styles.graphContainer}>
           <div className={styles.graphTitle}>Time vs Score</div>
           <div className={styles.graph}>
-            {lineGraphData.length ? (
-              <LineGraph data={lineGraphData} lines={[{ dataKey: "marks", color: "#282A2B" }]} />
+            {safeLineGraphData.length ? (
+              <LineGraph data={safeLineGraphData} lines={[{ dataKey: "marks", color: "#282A2B" }]} />
             ) : (
               <p>No line graph data</p>
             )}
