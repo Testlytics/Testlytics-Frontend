@@ -7,7 +7,7 @@ import {
   userState,
   authLoadingState
 } from '../states/UserState';
-import ProtectedRoute from '../components/ProtectedRoute';
+import ProtectedRoute from './ProtectedRoute';
 import LoginPage from '../pages/LoginPage/LoginPage';
 import StudentPage from '../pages/StudentPage/StudentPage';
 
