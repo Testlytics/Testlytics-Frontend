@@ -1,51 +1,45 @@
-// src/utils/testDataTransformer.js
-export const buildSubjectTestMatrix = (subjects, tests, attempts) => {
-  if (!subjects || !tests || !attempts) {
-    return { columns: ['Subject'], data: [] };
-  }
-
-  // Create mappings for quick lookup
-  const subjectMap = new Map(subjects.map(s => [s.subjectId, s.subjectName]));
-  const testToSubjectMap = new Map(tests.map(t => [t.testId, t.subjectId]));
-  const testNameMap = new Map(tests.map(t => [t.testId, t.testName || `Test ${t.testId.substring(0, 4)}`]));
-
-  // Group attempts by subject and test
-  const subjectTestMap = new Map();
-  
-  attempts.forEach(attempt => {
-    const testId = attempt.id?.testId;
-    const subjectId = testToSubjectMap.get(testId);
-    if (!subjectId) return;
+export const buildSubjectTestMatrix = (subjects, tests, testIds, attempts) => {
+    // 1. Create test details map with sequential names
+    const testDetailsMap = new Map();
     
-    const testName = testNameMap.get(testId);
-    const subjectName = subjectMap.get(subjectId);
-    
-    if (!subjectTestMap.has(subjectName)) {
-      subjectTestMap.set(subjectName, new Map());
-    }
-    
-    subjectTestMap.get(subjectName).set(testName, attempt.score);
-  });
-
-  // Get all unique test names (sorted)
-  const allTestNames = [...new Set(
-    attempts.map(attempt => testNameMap.get(attempt.id?.testId))
-  )].filter(Boolean).sort();
-
-  // Build columns
-  const columns = ['Subject', ...allTestNames];
-
-  // Build rows
-  const data = [];
-  subjectTestMap.forEach((testScores, subjectName) => {
-    const row = { Subject: subjectName };
-    
-    allTestNames.forEach(testName => {
-      row[testName] = testScores.get(testName) || '-';
+    // Assign sequential test names (Test 1, Test 2, etc.)
+    testIds.forEach((testId, index) => {
+      testDetailsMap.set(testId, {
+        name: `Test ${index + 1}`, // Test 1, Test 2, etc.
+        subjectId: tests.find(t => t.testId === testId)?.subjectId || 'unknown'
+      });
     });
-
-    data.push(row);
-  });
-
-  return { columns, data };
+  
+    // 2. Create score map
+    const scoreMap = new Map();
+    attempts.forEach(attempt => {
+      scoreMap.set(attempt.id.testId, attempt.score);
+    });
+  
+    // 3. Group by subject
+    const subjectTestMap = new Map();
+    
+    testIds.forEach(testId => {
+      const testInfo = testDetailsMap.get(testId);
+      const subjectName = subjects.find(s => s.subjectId === testInfo.subjectId)?.subjectName || 'Other';
+      
+      if (!subjectTestMap.has(subjectName)) {
+        subjectTestMap.set(subjectName, new Map());
+      }
+      
+      const score = scoreMap.get(testId) ?? '-';
+      subjectTestMap.get(subjectName).set(testInfo.name, score);
+    });
+  
+    // 4. Generate sequential test names
+    const allTestNames = testIds.map((_, index) => `Test ${index + 1}`);
+  
+    // 5. Build result
+    return {
+      columns: ['Subject', ...allTestNames],
+      data: Array.from(subjectTestMap.entries()).map(([subject, scores]) => ({
+        Subject: subject,
+        ...Object.fromEntries(allTestNames.map(name => [name, scores.get(name) ?? '-']))
+      }))
+    };
 };

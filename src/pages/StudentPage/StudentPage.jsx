@@ -39,39 +39,57 @@ const StudentPage = () => {
 
   useEffect(() => {
     const fetchTestData = async () => {
-      if (!selectedStudent) return;
-      
-      if (usingLocalData) {
-        // Use the tableData from local students data
-        setTableData(selectedStudent.tableData || { columns: [], data: [] });
+      // Ensure we have a valid student ID
+      if (!selectedStudent?.userId && !selectedStudent?.studentId) {
+        console.error("No valid student ID available");
+        setTableData({ columns: [], data: [] });
         return;
       }
-
+  
+      // Use userId if available, otherwise fall back to studentId
+      const studentId = selectedStudent.userId || selectedStudent.studentId;
+      console.log("Fetching data for student:", studentId);
+  
       try {
-        const [subjects, tests, testIds] = await Promise.all([
+        // 1. Get attended test IDs
+        const testIds = await testAttemptService.getUserTestIds(studentId);
+        console.log("Attended test IDs:", testIds);
+  
+        // 2. Get all required data in parallel
+        const [subjects, tests, attempts] = await Promise.all([
           subjectService.getAllSubjects(),
           testService.getAllTests(),
-          testAttemptService.getUserTestIds(selectedStudent.userId || selectedStudent.studentId)
+          Promise.all(
+            testIds.map(testId => 
+              testAttemptService.getTestAttempt(testId, studentId)
+                .then(attempt => {
+                  console.log(`Test ${testId} score:`, attempt?.score);
+                  return attempt;
+                })
+                .catch(error => {
+                  console.error(`Failed to fetch attempt ${testId}:`, error);
+                  return { id: { testId }, score: null }; // Keep failed attempts
+                })
+          ))
         ]);
-
-        const attempts = await Promise.all(
-          testIds.map(testId => 
-            testAttemptService.getTestAttempt(testId, selectedStudent.userId || selectedStudent.studentId)
-              .catch(() => null)
-          )
+  
+        // 3. Process data
+        const matrix = buildSubjectTestMatrix(
+          subjects,
+          tests,
+          testIds,
+          attempts.filter(a => a !== null)
         );
-
-        const validAttempts = attempts.filter(Boolean);
-        const matrix = buildSubjectTestMatrix(subjects, tests, validAttempts);
+        
         setTableData(matrix);
       } catch (error) {
-        console.error("Error loading test data, falling back to local data:", error);
-        setTableData(selectedStudent.tableData || { columns: [], data: [] });
+        console.error("Error loading test data:", error);
+        setTableData({ columns: [], data: [] });
       }
     };
-
+  
     fetchTestData();
-  }, [selectedStudent, usingLocalData]);
+  }, [selectedStudent]);
 
   // Determine which student list to use
   const studentList = usingLocalData ? students : apiStudents;
