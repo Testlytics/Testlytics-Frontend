@@ -83,6 +83,10 @@ export const testService = {
   getAllTests: async () => {
     const response = await api.get('/tests');
     return response.data.responseBody;
+  },
+  getCompletedTests: async () => {
+    const response = await api.get('/tests/history');
+    return response.data.responseBody || [];
   }
 };
 

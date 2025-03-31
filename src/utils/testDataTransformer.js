@@ -5,7 +5,7 @@ export const buildSubjectTestMatrix = (subjects, tests, testIds, attempts) => {
     // Assign sequential test names (Test 1, Test 2, etc.)
     testIds.forEach((testId, index) => {
       testDetailsMap.set(testId, {
-        name: `Test ${index + 1}`, // Test 1, Test 2, etc.
+        name: `Test ${index + 1}`, 
         subjectId: tests.find(t => t.testId === testId)?.subjectId || 'unknown'
       });
     });

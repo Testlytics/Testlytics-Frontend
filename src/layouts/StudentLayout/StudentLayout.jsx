@@ -16,6 +16,7 @@ const StudentLayout = ({
   tableData,
   barGraphData = [],
   lineGraphData = [],
+  attendance = { attended: 0, total: 0 },
 }) => {
   
   // Safely handle all data with proper fallbacks
@@ -27,10 +28,15 @@ const StudentLayout = ({
   const safeBarGraphData = Array.isArray(barGraphData) ? barGraphData : [];
   const safeLineGraphData = Array.isArray(lineGraphData) ? lineGraphData : [];
 
+  // Calculate attendance percentage
+  const attendancePercentage = attendance.total > 0 
+    ? Math.round((attendance.attended / attendance.total) * 100)
+    : 0;
+
   const imageUrl = image
     ? `data:image/png;base64,${image}` 
     : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
-
+  
   return (
     <div className={styles.layout}>
       <div className={styles.profileStatsContainer}>
@@ -38,7 +44,11 @@ const StudentLayout = ({
         <StudentDetails id={studentId} firstName={firstName} email={email} rank={rank} />
 
         <div className={styles.rectangles}>
-          <Rectangle leftText="Attendance" />
+          <Rectangle 
+            leftText="Attendance" 
+            rightText={`${attendancePercentage}%`}
+            subText={`${attendance.attended}/${attendance.total} tests`}
+          />
           <Rectangle leftText="Accuracy" />
         </div>
 
@@ -89,6 +99,10 @@ StudentLayout.propTypes = {
   }),
   barGraphData: PropTypes.array,
   lineGraphData: PropTypes.array,
+  attendance: PropTypes.shape({
+    attended: PropTypes.number,
+    total: PropTypes.number
+  }),
 };
 
 export default StudentLayout;
