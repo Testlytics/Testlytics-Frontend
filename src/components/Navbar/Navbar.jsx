@@ -1,43 +1,65 @@
 import { useState } from "react";
-import { useRecoilValue } from "recoil";
-import { userRoleState } from "../../states/UserState";
-import { useNavigate } from "react-router-dom"; // Add this import
+import { useRecoilState } from "recoil";
+import { userRoleState, isAuthenticatedState } from "../../states/UserState";
+import { useNavigate } from "react-router-dom";
+import { authService } from "../../services/api";
 import styles from "./navbar.module.css";
 import { FiLogOut } from "react-icons/fi";
 
 const Navbar = () => {
-  const userRole = useRecoilValue(userRoleState);
+  const [userRole, setUserRole] = useRecoilState(userRoleState);
+  const [isAuthenticated, setIsAuthenticated] = useRecoilState(isAuthenticatedState);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
-  const menuItems =
-    userRole === "admin"
-      ? ["Dashboard", "Students", "Exams", "Reports", "Manage Users"]
-      : ["Dashboard", "Subjects", "Exams", "Questions", "Reports"];
+  const menuItems = userRole === "admin"
+    ? ["Dashboard", "Students", "Exams", "Reports", "Manage Users"]
+    : ["Dashboard", "Subjects", "Exams", "Questions", "Reports"];
 
   const userName = userRole === "admin" ? "Admin User" : "Student User";
 
-  // Function to handle menu item clicks
   const handleMenuItemClick = (item) => {
-    setIsMenuOpen(false); // Close mobile menu when an item is clicked
-    
+    setIsMenuOpen(false);
     switch(item) {
-      case "Students":
-        navigate("/studentlist");
-        break;
-      case "Dashboard":
-        navigate("/dashboard");
-        break;
-      // Add more cases for other menu items as needed
-      default:
-        break;
+      case "Students": navigate("/studentlist"); break;
+      case "Dashboard": navigate("/dashboard"); break;
+      // Add other cases as needed
+      default: break;
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      // Call logout API
+      await authService.logout();
+      
+      // Clear client-side storage
+      localStorage.removeItem('token');
+      localStorage.removeItem('userRole');
+      
+      // Reset Recoil state
+      setUserRole('');
+      setIsAuthenticated(false);
+      
+      // Close modal and redirect to login
+      setIsModalOpen(false);
+      navigate('/login');
+      
+    } catch (error) {
+      console.error('Logout failed:', error);
+      // Fallback: clear storage and state even if API fails
+      localStorage.removeItem('token');
+      localStorage.removeItem('userRole');
+      setUserRole('');
+      setIsAuthenticated(false);
+      navigate('/login');
     }
   };
 
   return (
     <nav className={styles.navbar}>
-      {/* Hamburger Menu Button */}
+      {/* Hamburger menu button */}
       <div
         className={`${styles.hamburger} ${isMenuOpen ? styles.open : ""}`}
         onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -50,7 +72,7 @@ const Navbar = () => {
       {/* Logo */}
       <h1 className={styles.logo} onClick={() => navigate("/")}>Testlytics</h1>
 
-      {/* Navigation Menu */}
+      {/* Navigation menu */}
       <ul className={`${styles.menu} ${isMenuOpen ? styles.open : ""}`}>
         {menuItems.map((item) => (
           <li 
@@ -63,22 +85,26 @@ const Navbar = () => {
         ))}
       </ul>
 
-      {/* User Section */}
+      {/* User profile section */}
       <div className={styles.userSection} onClick={() => setIsModalOpen(!isModalOpen)}>
         <img src="/profile.png" alt="Profile" className={styles.profilePic} />
         <span className={styles.username}>{userName}</span>
         <span className={styles.dropdownArrow}>▼</span>
       </div>
 
-      {/* Profile Modal */}
+      {/* Profile modal */}
       {isModalOpen && (
         <div className={styles.modal}>
           <img src="/profile.png" alt="Profile" className={styles.modalProfilePic} />
           <p className={styles.modalUsername}>{userName}</p>
           <p className={styles.modalRole}>{userRole.toUpperCase()}</p>
           <button className={styles.modalButton}>Change Password</button>
-          <button className={styles.logoutButton}>
+          <button 
+            className={styles.logoutButton}
+            onClick={handleLogout}
+          >
             <FiLogOut className={styles.logoutIcon} />
+            Logout
           </button>
         </div>
       )}
