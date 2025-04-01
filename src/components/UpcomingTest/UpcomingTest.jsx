@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import styles from "./upcomingTest.module.css";
+import Heading from "../Heading/Heading";
 
 const UpcomingTest = ({ tests = [] }) => {
   const [startIndex, setStartIndex] = useState(0);
@@ -31,16 +32,16 @@ const UpcomingTest = ({ tests = [] }) => {
 
   return (
     <div className={styles.container}>
+<Heading text="Upcoming Tests " size="32px" align="left" weight="600" />
       <div className={styles.header}>
         <button className={styles.navButton} onClick={handlePrev} disabled={startIndex === 0}>
           <FaChevronLeft />
         </button>
-        <h3 className={styles.heading}>Upcoming Tests</h3>
         <button className={styles.navButton} onClick={handleNext}>
           <FaChevronRight />
         </button>
       </div>
-
+    
       <div className={styles.grid}>
         {getNextDates().map((item, index) => (
           <div

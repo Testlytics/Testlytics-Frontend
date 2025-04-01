@@ -2,22 +2,27 @@ import { useEffect, useState } from "react";
 import styles from "./studentPage.module.css";
 import { studentService, subjectService, testService, testAttemptService } from "../../services/api";
 import StudentLayout from "../../layouts/StudentLayout/StudentLayout";
-import LeftList from "../../layouts/LeftList/LeftList";
+import { studentService, subjectService, testService, testAttemptService } from "../../services/api";
 import { buildSubjectTestMatrix } from "../../utils/testDataTransformer";
-import students from "./students"; // Correct variable name
-
+import students from "./students";
+import Profile from "../../assets/images/profile.jpg";
+ 
 const StudentPage = () => {
-  const [apiStudents, setApiStudents] = useState([]); // Renamed to avoid confusion
+  // State management
+  const [apiStudents, setApiStudents] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [tableData, setTableData] = useState({ columns: [], data: [] });
   const [usingLocalData, setUsingLocalData] = useState(false);
-
+  const [attendance, setAttendance] = useState({ attended: 0, total: 0 });
+ 
+  // Handlers
   const handleStudentClick = (student) => {
     setSelectedStudent(student);
   };
-
+ 
+  // Effects
   useEffect(() => {
     const fetchStudents = async () => {
       try {
@@ -28,100 +33,124 @@ const StudentPage = () => {
         setLoading(false);
       } catch (err) {
         console.error("API failed, using local data:", err);
-        setSelectedStudent(students[0]); // Using the imported students data
+        setSelectedStudent(students[0]);
         setUsingLocalData(true);
         setLoading(false);
+        setError("Failed to load data from server. Using local data.");
       }
     };
-
+ 
     fetchStudents();
   }, []);
-
+ 
   useEffect(() => {
     const fetchTestData = async () => {
-      // Ensure we have a valid student ID
       if (!selectedStudent?.userId && !selectedStudent?.studentId) {
         console.error("No valid student ID available");
         setTableData({ columns: [], data: [] });
         return;
       }
-  
-      // Use userId if available, otherwise fall back to studentId
+    
       const studentId = selectedStudent.userId || selectedStudent.studentId;
-      console.log("Fetching data for student:", studentId);
-  
+      
       try {
-        // 1. Get attended test IDs
-        const testIds = await testAttemptService.getUserTestIds(studentId);
-        console.log("Attended test IDs:", testIds);
-  
-        // 2. Get all required data in parallel
-        const [subjects, tests, attempts] = await Promise.all([
+        const [subjects, completedTests, testIds] = await Promise.all([
           subjectService.getAllSubjects(),
-          testService.getAllTests(),
-          Promise.all(
-            testIds.map(testId => 
-              testAttemptService.getTestAttempt(testId, studentId)
-                .then(attempt => {
-                  console.log(`Test ${testId} score:`, attempt?.score);
-                  return attempt;
-                })
-                .catch(error => {
-                  console.error(`Failed to fetch attempt ${testId}:`, error);
-                  return { id: { testId }, score: null }; // Keep failed attempts
-                })
-          ))
+          testService.getCompletedTests(),
+          testAttemptService.getUserTestIds(studentId),
         ]);
-  
-        // 3. Process data
+    
+        const attendedCompletedTests = testIds.filter(testId =>
+          completedTests.some(ct => ct.testId === testId)
+        );
+    
+        setAttendance({
+          attended: attendedCompletedTests.length,
+          total: completedTests.length
+        });
+    
+        const attempts = await Promise.all(
+          attendedCompletedTests.map(testId =>
+            testAttemptService.getTestAttempt(testId, studentId)
+              .then(attempt => attempt)
+              .catch(error => ({ id: { testId }, score: null }))
+          )
+        );
+    
         const matrix = buildSubjectTestMatrix(
           subjects,
-          tests,
-          testIds,
+          completedTests,
+          attendedCompletedTests,
           attempts.filter(a => a !== null)
         );
-        
+    
         setTableData(matrix);
       } catch (error) {
         console.error("Error loading test data:", error);
         setTableData({ columns: [], data: [] });
+        setAttendance({ attended: 0, total: 0 });
+        setError("Failed to load test data.");
       }
     };
-  
+    
     fetchTestData();
   }, [selectedStudent]);
-
-  // Determine which student list to use
+  
+  // Derived state
   const studentList = usingLocalData ? students : apiStudents;
-
-  if (loading) return <p>Loading students...</p>;
-  if (error) return <p>Error: {error}</p>;
-
+ 
+  // Render states
+  if (loading) return <div className={styles.loading}>Loading students...</div>;
+  if (error) return <div className={styles.error}>Error: {error}</div>;
+ 
   return (
-    <div style={{ display: "flex" }}>
-      <LeftList
-        title="Students"
-        data={studentList}
-        itemKey="studentId"
-        itemLabel="firstName"
-        selectedItemId={selectedStudent?.studentId}
-        onItemClick={handleStudentClick}
-      />
-
-{selectedStudent && (
-  <StudentLayout 
-    {...selectedStudent}
-    tableData={
-      (tableData && Array.isArray(tableData.columns) && Array.isArray(tableData.data))
-        ? tableData
-        : { columns: [], data: [] }
-    }
-    barGraphData={selectedStudent.barGraphData || []}
-    lineGraphData={selectedStudent.lineGraphData || []}
-  />
-)}
+    <div className={styles.container}>
+      <Navbar /> {/* Added from first version */}
+      
+      <div className={styles.mainContent}>
+        {/* Left Sidebar - Combined layout from both versions */}
+        <div className={styles.leftSidebar}>
+          <LeftList
+            title="Students"
+            data={studentList}
+            itemKey="studentId"
+            itemLabel="firstName"
+            selectedItemId={selectedStudent?.studentId}
+            onItemClick={handleStudentClick}
+          />
+        </div>
+ 
+        {/* Right Section - Enhanced layout */}
+        <div className={styles.rightContainer}>
+          {selectedStudent ? (
+            <div className={styles.studentLayout}>
+              <StudentLayout
+                // Combined props from both versions
+                {...selectedStudent}
+                studentDetails={{
+                  src: Profile,
+                  title: selectedStudent.title,
+                  firstName: selectedStudent.firstName,
+                  studentId: selectedStudent.studentId,
+                  rank: selectedStudent.rank,
+                }}
+                tableData={
+                  (tableData && Array.isArray(tableData.columns) && Array.isArray(tableData.data))
+                    ? tableData
+                    : { columns: [], data: [] }
+                }
+                barGraphData={selectedStudent.barGraphData || []}
+                lineGraphData={selectedStudent.lineGraphData || []}
+                attendance={attendance}
+              />
+            </div>
+          ) : (
+            <p className={styles.noStudent}>No student selected</p>
+          )}
+        </div>
+      </div>
     </div>
   );
 };
-
+ 
 export default StudentPage;

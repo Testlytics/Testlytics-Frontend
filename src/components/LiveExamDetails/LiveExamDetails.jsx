@@ -1,13 +1,13 @@
 import React from "react";
 import styles from "./liveExamDetails.module.css";
+import Heading from "../Heading/Heading";
 
 const LiveExamDetails = ({ exams = [] }) => {
   return (
-    <>
-    <h3 className={styles.heading}>Live Exams</h3>
     <div className={styles.container}>
+      <Heading text="Live Exams" size="32px" align="center" weight="600" />
       <div className={styles.examSlots}>
-        {exams.slice(0, 2).map((exam, index) => (
+        {exams.map((exam, index) => (
           <div key={index} className={styles.examCard}>
             <div className={styles.innerBox}>
               <div className={styles.details}>
@@ -21,7 +21,6 @@ const LiveExamDetails = ({ exams = [] }) => {
         ))}
       </div>
     </div>
-    </>
   );
 };
 

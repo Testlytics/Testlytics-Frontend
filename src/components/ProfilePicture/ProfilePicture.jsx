@@ -1,14 +1,18 @@
 import PropTypes from "prop-types";
 import styles from "./profilePicture.module.css";
 
-const ProfilePicture = ({ src, alt = "Profile Picture" }) => {
-  // Ensure fallback image if `src` is missing or empty
-  const defaultImage = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
-  const image = src?.trim() ? src : defaultImage;
-
+const ProfilePicture = ({ src, alt = "Profile Picture", size = "250px", borderRadius = "15px" }) => {
   return (
-    <div className={styles.profileContainer}>
-      <img src={image} alt={alt} className={styles.profileImage} />
+    <div
+      className={styles.profileContainer}
+      style={{ width: size, height: size, borderRadius }}
+    >
+      <img
+        src={src}
+        alt={alt}
+        className={styles.profileImage}
+        style={{ borderRadius }}
+      />
     </div>
   );
 };
@@ -16,6 +20,8 @@ const ProfilePicture = ({ src, alt = "Profile Picture" }) => {
 ProfilePicture.propTypes = {
   src: PropTypes.string, // ✅ No longer required to prevent errors
   alt: PropTypes.string,
+  size: PropTypes.string,
+  borderRadius: PropTypes.string,
 };
 
 export default ProfilePicture;

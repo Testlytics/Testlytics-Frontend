@@ -7,6 +7,7 @@ const FormLayout = () => {
   return (
     <div className={styles.container}>
       <h1 className='head'>Add Exam</h1>
+      <div className="inputs"></div>
       <InputField label="Test Name" placeholder="Enter name" />
 
       <Dropdown label="Subject" options={["Option 1", "Option 2", "Option 3"]} />

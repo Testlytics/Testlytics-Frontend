@@ -3,8 +3,9 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  margin-top: 100px;
+  margin-top: 80px;
   margin-left: 30px;
+  overflow-y: hidden;
 }
 
 /* Main Content: Left Sidebar + Right Content */
@@ -12,15 +13,14 @@
   display: flex;
   align-items: flex-start;
   gap: 25px;
-  height: 100vh;
+  height: 100%;
   overflow: hidden;
 }
 
 /* Left Sidebar: Subject List */
 .leftList {
-  width: 25%;
+  width: 450px;
   min-width: 200px; /* Ensures LeftList does not shrink too much */
-  max-width: 330px;
   height: 100vh;
   overflow-y: auto;
 }

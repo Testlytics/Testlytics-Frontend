@@ -1,6 +1,6 @@
 .container {
   display: grid;
-  gap: 20px;
+  gap: 120px;
   width: 100%;
   padding: 20px;
 }
@@ -10,6 +10,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr; /* Three equal sections */
   align-items: center; /* Align items at the top */
+  justify-content: center;
 }
 .details{
   display: flex;
@@ -19,10 +20,16 @@
 /* Align all headings in the first row in a single line */
 .firstRow h2 {
   margin-bottom: 20px;
-  text-align: center;
+  font-weight: bold;
   font-size: 30px;
+  text-align: center;
 }
-
+.secondRow h2 {
+  margin-bottom: 20px;
+  font-weight: bold;
+  font-size: 30px;
+  text-align: center;
+}
 .topperList {
   display: flex;
   flex-direction: column;
@@ -34,6 +41,7 @@
 
 .topperList li {   /* Space between toppers */
   font-size: 28px;
+  margin-top: 55px;
 }
 /* Remove background, padding, and borders */
 .box {

@@ -1,11 +1,18 @@
 import React from "react";
 import styles from "./statCard.module.css";
 
-const StatCard = ({ heading, value, variant = "default", buttonText, onButtonClick }) => {
+const StatCard = ({ heading, value, variant = "default", buttonText, onButtonClick, icon }) => {
   return (
     <div className={styles.statCard}>
-      <h2 className={styles.heading}>{heading}</h2>
-      <p className={styles.value}>{value}</p>
+      <h2 className={variant === "withIcon" ? styles.regularHeading : styles.heading}>
+        {heading}
+      </h2>
+
+      {variant === "withIcon" && icon ? (
+        <div className={styles.iconContainer}>{icon}</div>
+      ) : (
+        <p className={styles.value}>{value}</p>
+      )}
 
       {variant === "withButton" && buttonText && (
         <button className={styles.outlineButton} onClick={onButtonClick}>

@@ -11,8 +11,11 @@ const QuestionLayout = () => {
 
   // Handle adding a new option
   const handleAddOption = () => {
-    setOptions([...options, '']);
+    if (options.length < 8) {
+      setOptions([...options, '']);
+    }
   };
+  
 
   // Handle deleting an option
   const handleDeleteOption = (index) => {

@@ -1,0 +1,32 @@
+.statCard {
+  transition: transform 0.3s ease-in-out;
+}
+
+.statCard:hover {
+  transform: translateY(-35px);
+}
+
+.statCardIcon {
+  transition: color 0.3s ease-in-out;
+}
+
+.statCard:hover .statCardIcon {
+  color: #000000; /* Change to any hover color */
+}
+
+/* 🔹 Responsive Adjustments */
+@media (max-width: 768px) {
+  .statCard:hover {
+      transform: translateY(-20px); /* Reduce hover effect on tablets */
+  }
+}
+
+@media (max-width: 480px) {
+  .statCard:hover {
+      transform: none; /* Remove hover effect on mobile */
+  }
+
+  .statCardIcon {
+      color: inherit; /* Keep default color on mobile */
+  }
+}

@@ -16,9 +16,11 @@
 /* Header Styling */
 th {
   font-weight: bold;
-  border-bottom: 2px solid #000000 !important; /* Only header partition */
   padding: 12px;
-  text-align: center;
+  text-align: center !important;
+  color: #000 !important;
+  background: none !important;
+  border-bottom: 2px solid #000000 !important; /* ✅ Removes any background color */
 }
 
 /* Row Styling */
@@ -27,17 +29,10 @@ td {
   text-align: center;
 }
 
-/* Column Partitions */
-th:not(:last-child),
-td:not(:last-child) {
-  border-right: 1px solid #000; /* Only column partitions */
-}
-
-/* No Borders on Full Table */
-.table,
-th,
-td {
-  border: none;
+/* ✅ Only Vertical Column Partitions */
+th + th, 
+td + td {
+  border-left: 1px solid #000; /* Adds vertical partition only */
 }
 
 /* No Data Message */

@@ -3,30 +3,102 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 200px;
+  max-width: 100%;
+  height: auto;
   background: linear-gradient(to bottom right, #5A643C, #6E7C42);
-  padding: 15px;
+  padding: 35px;
   border-radius: 8px;
   color: white;
+  flex-wrap: wrap; /* Allows wrapping on smaller screens */
 }
 
+/* Ensures equal spacing for items */
 .detail {
   flex: 1;
   text-align: center;
   padding: 10px;
+  border-right: 2px solid transparent; /* Default transparent border for all screens */
 }
 
-.detail:not(:last-child) {
-  border-right: 2px solid #ffffff;  /* Adds a vertical line */
+/* Vertical separator between details (Only on large screens) */
+@media screen and (min-width: 769px) {
+  .detail:not(:last-child) {
+    border-right: 2px solid #ffffff; /* Show the separator on large screens */
+  }
 }
 
+/* Heading Styling */
 .heading {
   font-size: 36px;
   font-weight: bold;
   color: white;
 }
 
+/* Value Styling */
 .value {
   font-size: 28px;
   color: white;
+}
+
+/* ✅ Responsive Design */
+@media screen and (max-width: 1024px) {
+  .container {
+    flex-direction: row;
+    padding: 30px;
+  }
+
+  .detail {
+    padding: 15px;
+    font-size: 18px;
+  }
+
+  .heading {
+    font-size: 30px;
+  }
+
+  .value {
+    font-size: 24px;
+  }
+}
+
+/* Responsive Design for smaller devices (below 768px) */
+@media screen and (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .detail {
+    width: 100%;
+    padding: 15px 0;
+    border-right: none; /* Removes the vertical line */
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .detail:last-child {
+    border-bottom: none;
+  }
+
+  .heading {
+    font-size: 28px;
+  }
+
+  .value {
+    font-size: 22px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .heading {
+    font-size: 24px;
+  }
+
+  .value {
+    font-size: 20px;
+  }
+
+  .container {
+    padding: 15px;
+  }
 }
