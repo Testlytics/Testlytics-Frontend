@@ -49,16 +49,13 @@ const StudentPage = () => {
       const studentId = selectedStudent.userId || selectedStudent.studentId;
       
       try {
-        const [subjects, tests, testIds, completedTests] = await Promise.all([
+        const [subjects, completedTests, testIds] = await Promise.all([
           subjectService.getAllSubjects(),
-          testService.getAllTests(),
+          testService.getCompletedTests(),
           testAttemptService.getUserTestIds(studentId),
-          testService.getCompletedTests()
         ]);
   
-        // CORRECT ATTENDANCE CALCULATION
-        // Get only the completed tests that this student attended
-        const attendedCompletedTests = testIds.filter(testId => 
+        const attendedCompletedTests = testIds.filter(testId =>
           completedTests.some(ct => ct.testId === testId)
         );
   
@@ -67,28 +64,21 @@ const StudentPage = () => {
           total: completedTests.length
         });
   
-        // Get test attempts (only for attended completed tests)
         const attempts = await Promise.all(
-          attendedCompletedTests.map(testId => 
+          attendedCompletedTests.map(testId =>
             testAttemptService.getTestAttempt(testId, studentId)
-              .then(attempt => {
-                console.log(`Test ${testId} score:`, attempt?.score);
-                return attempt;
-              })
-              .catch(error => {
-                console.error(`Failed to fetch attempt ${testId}:`, error);
-                return { id: { testId }, score: null };
-              })
+              .then(attempt => attempt)
+              .catch(error => ({ id: { testId }, score: null }))
           )
         );
   
         const matrix = buildSubjectTestMatrix(
           subjects,
-          tests,
-          attendedCompletedTests, // Only use attended completed tests
+          completedTests, // Use completedTests instead of tests
+          attendedCompletedTests,
           attempts.filter(a => a !== null)
         );
-        
+  
         setTableData(matrix);
       } catch (error) {
         console.error("Error loading test data:", error);
@@ -99,6 +89,7 @@ const StudentPage = () => {
   
     fetchTestData();
   }, [selectedStudent]);
+  
 
   // Determine which student list to use
   const studentList = usingLocalData ? students : apiStudents;

@@ -6,7 +6,7 @@ import styles from "./leftList.module.css";
 const LeftList = ({ title, data = [], onItemClick, selectedItemId, itemKey, itemLabel }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
-  console.log("Received data in LeftList:", data); // Debugging
+  
 
   const filteredData = useMemo(() => {
     if (!Array.isArray(data)) return [];
