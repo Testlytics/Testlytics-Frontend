@@ -32,7 +32,7 @@ td {
 /* ✅ Only Vertical Column Partitions */
 th + th, 
 td + td {
-  border-left: 1px solid #000; /* Adds vertical partition only */
+  border-left: 1px solid #000;  /* Adds vertical partition only */
 }
 
 /* No Data Message */

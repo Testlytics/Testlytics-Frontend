@@ -29,35 +29,34 @@ const LoginPage = () => {
   const isLoading = useRecoilValue(authLoadingState);
 
   const handleLogin = async () => {
+    if (!email.trim() || !password.trim()) {
+      setError("Email and password are required.");
+      return;
+    }
+
     setLoading(true);
-    setError("");
-  
+    setError(() => ""); // Reset error message
+
     try {
       const { token, user } = await authService.login({ email, password });
       
-      if (!token) {
-        throw new Error("Authentication token missing");
-      }
+      if (!token) throw new Error("Authentication token missing");
   
       localStorage.setItem("token", token);
-      setUser({
-        email: user.email,
-        role: user.role
-      });
+      setUser({ email: user.email, role: user.role });
       setUserRole(user.role);
       setIsAuthenticated(true);
       
-      navigate(user.role === "admin" ? "/studentlist" : "/student");
-  
+      navigate(user.role === "admin" ? "/exam" : "/student");
     } catch (err) {
-      setError(err.response?.data?.message || "Invalid credentials");
+      setError(() => err.response?.data?.message || "Invalid credentials");
       console.error("Login error:", err);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleKeyPress = (e) => {
+  const handleKeyDown = (e) => {
     if (e.key === "Enter") handleLogin();
   };
 
@@ -75,28 +74,32 @@ const LoginPage = () => {
         {error && <p className={styles.error}>{error}</p>}
 
         <div className={styles.formGroup}>
-          <label className={styles.label}>Email</label>
+          <label className={styles.label} htmlFor="email">Email</label>
           <input
+            id="email"
             type="email"
             placeholder="Enter your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            onKeyPress={handleKeyPress}
+            onKeyDown={handleKeyDown}
             className={styles.inputBox}
             disabled={isLoading}
+            aria-label="Enter your email"
           />
         </div>
 
         <div className={styles.formGroup}>
-          <label className={styles.label}>Password</label>
+          <label className={styles.label} htmlFor="password">Password</label>
           <input
+            id="password"
             type="password"
             placeholder="Enter your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            onKeyPress={handleKeyPress}
+            onKeyDown={handleKeyDown}
             className={styles.inputBox}
             disabled={isLoading}
+            aria-label="Enter your password"
           />
         </div>
 
@@ -104,12 +107,9 @@ const LoginPage = () => {
           className={styles.loginButton} 
           onClick={handleLogin}
           disabled={isLoading}
+          aria-busy={isLoading}
         >
-          {isLoading ? (
-            <span className={styles.spinner}></span>
-          ) : (
-            "Login"
-          )}
+          {isLoading ? <span className={styles.spinner}></span> : "Login"}
         </button>
       </div>
     </div>

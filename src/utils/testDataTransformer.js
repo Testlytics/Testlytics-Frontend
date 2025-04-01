@@ -7,6 +7,13 @@ export const buildSubjectTestMatrix = (subjects, completedTests, testIds, attemp
     subjectTestsMap.set(subject.subjectName, []);
   });
 
+   // Early return if no tests attended
+   if (testIds.length === 0 || attempts.length === 0) {
+    return {
+      columns: ["Subject", "Status"],
+      data: [{ Subject: "No Tests Attended", Status: "This student hasn't taken any tests yet" }]
+    };
+  }
   // 2. Assign tests to subjects and maintain order
   testIds.forEach(testId => {
     const testInfo = completedTests.find(t => t.testId === testId);

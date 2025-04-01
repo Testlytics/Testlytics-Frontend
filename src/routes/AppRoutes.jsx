@@ -1,4 +1,3 @@
-// src/routes/AppRoutes.jsx
 import { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
@@ -10,7 +9,11 @@ import {
 import ProtectedRoute from './ProtectedRoute';
 import LoginPage from '../pages/LoginPage/LoginPage';
 import StudentPage from '../pages/StudentPage/StudentPage';
-
+import ExamOverviewPage from '../pages/ExamOverviewPage/ExamOverviewPage';
+import SubjectPage from '../pages/SubjectPage/SubjectPage';
+import AddQuestionPage from '../pages/AddQuestionPage/AddQuestionPage';
+import Questions from '../pages/Questions/Questions';
+import ManageUsersPage from '../pages/ManageUsersPage/ManageUsersPage';
 
 const AppRoutes = () => {
   const setIsAuthenticated = useSetRecoilState(isAuthenticatedState);
@@ -39,14 +42,15 @@ const AppRoutes = () => {
     <Routes>
       <Route path="/" element={<Navigate to="/login" replace />} />
       <Route path="/login" element={<LoginPage />} />
-      <Route
-        path="/studentlist"
-        element={
-          <ProtectedRoute>
-            <StudentPage />
-           </ProtectedRoute>
-        }
-      />
+
+      {/* Protected Routes */}
+      <Route path="/studentlist" element={<ProtectedRoute><StudentPage /></ProtectedRoute>} />
+      <Route path="/exam" element={<ProtectedRoute><ExamOverviewPage /></ProtectedRoute>} />
+      <Route path="/subjects" element={<ProtectedRoute><SubjectPage /></ProtectedRoute>} />
+      <Route path="/add-question" element={<ProtectedRoute><AddQuestionPage /></ProtectedRoute>} />
+      <Route path="/questions" element={<ProtectedRoute><Questions /></ProtectedRoute>} />
+      <Route path="/students" element={<ProtectedRoute><StudentPage /></ProtectedRoute>} />
+      <Route path="/manage-users" element={<ProtectedRoute><ManageUsersPage /></ProtectedRoute>} />
     </Routes>
   );
 };
