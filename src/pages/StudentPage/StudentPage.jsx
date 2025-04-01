@@ -74,7 +74,7 @@ const StudentPage = () => {
   
         const matrix = buildSubjectTestMatrix(
           subjects,
-          completedTests, // Use completedTests instead of tests
+          completedTests, 
           attendedCompletedTests,
           attempts.filter(a => a !== null)
         );

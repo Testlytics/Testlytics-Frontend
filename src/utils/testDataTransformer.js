@@ -1,45 +1,55 @@
 export const buildSubjectTestMatrix = (subjects, completedTests, testIds, attempts) => {
-  // 1. Create test details map with sequential names
-  const testDetailsMap = new Map();
+  // 1. Group tests by subject first
+  const subjectTestsMap = new Map();
   
-  testIds.forEach((testId, index) => {
-    const testInfo = completedTests.find(t => t.testId === testId);
-    testDetailsMap.set(testId, {
-      name: `Test ${index + 1}`,  // Sequential test names
-      subjectId: testInfo?.subjectId || "unknown"
-    });
+  // Initialize map with all subjects
+  subjects.forEach(subject => {
+    subjectTestsMap.set(subject.subjectName, []);
   });
 
-  // 2. Create score map
+  // 2. Assign tests to subjects and maintain order
+  testIds.forEach(testId => {
+    const testInfo = completedTests.find(t => t.testId === testId);
+    const subjectName = subjects.find(s => s.subjectId === testInfo?.subjectId)?.subjectName || "Other";
+    
+    if (!subjectTestsMap.has(subjectName)) {
+      subjectTestsMap.set(subjectName, []);
+    }
+    
+    subjectTestsMap.get(subjectName).push(testId);
+  });
+
+  // 3. Create score map
   const scoreMap = new Map();
   attempts.forEach(attempt => {
     scoreMap.set(attempt.id.testId, attempt.score);
   });
 
-  // 3. Group by subject
-  const subjectTestMap = new Map();
-  
-  testIds.forEach(testId => {
-    const testInfo = testDetailsMap.get(testId);
-    const subjectName = subjects.find(s => s.subjectId === testInfo.subjectId)?.subjectName || "Other";
-    
-    if (!subjectTestMap.has(subjectName)) {
-      subjectTestMap.set(subjectName, new Map());
-    }
-    
-    const score = scoreMap.get(testId) ?? "-";
-    subjectTestMap.get(subjectName).set(testInfo.name, score);
+  // 4. Determine maximum number of tests in any subject
+  let maxTests = 0;
+  subjectTestsMap.forEach(tests => {
+    if (tests.length > maxTests) maxTests = tests.length;
   });
 
-  // 4. Generate sequential test names
-  const allTestNames = testIds.map((_, index) => `Test ${index + 1}`);
+  // 5. Generate test names (Test 1, Test 2,... up to maxTests)
+  const testColumns = Array.from({ length: maxTests }, (_, i) => `Test ${i + 1}`);
 
-  // 5. Build result
+  // 6. Build the result
   return {
-    columns: ["Subject", ...allTestNames],
-    data: Array.from(subjectTestMap.entries()).map(([subject, scores]) => ({
-      Subject: subject,
-      ...Object.fromEntries(allTestNames.map(name => [name, scores.get(name) ?? "-"]))
-    }))
+    columns: ["Subject", ...testColumns],
+    data: Array.from(subjectTestsMap.entries()).map(([subject, testIds]) => {
+      const row = { Subject: subject };
+      
+      testIds.forEach((testId, index) => {
+        row[`Test ${index + 1}`] = scoreMap.get(testId) ?? "-";
+      });
+      
+      // Fill remaining test columns with "-"
+      for (let i = testIds.length; i < maxTests; i++) {
+        row[`Test ${i + 1}`] = "-";
+      }
+      
+      return row;
+    })
   };
 };
