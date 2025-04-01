@@ -1,0 +1,43 @@
+/* Common Rectangle Styles */
+.rectangle {
+    display: flex;
+    justify-content: center;
+    width: 250px;
+    height: 68px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    margin: 20px auto;
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+    font-size: 32px;
+    color: #ffffff;
+    text-align: center;
+  }
+  
+  /* Text style */
+  .rectangle-text {
+    margin: 0;
+  }
+  
+  /* Completed Style */
+  .completed {
+    background-color: #5A643C;
+  }
+  
+  /* Ongoing Style */
+  .ongoing {
+    background: linear-gradient(to right, #575757, #9B9B9B);
+  }
+  
+  /* Scheduled Style */
+  .scheduled {
+    background: linear-gradient(to right, #CF9D13, #D4AF49);
+  }
+  
+  /* Default (optional fallback) */
+  .default {
+    background-color: #f5f5f5;
+    color: #616161;
+    border: 1px solid #bdbdbd;
+  }
+  

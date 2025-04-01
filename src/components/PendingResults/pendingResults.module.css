@@ -1,0 +1,107 @@
+/* ✅ Ensure Full Page Centering */
+body, html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5; /* Optional background */
+  font-family: "Outfit", sans-serif;
+}
+
+/* ✅ Centered Container */
+.container {
+  width: 100%;
+  max-width: 500px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 10px;
+  color: white;
+  background: linear-gradient(to right, #5A643C, #323822, #000000);
+  text-align: left;
+  min-height: 420px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* ✅ Each Result Box */
+.resultBox {
+  padding: 15px;
+  width: 100%;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.resultBox:last-child {
+  border-bottom: none;
+}
+
+/* ✅ Test Name */
+.testName {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+/* ✅ Conducted Date */
+.date {
+  font-size: 20px;
+  font-weight: 400;
+}
+
+/* ✅ No Results Message */
+.noResults {
+  text-align: center;
+  font-size: 18px;
+  color: #ddd;
+}
+
+/* ✅ Responsive Adjustments */
+@media (max-width: 768px) {
+  .container {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .testName {
+    font-size: 1.2rem;
+  }
+
+  .date {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    width: 100%;
+    text-align: center;
+    align-items: center;
+    padding: 15px;
+  }
+
+  .testName {
+    font-size: 1rem;
+  }
+
+  .date {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .container {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .testName {
+    font-size: 0.9rem;
+  }
+
+  .date {
+    font-size: 0.8rem;
+  }
+}

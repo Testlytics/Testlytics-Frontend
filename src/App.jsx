@@ -1,17 +1,17 @@
 import "./App.css";
-import SubjectPage from "./pages/SubjectPage/SubjectPage";
-import StudentPage from "./pages/StudentPage/StudentPage";
-import AddQuestionPage from "./pages/AddQuestionPage/AddQuestionPage";
-import Navbar from "./components/Navbar/Navbar"; // ✅ Import Navbar
-import { RecoilRoot } from "recoil"; // ✅ Import RecoilRoot
+import Navbar from "./components/Navbar/Navbar"; 
+import { RecoilRoot } from "recoil"; 
+import { BrowserRouter as Router } from "react-router-dom";
+import AppRoutes from "./routes/Routes"; 
 
 function App() {
   return (
-    <RecoilRoot> {/* ✅ Wrap everything inside RecoilRoot */}
-      <div className="App">
-        <Navbar /> {/* ✅ Navbar stays constant */}
-        <SubjectPage />
-      </div>
+    <RecoilRoot>
+        <div className="App">
+          <Navbar />
+          <AppRoutes /> {/* ✅ Routes will handle navigation */}
+        </div>
+      
     </RecoilRoot>
   );
 }

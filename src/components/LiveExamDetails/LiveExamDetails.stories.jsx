@@ -13,6 +13,7 @@ Default.args = {
   exams: [
     { name: "Midterm Math", subject: "Mathematics", duration: 60, time: "10:30 AM" },
     { name: "Physics Quiz", subject: "Physics", duration: 45, time: "12:00 PM" },
+    { name: "Physics Quiz", subject: "Physics", duration: 45, time: "12:00 PM" }
   ],
 };
 

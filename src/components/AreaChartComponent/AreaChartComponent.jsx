@@ -1,5 +1,6 @@
 import React from "react";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import Heading from "../Heading/Heading"; // Import Heading Component
 
 const data = [
   { name: "Jan", value: 30 },
@@ -13,7 +14,10 @@ const data = [
 
 const AreaChartComponent = () => {
   return (
-    <div style={{ width: "100%", height: 300 }}>
+    <div style={{ width: "100%", height: 350, padding: "20px", borderRadius: "10px" }}>
+      {/* Section Heading */}
+      <Heading text="Overall Performance" size="30px" />
+
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 10 }}>
           <defs>

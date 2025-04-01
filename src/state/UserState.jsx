@@ -1,32 +1,26 @@
-import { atom, selector } from "recoil";
-
-// Stores user authentication status
-export const isAuthenticatedState = atom({
-  key: "isAuthenticatedState",
-  default: false, // Initially, user is logged out
-});
-
-// Stores user role (admin/student)
-export const userRoleState = atom({
-  key: "userRoleState",
-  default: "admin", // Default empty until login
-});
-
-// Stores user credentials (optional)
+import { atom } from 'recoil';
+ 
 export const userState = atom({
-  key: "userState",
-  default: {
-    username: "",
-    password: "",
-  },
+  key: 'userState',
+  default: null,
 });
-
-// Selector for checking login status
-export const userAuthSelector = selector({
-  key: "userAuthSelector",
-  get: ({ get }) => {
-    const isAuthenticated = get(isAuthenticatedState);
-    const userRole = get(userRoleState);
-    return { isAuthenticated, userRole };
-  },
+ 
+export const userRoleState = atom({
+  key: 'userRoleState',
+  default: 'admin',
+});
+ 
+export const isAuthenticatedState = atom({
+  key: 'isAuthenticatedState',
+  default: false,
+});
+ 
+export const authLoadingState = atom({
+  key: 'authLoadingState',
+  default: false,
+});
+ 
+export const authErrorState = atom({
+  key: 'authErrorState',
+  default: '',
 });

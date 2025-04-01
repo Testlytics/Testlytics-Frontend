@@ -4,13 +4,16 @@ body {
   font-family: 'Outfit', sans-serif;
 }
 
+/* Centered Container */
 .container {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
+    padding: 15px;
 }
 
+/* Header */
 .header {
     display: flex;
     align-items: center;
@@ -24,6 +27,7 @@ body {
     font-size: 1.5rem;
 }
 
+/* Navigation Buttons */
 .navButton {
     background: none;
     border: none;
@@ -36,16 +40,22 @@ body {
     cursor: not-allowed;
 }
 
+/* Grid Layout */
 .grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr); /* 3 columns by default */
+    grid-auto-rows: 1fr;
     gap: 10px;
+    max-width: 350px; /* Prevents it from stretching too wide */
+    justify-content: center; /* Centers the grid */
+    align-items: center; /* Aligns items vertically */
 }
 
+
+/* Individual Date Boxes */
 .box {
-    width: 105px;
-    height: 140px;
+    width: 100px;
+    height: 130px;
     border: 1px solid #ccc;
     border-radius: 15px;
     padding-top: 15px;
@@ -58,34 +68,42 @@ body {
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-/* Hover effect for all boxes */
+/* Hover effect */
 .box:hover {
     transform: scale(1.05);
     box-shadow: 4px 4px 10px rgba(255, 255, 255, 0.2);
 }
 
-/* Change background color if there's a test */
+/* Test Days */
 .testDay {
     background-color: #5A643C;
     color: white;
 }
 
-/* Hover effect for test days */
 .testDay:hover {
-    background-color: #6D784B; /* Lighter green on hover */
+    background-color: #6D784B;
 }
 
-/* Highlight today */
+/* Today's Highlight */
 .today {
     border: 5px solid #5A643C;
+    background-color: #ccc;
+    color: black;
 }
 
-/* Hover effect for today's date */
+/* Ensuring all text inside .today is black */
+.today .date,
+.today .month,
+.today .day,
+.today .subject {
+    color: black;
+}
+
 .today:hover {
-    border-color: #7D8E56; /* Lighter green border on hover */
+    border-color: #7D8E56;
 }
 
-/* Text styles */
+/* Text Styles */
 .date {
     font-size: 24px;
     font-weight: normal;
@@ -107,5 +125,60 @@ body {
 .subject {
     font-size: 18px;
     font-weight: normal;
-    margin-top: 25px;
+    margin-top: 10px;
+}
+
+/* 🔹 Responsive Adjustments */
+@media (max-width: 600px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr); /* Switch to 2 columns */
+        max-width: 300px;
+    }
+
+    .box {
+        width: 90px;
+        height: 120px;
+    }
+
+    .date {
+        font-size: 20px;
+    }
+
+    .month {
+        font-size: 0.9rem;
+    }
+
+    .day, .subject {
+        font-size: 16px;
+    }
+    .grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 400px) {
+    .grid {
+        grid-template-columns: repeat(1, 1fr); /* Single column for small screens */
+        max-width: 250px;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .box {
+        width: 100%;
+        height: 100px;
+    }
+
+    .date {
+        font-size: 18px;
+    }
+
+    .month {
+        font-size: 0.8rem;
+    }
+
+    .day, .subject {
+        font-size: 14px;
+    }
 }

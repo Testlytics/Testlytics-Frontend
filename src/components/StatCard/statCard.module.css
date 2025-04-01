@@ -17,9 +17,22 @@
   }
   
   .value {
-    font-size: 64px;
+    font-size: 80px;
     font-weight: bold;
     color: #5A643C;
+  }
+  .regularHeading {
+    font-weight: normal;
+    margin-bottom: 40px;
+    font-size: 34px;
+  }
+  
+  .iconContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Adjust size as needed */
+    color: #5A643C;
+    margin-top: 35px;
   }
   
   /* Button Styles (only in 'withButton' variant) */

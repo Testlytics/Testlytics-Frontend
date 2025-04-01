@@ -1,64 +1,63 @@
-  import { useState, useEffect } from "react";
-  import Navbar from "../../components/Navbar/Navbar";
-  import LeftList from "../../layouts/LeftList/LeftList"; 
-  import SubjectLayout from "../../layouts/SubjectLayout/SubjectLayout"; 
-  import styles from "./subjectPage.module.css";
-  import subjectsData from "./subjectData"; 
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom"; // Import useParams for dynamic subject selection
+import LeftList from "../../layouts/LeftList/LeftList";
+import SubjectLayout from "../../layouts/SubjectLayout/SubjectLayout";
+import styles from "./subjectPage.module.css";
+import subjectsData from "./subjectData";
 
-  const SubjectPage = () => {
-    
-    const [selectedSubject, setSelectedSubject] = useState(subjectsData[0] || null);
+const SubjectPage = () => {
+  const { subjectId } = useParams(); // Get subjectId from URL
+  const [selectedSubject, setSelectedSubject] = useState(null);
 
-    
-    useEffect(() => {
-      if (subjectsData.length > 0) {
-        setSelectedSubject(subjectsData[0]);
-      }
-    }, [subjectsData]);
+  useEffect(() => {
+    if (subjectId) {
+      const foundSubject = subjectsData.find((subject) => subject.subjectId.toString() === subjectId);
+      setSelectedSubject(foundSubject || subjectsData[0]); // Default to the first subject if not found
+    } else {
+      setSelectedSubject(subjectsData[0]);
+    }
+  }, [subjectId]);
 
-    
-    const handleSubjectClick = (subject) => {
-      setSelectedSubject(subject);
-    };
-
-    return (
-      <div className={styles.pageContainer}>
-        {/* ✅ Navbar */}
-
-        {/* ✅ Main Content: LeftList + SubjectLayout */}
-        <div className={styles.content}>
-          <div className={styles.leftList}>
-            <LeftList
-              title="Subjects"
-              data={subjectsData}
-              itemKey="subjectId"
-              itemLabel="subjectName"
-              selectedItemId={selectedSubject?.subjectId} 
-              onItemClick={handleSubjectClick} 
-            />
-          </div>
-
-          {/* Right Section - 3/4 of screen */}
-          <div className={styles.subjectLayout}>
-            {selectedSubject ? (
-              <SubjectLayout
-                subjectDetails={{
-                  subject: selectedSubject.subjectName,
-                  totalExams: selectedSubject.totalExams,
-                }}
-                tableColumns={selectedSubject.tableColumns}
-                tableData={selectedSubject.tableData}
-                performanceGraphData={selectedSubject.performanceGraphData}
-                classAccuracyData={selectedSubject.classAccuracyData}
-                classToppers={selectedSubject.classToppers}
-              />
-            ) : (
-              <p className={styles.noSubject}>No subject selected</p>
-            )}
-          </div>
-        </div>
-      </div>
-    );
+  const handleSubjectClick = (subject) => {
+    setSelectedSubject(subject);
   };
 
-  export default SubjectPage;
+  return (
+    <div className={styles.pageContainer}>
+      <div className={styles.content}>
+        {/* Left List */}
+        <div className={styles.leftList}>
+          <LeftList
+            title="Subjects"
+            data={subjectsData}
+            itemKey="subjectId"
+            itemLabel="subjectName"
+            selectedItemId={selectedSubject?.subjectId}
+            onItemClick={handleSubjectClick}
+          />
+        </div>
+
+        {/* Right Section - Subject Details */}
+        <div className={styles.subjectLayout}>
+          {selectedSubject ? (
+            <SubjectLayout
+              subjectDetails={{
+                subject: selectedSubject.subjectName,
+                totalExams: selectedSubject.totalExams,
+              }}
+              tableColumns={selectedSubject.tableColumns}
+              tableData={selectedSubject.tableData}
+              performanceGraphData={selectedSubject.performanceGraphData}
+              classAccuracyData={selectedSubject.classAccuracyData}
+              classToppers={selectedSubject.classToppers}
+            />
+          ) : (
+            <p className={styles.noSubject}>No subject selected</p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default SubjectPage;

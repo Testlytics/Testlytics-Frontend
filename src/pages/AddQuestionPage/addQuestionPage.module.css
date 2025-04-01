@@ -1,43 +1,90 @@
 /* Ensures no unwanted scrolling */
 html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow: hidden; /* Prevents scrolling */
-  }
-  
-  /* Main container taking full viewport height */
-  .pageContainer {
+  margin: 0;
+  padding: 0 !important;
+  height: 100%;
+}
+
+/* Main container taking full viewport height */
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Content container fills remaining space */
+.contentContainer {
+  display: flex;
+  flex: 1;  /* Allows dynamic resizing */
+  min-height: 0; /* Prevents content from overflowing */
+}
+
+/* Sidebar / Left section */
+.leftSection {
+  width: 460px;
+  background-color: #ffffff;
+  padding: 20px;
+}
+
+/* Main content area */
+.rightSection {
+  width: 100%;
+  height: 100vh;
+  background-color: #f3f5ed;
+  display: flex;
+  justify-content: center;
+}
+
+/* 📌 Adjust for small laptops (≤1280px) */
+@media (max-width: 1280px) {
+  .contentContainer{
     display: flex;
     flex-direction: column;
-    height: 100vh;  /* Full viewport height */
-    margin-top: 110px;
-    overflow: hidden; /* Prevents inner scrolling */
+    align-items: center;
   }
-  
-  /* Content container fills remaining space */
-  .contentContainer {
-    display: flex;
-    flex: 1;  /* Allows dynamic resizing */
-    min-height: 0; /* Prevents content from overflowing */
-  }
-  
-  /* Sidebar / Left section */
   .leftSection {
-    flex-basis: 25%; /* Takes 1/4 of the screen */
-    background-color: #ffffff;
-    padding: 20px;
-    overflow: hidden; /* Prevents unwanted scroll */
+      width: 350px;
+       /* Reduce sidebar width for better spacing */
   }
-  
-  /* Main content area */
+
   .rightSection {
-    flex-basis: 75%;  /* Takes 3/4 of the screen */
-    background-color: #F3F5ED;
-    padding: 20px;
-    display: flex;
-    justify-content: center; /* Centers content inside */
-    align-items: flex-start; /* Aligns content at the top */
-    overflow: hidden; /* Prevents scroll */
+    height: 100%;
   }
-  
+}
+
+/* 📌 Adjust for screens smaller than 1024px (Tablets) */
+@media (max-width: 1024px) {
+  .leftSection {
+      width: 320px; /* Reduce sidebar width further */
+  }
+}
+
+/* 📌 Adjust layout for small screens (≤768px) */
+@media (max-width: 768px) {
+  .pageContainer {
+      flex-direction: column; /* Stack sections vertically */
+  }
+
+  .leftSection {
+      width: 100%;  /* Make sidebar take full width */
+      height: auto; /* Adjust height dynamically */
+      order: -1; /* Moves leftSection to the top */
+  }
+
+  .rightSection {
+      height: auto;
+      width: 100%;
+      padding: 20px; /* Add spacing */
+  }
+}
+
+/* 📌 Adjust for very small screens (≤480px) */
+@media (max-width: 480px) {
+  .leftSection {
+      padding: 10px;
+  }
+
+  .rightSection {
+      padding: 10px;
+  }
+}
