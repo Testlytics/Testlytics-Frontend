@@ -1,0 +1,14 @@
+.wrapper {
+    min-height: 100vh; /* Full height */
+    display: flex;
+    align-items: center; /* Vertically center */
+    justify-content: center; /* Horizontally center */
+  }
+  .gridContainer {
+    min-height: 100vh; /* Full viewport height */
+    display: flex;
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    padding: 20px;
+  }
+  

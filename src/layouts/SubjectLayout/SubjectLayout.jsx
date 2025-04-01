@@ -44,7 +44,7 @@ const SubjectLayout = ({
       {/* Second Row: Table + Class Accuracy Graph */}
       <div className={styles.secondRow}>
         <div className={styles.tableContainer}>
-          <Table columns={["Student ID", "Student", "Test 1", "Test 2", "Test 3"]} data={tableData} />
+          <Table title ="Subject Analysis"columns={["Student ID", "Student", "Test 1", "Test 2", "Test 3"]} data={tableData} />
         </div>
 
         <div className={styles.graphWrapper}>

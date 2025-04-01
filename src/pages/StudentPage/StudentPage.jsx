@@ -11,6 +11,8 @@ import Profile from "../../assets/images/profile.jpg";
 const StudentPage = () => {
   // State management
   const [apiStudents, setApiStudents] = useState([]);
+  // State management
+  const [apiStudents, setApiStudents] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -35,15 +37,17 @@ const StudentPage = () => {
       } catch (err) {
         console.error("API failed, using local data:", err);
         setSelectedStudent(students[0]);
+        setSelectedStudent(students[0]);
         setUsingLocalData(true);
         setLoading(false);
         setError("Failed to load data from server. Using local data.");
+        setError("Failed to load data from server. Using local data.");
       }
     };
-
+ 
     fetchStudents();
   }, []);
-
+ 
   useEffect(() => {
     const fetchTestData = async () => {
       if (!selectedStudent?.userId && !selectedStudent?.studentId) {
@@ -52,7 +56,11 @@ const StudentPage = () => {
         return;
       }
     
+    
       const studentId = selectedStudent.userId || selectedStudent.studentId;
+      
+      try {
+        const [subjects, completedTests, testIds] = await Promise.all([
       
       try {
         const [subjects, completedTests, testIds] = await Promise.all([
@@ -78,12 +86,36 @@ const StudentPage = () => {
           )
         );
     
+          testService.getCompletedTests(),
+          testAttemptService.getUserTestIds(studentId),
+        ]);
+    
+        const attendedCompletedTests = testIds.filter(testId =>
+          completedTests.some(ct => ct.testId === testId)
+        );
+    
+        setAttendance({
+          attended: attendedCompletedTests.length,
+          total: completedTests.length
+        });
+    
+        const attempts = await Promise.all(
+          attendedCompletedTests.map(testId =>
+            testAttemptService.getTestAttempt(testId, studentId)
+              .then(attempt => attempt)
+              .catch(error => ({ id: { testId }, score: null }))
+          )
+        );
+    
         const matrix = buildSubjectTestMatrix(
           subjects,
           completedTests,
           attendedCompletedTests,
+          completedTests,
+          attendedCompletedTests,
           attempts.filter(a => a !== null)
         );
+    
     
         setTableData(matrix);
       } catch (error) {
@@ -91,11 +123,16 @@ const StudentPage = () => {
         setTableData({ columns: [], data: [] });
         setAttendance({ attended: 0, total: 0 });
         setError("Failed to load test data.");
+        setAttendance({ attended: 0, total: 0 });
+        setError("Failed to load test data.");
       }
     };
     
+    
     fetchTestData();
   }, [selectedStudent]);
+  
+  // Derived state
   
   // Derived state
   const studentList = usingLocalData ? students : apiStudents;
@@ -153,5 +190,5 @@ const StudentPage = () => {
     </div>
   );
 };
-
+ 
 export default StudentPage;

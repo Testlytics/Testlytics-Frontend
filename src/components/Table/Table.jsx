@@ -1,8 +1,11 @@
 import styles from "./table.module.css";
 
-const Table = ({ columns = [], data = [] }) => {
+const Table = ({ title = "", columns = [], data = [] }) => {
   return (
     <div className={styles.tableContainer}>
+      {/* ✅ Table Title */}
+      {title && <h2 className={styles.tableTitle}>{title}</h2>} 
+
       {columns.length === 0 || data.length === 0 ? (
         <p className={styles.noDataMessage}>No data available</p>
       ) : (
@@ -29,5 +32,4 @@ const Table = ({ columns = [], data = [] }) => {
   );
 };
 
-// ✅ Make sure this is present
 export default Table;

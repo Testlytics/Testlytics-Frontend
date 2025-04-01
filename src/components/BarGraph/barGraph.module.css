@@ -5,13 +5,36 @@ body {
 }
 
 .graphContainer {
-    width: 400px;
-    height: 220px;
+    width: 100%; /* Make it take full width */
+    max-width: 400px; /* Limit max width for large screens */
+    height: auto;
+    min-height: 220px; /* Maintain aspect ratio */
     padding: 10px;
     border-radius: 8px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 20px;
-  }
-  
+}
+
+/* 📌 Adjust for tablets (≤1024px) */
+@media (max-width: 1024px) {
+    .graphContainer {
+        max-width: 350px;
+        height: auto;
+    }
+}
+
+/* 📌 Adjust for mobile screens (≤768px) */
+@media (max-width: 768px) {
+    .graphContainer {
+        max-width: 300px;
+    }
+}
+
+/* 📌 Adjust for very small screens (≤480px) */
+@media (max-width: 480px) {
+    .graphContainer {
+        max-width: 100%; /* Take full width */
+        padding: 5px;
+    }
+}

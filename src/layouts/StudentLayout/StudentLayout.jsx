@@ -6,7 +6,7 @@ import Table from "../../components/Table/Table";
 import BarGraph from "../../components/BarGraph/BarGraph";
 import LineGraph from "../../components/LineGraph/LineGraph";
 import Rectangle from "../../components/Rectangle/Rectangle";
-
+ 
 const StudentLayout = ({ 
   firstName = "Unknown",
   studentId = "0",
@@ -17,6 +17,7 @@ const StudentLayout = ({
   barGraphData = [],
   lineGraphData = [],
   attendance = { attended: 0, total: 0 },
+  attendance = { attended: 0, total: 0 },
 }) => {
   
   // Safely handle all data with proper fallbacks (from Code 1)
@@ -24,7 +25,7 @@ const StudentLayout = ({
     columns: Array.isArray(tableData?.columns) ? tableData.columns : [],
     data: Array.isArray(tableData?.data) ? tableData.data : []
   };
-
+ 
   const safeBarGraphData = Array.isArray(barGraphData) ? barGraphData : [];
   const safeLineGraphData = Array.isArray(lineGraphData) ? lineGraphData : [];
 
@@ -92,7 +93,7 @@ const StudentLayout = ({
         {/* Table Section */}
         <div className={styles.tableWrapper}>
           {safeTableData.columns.length > 0 && safeTableData.data.length > 0 ? (
-            <Table 
+<Table 
               columns={safeTableData.columns} 
               data={safeTableData.data} 
             />
@@ -106,14 +107,14 @@ const StudentLayout = ({
           <div className={styles.graphTitle}>Time vs Score</div>
           <div className={styles.graph}>
             {safeLineGraphData.length ? (
-              <LineGraph data={safeLineGraphData} lines={[{ dataKey: "marks", color: "#282A2B" }]} />
+<LineGraph data={safeLineGraphData} lines={[{ dataKey: "marks", color: "#282A2B" }]} />
             ) : (
-              <p>No line graph data</p>
+<p>No line graph data</p>
             )}
-          </div>
-        </div>
-      </div>
-    </div>
+</div>
+</div>
+</div>
+</div>
   );
 };
 
@@ -148,5 +149,5 @@ StudentLayout.defaultProps = {
   lineGraphData: [],
   attendance: { attended: 0, total: 0 }
 };
-
+ 
 export default StudentLayout;

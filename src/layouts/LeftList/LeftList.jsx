@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import ListCard from "../../components/ListCard/ListCard";
 import styles from "./leftList.module.css";
-
+ 
 const LeftList = ({ title, data = [], onItemClick, selectedItemId, itemKey, itemLabel }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -17,7 +17,7 @@ const LeftList = ({ title, data = [], onItemClick, selectedItemId, itemKey, item
       return key.includes(query) || label.includes(query);
     });
   }, [data, searchQuery, itemKey, itemLabel]);
-
+ 
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>{title}</h1>
@@ -40,6 +40,7 @@ const LeftList = ({ title, data = [], onItemClick, selectedItemId, itemKey, item
     </div>
   );
 };
-
-
+ 
+ 
 export default LeftList;
+ 

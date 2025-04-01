@@ -3,61 +3,131 @@
 body {
   font-family: 'Outfit', sans-serif;
 }
+
+/* ✅ Search Bar */
 .searchBar {
-    display: flex;
-    align-items: center;
-    border: 3px solid #5A643C;
-    border-radius: 15px;
-    height: 55px;
-    overflow: hidden;
-    padding-right: 7px;
-    background: white;
-    transition: background 0.3s ease-in-out;
-  }
-  
+  display: flex;
+  align-items: center;
+  border: 3px solid #5A643C;
+  border-radius: 15px;
+  height: 55px;
+  overflow: hidden;
+  padding-right: 7px;
+  background: white;
+  transition: background 0.3s ease-in-out;
+  width: 100%;
+  max-width: 400px;
+}
 
-  
+/* ✅ Input Field */
+.input {
+  flex: 1;
+  height: 100%;
+  border: none;
+  outline: none;
+  font-size: 18px;
+  padding: 0 15px;
+  background: transparent;
+  color: black;
+  transition: color 0.3s ease-in-out;
+}
+
+/* ✅ Search Button */
+.button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: white;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+/* ✅ Icon */
+.icon {
+  color: #5A643C;
+  transition: color 0.3s ease-in-out;
+  width: 28px;
+  height: 28px;
+}
+
+/* ✅ On Hover */
+.searchBar:hover .icon {
+  color: black;
+}
+
+/* 🔹 Responsive Design */
+@media screen and (max-width: 768px) {
+  .searchBar {
+    height: 45px;
+    max-width: 300px;
+  }
+
   .input {
-    flex: 1;
-    height: 100%;
-    border: none;
-    outline: none;
-    font-size: 18px;
-    padding: 0 15px;
-    background: transparent;
-    color: black;
-    transition: color 0.3s ease-in-out;
+    font-size: 16px;
+    padding: 0 10px;
   }
-  
 
-  
   .button {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: white;
-    border: 2px solid #5A643C;
+    width: 40px;
+    height: 40px;
+  }
+
+  .icon {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .searchBar {
+    height: 40px;
+    max-width: 250px;
+  }
+
+  .input {
+    font-size: 14px;
+    padding: 0 8px;
+  }
+
+  .button {
+    width: 35px;
+    height: 35px;
+  }
+
+  .icon {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+/* ✅ For 320px Screens (Fixed Icon Visibility) */
+@media screen and (max-width: 320px) {
+  .searchBar {
+    height: 38px;
+    max-width: 220px;
+    border-radius: 10px;
+    padding-right: 5px;
+  }
+
+  .input {
+    font-size: 12px;
+    padding: 0 5px;
+  }
+
+  .button {
+    width: 32px;
+    height: 32px;
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
-    transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
   }
-  
-  .searchBar:hover .button {
-    background: black;
-  }
-  
-  .button:hover {
-    transform: scale(1.1);
-  }
-  
+
   .icon {
-    color: #5A643C;
-    transition: color 0.3s ease-in-out;
+    width: 20px; /* Increased size */
+    height: 20px; /* Increased size */
   }
-  
-  .searchBar:hover .icon {
-    color: white;
-  }
-  
+}

@@ -1,5 +1,6 @@
 import React from "react";
 import StatCard from "./StatCard";
+import { FaUserGraduate } from "react-icons/fa"; // Import an icon
 
 export default {
   title: "Components/StatCard",
@@ -11,8 +12,8 @@ const Template = (args) => <StatCard {...args} />;
 // ✅ Default StatCard (without button)
 export const TotalUsers = Template.bind({});
 TotalUsers.args = {
-  heading: "Total Users",
-  value: "150",
+  heading: "Check Your Class Grade",
+  value: "A+",
   variant: "default",
 };
 
@@ -33,4 +34,11 @@ UsersWithButton.args = {
   buttonText: "View More",
   onButtonClick: () => alert("Button Clicked!"),
 };
-    
+
+// ✅ StatCard with Icon
+export const UsersWithIcon = Template.bind({});
+UsersWithIcon.args = {
+  heading: "Total Students",
+  variant: "withIcon",
+  icon: <FaUserGraduate size={80}  />,
+};
