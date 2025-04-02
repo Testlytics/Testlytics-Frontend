@@ -13,12 +13,15 @@ const StudentPage = () => {
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [barGraphData, setBarGraphData] = useState([]);
   const [tableData, setTableData] = useState({ 
     columns: ["Subject", "Status"], 
     data: [{ Subject: "Loading Data", Status: "Please wait..." }] 
   });
   const [usingLocalData, setUsingLocalData] = useState(false);
   const [attendance, setAttendance] = useState({ attended: 0, total: 0 });
+
+
 
   const handleStudentClick = (student) => {
     setSelectedStudent(student);
@@ -40,18 +43,19 @@ const StudentPage = () => {
         setError("Failed to load student list. Using local data.");
       }
     };
+    console.log("Bar Graph Data:", barGraphData);
+    
 
     fetchStudents();
   }, []);
 
   useEffect(() => {
     const fetchTestData = async () => {
-      // Always show loading state initially
       setTableData({
         columns: ["Subject", "Status"],
         data: [{ Subject: "Loading Test Data", Status: "Fetching records..." }]
       });
-
+  
       if (!selectedStudent?.userId && !selectedStudent?.studentId) {
         setTableData({
           columns: ["Subject", "Status"],
@@ -60,71 +64,89 @@ const StudentPage = () => {
         setAttendance({ attended: 0, total: 0 });
         return;
       }
-
+  
       const studentId = selectedStudent.userId || selectedStudent.studentId;
-      
+  
       try {
         const [subjects, completedTests, testIds] = await Promise.all([
           subjectService.getAllSubjects(),
           testService.getCompletedTests(),
           testAttemptService.getUserTestIds(studentId),
         ]);
-
+  
         const attendedCompletedTests = testIds.filter(testId =>
           completedTests.some(ct => ct.testId === testId)
         );
-
+  
         setAttendance({
           attended: attendedCompletedTests.length,
           total: completedTests.length
         });
-
-        // Handle case where student hasn't taken any tests
+  
         if (attendedCompletedTests.length === 0) {
           setTableData({
             columns: ["Subject", "Status"],
             data: [{ Subject: "No Tests", Status: "Student hasn't taken any tests yet" }]
           });
+          setBarGraphData([]); // Reset graph if no tests
           return;
         }
-
+  
         const attempts = await Promise.all(
           attendedCompletedTests.map(testId =>
             testAttemptService.getTestAttempt(testId, studentId)
               .then(attempt => attempt)
               .catch(() => ({ id: { testId }, score: null }))
         ));
-
+  
         const matrix = buildSubjectTestMatrix(
           subjects,
           completedTests,
           attendedCompletedTests,
           attempts.filter(a => a !== null)
         );
-
-        // Final check to ensure we have actual data
+  
         if (matrix.data.length === 0) {
           setTableData({
             columns: ["Subject", "Status"],
             data: [{ Subject: "No Data", Status: "No test records found" }]
           });
+          setBarGraphData([]);
         } else {
           setTableData(matrix);
         }
+  
+        // ✅ **Calculate Average Scores Per Subject**
+        const subjectScores = {};
+        attempts.forEach((attempt) => {
+          if (attempt.score !== null) {
+            const subject = attempt.subjectName;
+            if (!subjectScores[subject]) {
+              subjectScores[subject] = { total: 0, count: 0 };
+            }
+            subjectScores[subject].total += attempt.score;
+            subjectScores[subject].count += 1;
+          }
+        });
+  
+        setBarGraphData(matrix.barGraphData);
+
         setError("");
       } catch (error) {
         console.error("Error loading test data:", error);
         setTableData({
           columns: ["Subject", "Status"],
-          data: [{ Subject: "Error", Status: "Could not load test data" }]
+          data: [{ Subject: "-", Status: "No test data" }]
         });
         setAttendance({ attended: 0, total: 0 });
+        setBarGraphData([]);
         setError("Failed to load test data. Please try again.");
       }
     };
-
+  
     fetchTestData();
   }, [selectedStudent]);
+  
 
   const studentList = usingLocalData ? students : apiStudents;
 
@@ -163,7 +185,7 @@ const StudentPage = () => {
                 email: selectedStudent.email || "No email available"
               }}
               tableData={tableData}
-              barGraphData={selectedStudent.barGraphData || []}
+              barGraphData={barGraphData}
               lineGraphData={selectedStudent.lineGraphData || []}
               attendance={attendance}
               error={error}

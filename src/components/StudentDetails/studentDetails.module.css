@@ -5,12 +5,12 @@
     flex-direction: column;
     justify-content: center;
   }
-  
+
   .text {
-    font-size: 28px;
+    font-size: 48px;
     color: rgb(0, 0, 0);
     margin: 5px 0;
-    text-align: left;
+    text-align: center;
     font-weight: bold;
     margin: 20px 0;
   }

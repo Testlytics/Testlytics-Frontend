@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilValue, useRecoilState } from "recoil";
 import { userRoleState, isAuthenticatedState } from "../../states/UserState";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { authService } from "../../services/api";
 import styles from "./navbar.module.css";
 import { FiLogOut } from "react-icons/fi";
@@ -12,27 +12,36 @@ const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const menuItems = userRole === "admin"
-    ? ["Dashboard", "Students", "Exams", "Reports", "Manage Users"]
-    : ["Dashboard", "Subjects", "Exams", "Questions", "Reports"];
+  const menuItems =
+    userRole === "admin"
+      ? [
+          { name: "Dashboard", path: "/overview" },
+          { name: "Students", path: "/studentlist" },
+          { name: "Exams", path: "/exam" },
+          { name: "Reports", path: "/reports" },
+          { name: "Manage Users", path: "/manage-users" }
+        ]
+      : [
+          { name: "Dashboard", path: "/overview" },
+          { name: "Subjects", path: "/subjects" },
+          { name: "Exams", path: "/exam" },
+          { name: "Questions", path: "/questions" },
+          { name: "Reports", path: "/reports" }
+        ];
 
   const userName = userRole === "admin" ? "Admin User" : "Student User";
 
-  const handleMenuItemClick = (item) => {
+  const handleMenuItemClick = (path) => {
     setIsMenuOpen(false);
-    switch(item) {
-      case "Students": navigate("/studentlist"); break;
-      case "Dashboard": navigate("/dashboard"); break;
-      // Add other cases as needed
-      default: break;
-    }
+    navigate(path);
   };
 
   const handleLogout = async () => {
     try {
       // Call logout API
-      await authService.logout();
+      // await authService.logout();
       
       // Clear client-side storage
       localStorage.removeItem('token');
@@ -59,7 +68,7 @@ const Navbar = () => {
 
   return (
     <nav className={styles.navbar}>
-      {/* Hamburger menu button */}
+      {/* Hamburger Menu Button */}
       <div
         className={`${styles.hamburger} ${isMenuOpen ? styles.open : ""}`}
         onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -72,27 +81,29 @@ const Navbar = () => {
       {/* Logo */}
       <h1 className={styles.logo} onClick={() => navigate("/")}>Testlytics</h1>
 
-      {/* Navigation menu */}
+      {/* Navigation Menu */}
       <ul className={`${styles.menu} ${isMenuOpen ? styles.open : ""}`}>
-        {menuItems.map((item) => (
-          <li 
-            key={item} 
-            className={styles.menuItem}
-            onClick={() => handleMenuItemClick(item)}
+        {menuItems.map(({ name, path }) => (
+          <li
+            key={name}
+            className={`${styles.menuItem} ${
+              location.pathname === path ? styles.active : ""
+            }`}
+            onClick={() => handleMenuItemClick(path)}
           >
-            {item}
+            {name}
           </li>
         ))}
       </ul>
 
-      {/* User profile section */}
+      {/* User Section */}
       <div className={styles.userSection} onClick={() => setIsModalOpen(!isModalOpen)}>
         <img src="/profile.png" alt="Profile" className={styles.profilePic} />
         <span className={styles.username}>{userName}</span>
         <span className={styles.dropdownArrow}>▼</span>
       </div>
 
-      {/* Profile modal */}
+      {/* Profile Modal */}
       {isModalOpen && (
         <div className={styles.modal}>
           <img src="/profile.png" alt="Profile" className={styles.modalProfilePic} />

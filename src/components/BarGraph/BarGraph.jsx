@@ -9,12 +9,10 @@ const BarGraph = ({ data }) => {
       <ResponsiveContainer width="100%" height="100%">
         <BarChart layout="vertical" data={data} margin={{ left: 20, right: 30 }}>
           <XAxis type="number" hide />
-          <YAxis dataKey="label" type="category" width={50} />
+          <YAxis dataKey="label" type="category" fontSize={15} width={80} />
           <Tooltip />
-          <Bar dataKey="value" barSize={25} radius={[0, 15, 15, 0]}>
-            {/* ✅ Show value on top of each bar */}
-            <LabelList dataKey="value" position="right" fill="black" fontSize={24} fontWeight="bold" />
-
+          <Bar dataKey="value" barSize={30} radius={[0, 15, 15, 0]}>
+            <LabelList dataKey="value" position="right" fill="black" fontSize={20} fontWeight="bold" />
             {data.map((entry, index) => (
               <Cell key={index} fill={COLORS[index % COLORS.length]} />
             ))}

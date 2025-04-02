@@ -14,10 +14,11 @@ const StudentLayout = ({
   email = "No Email",
   image = "",
   tableData,
-  barGraphData = [],
+  barGraphData = [], 
   lineGraphData = [],
   attendance = { attended: 0, total: 0 },
 }) => {
+
   
   // Safely handle all data with proper fallbacks (from Code 1)
   const safeTableData = {
@@ -77,15 +78,16 @@ const StudentLayout = ({
         </div>
         
         <div className={styles.graphContainer}>
-          <div className={styles.graphTitle}>Performance Graph</div>
-          <div className={styles.graph}>
-            {safeBarGraphData.length ? (
-              <BarGraph data={safeBarGraphData} />
-            ) : (
-              <p>No bar graph data</p>
-            )}
-          </div>
-        </div>
+  <div className={styles.graphTitle}>Performance Graph</div>
+  <div className={styles.graph}>
+    {safeBarGraphData.length ? (
+      <BarGraph data={safeBarGraphData} />
+    ) : (
+      <p>No bar graph data</p>
+    )}
+  </div>
+</div>
+
       </div>
 
 

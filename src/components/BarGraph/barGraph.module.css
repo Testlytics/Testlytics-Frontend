@@ -6,13 +6,12 @@ body {
 
 .graphContainer {
     width: 100%; /* Make it take full width */
-    max-width: 400px; /* Limit max width for large screens */
-    height: auto;
+    height: 300px;
     min-height: 220px; /* Maintain aspect ratio */
     padding: 10px;
     border-radius: 8px;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
 }
 

@@ -3,10 +3,10 @@ import PropTypes from "prop-types";
 const StudentDetails = ({ id, firstName, email, rank }) => {
   return (
     <div>
-      <h2>{firstName}</h2>
-      <p>ID: {id}</p>
-      <p>Email: {email}</p>
-      <p>Rank: {rank}</p>
+      <h1>{firstName}</h1>
+      <h3>ID: {id}</h3>
+      <h3>Email: {email}</h3>
+      <h3>Rank: {rank}</h3>
     </div>
   );
 };

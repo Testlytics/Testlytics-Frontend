@@ -1,62 +1,52 @@
-
-Copy
 import axios from 'axios';
 
+const API_BASE_URL = 'http://localhost:8080/api';
+
 const api = axios.create({
-  baseURL: 'http://localhost:8080/api',
+  baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-// Request interceptor to add auth token
+// Request interceptor for auth token
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
-}, (error) => {
-  return Promise.reject(error);
 });
 
-// Response interceptor to handle 401 errors
+// Response interceptor
 api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
       localStorage.removeItem('token');
-      localStorage.removeItem('userRole');
       window.location.href = '/login';
     }
     return Promise.reject(error);
   }
 );
 
+// Auth Service
 export const authService = {
   login: async (credentials) => {
-    try {
-      const response = await api.post('/auth/login', credentials);
-      return {
-        token: response.data.token,
-        role: response.data.role
-      };
-    } catch (error) {
-      console.error('Login error:', error);
-      throw error;
-    }
+    const response = await api.post('/auth/login', credentials);
+    return {
+      token: response.data.token,
+      user: {
+        role: response.data.role.toLowerCase(),
+       
+      }
+    };
   },
-  
-  logout: async () => {
-    try {
-      await api.post('/auth/logout');
-      return { success: true };
-    } catch (error) {
-      console.error('Logout error:', error);
-      throw error;
-    }
+  logout: () => {
+    localStorage.removeItem('token');
   }
 };
+
 // Student Service
 export const studentService = {
   getStudents: async () => {

@@ -7,13 +7,16 @@ export const buildSubjectTestMatrix = (subjects, completedTests, testIds, attemp
     subjectTestsMap.set(subject.subjectName, []);
   });
 
-   // Early return if no tests attended
-   if (testIds.length === 0 || attempts.length === 0) {
+  // Early return if no tests attended
+  if (testIds.length === 0 || attempts.length === 0) {
     return {
       columns: ["Subject", "Status"],
-      data: [{ Subject: "No Tests Attended", Status: "This student hasn't taken any tests yet" }]
+      data: [{ Subject: "No Tests Attended", Status: "This student hasn't taken any tests yet" }],
+      averageScores: {}, // Empty object for consistency
+      barGraphData: [] // Empty array for bar graph
     };
   }
+
   // 2. Assign tests to subjects and maintain order
   testIds.forEach(testId => {
     const testInfo = completedTests.find(t => t.testId === testId);
@@ -41,7 +44,24 @@ export const buildSubjectTestMatrix = (subjects, completedTests, testIds, attemp
   // 5. Generate test names (Test 1, Test 2,... up to maxTests)
   const testColumns = Array.from({ length: maxTests }, (_, i) => `Test ${i + 1}`);
 
-  // 6. Build the result
+  // 6. Calculate average scores
+  const averageScores = {};
+  subjectTestsMap.forEach((testIds, subject) => {
+    const scores = testIds.map(testId => scoreMap.get(testId)).filter(score => score !== undefined);
+    averageScores[subject] = scores.length > 0 
+      ? parseFloat((scores.reduce((sum, score) => sum + score, 0) / scores.length).toFixed(2))
+      : 0; // Default to 0 if no scores
+  });
+
+  // 7. Build bar graph data ensuring valid values
+  const barGraphData = Object.entries(averageScores)
+    .filter(([_, avgScore]) => avgScore > 0) // Exclude subjects with zero scores
+    .map(([subject, avgScore]) => ({
+      label: subject,
+      value: avgScore,
+    }));
+
+  // 8. Build the result
   return {
     columns: ["Subject", ...testColumns],
     data: Array.from(subjectTestsMap.entries()).map(([subject, testIds]) => {
@@ -57,6 +77,8 @@ export const buildSubjectTestMatrix = (subjects, completedTests, testIds, attemp
       }
       
       return row;
-    })
+    }),
+    averageScores, // ✅ Added this to return subject-wise average scores separately
+    barGraphData,  // ✅ Adjusted this to exclude subjects with zero average scores
   };
 };
