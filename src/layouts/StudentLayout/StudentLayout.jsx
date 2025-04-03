@@ -34,12 +34,12 @@ const StudentLayout = ({
     ? Math.round((attendance.attended / attendance.total) * 100)
     : 0;
 
-  // Image handling (from Code 1)
+  // Image handling 
   const imageUrl = image
     ? `data:image/png;base64,${image}` 
     : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
 
-  // Prepare props for UI structure (inspired by Code 2)
+  // Prepare props for UI structure 
   const profilePictureProps = {
     src: imageUrl
   };
@@ -65,7 +65,7 @@ const StudentLayout = ({
 
   return (
     <div className={styles.layout}>
-      {/* Profile, Rectangles & Performance Graph (Grouped in One Container - from Code 2) */}
+   
       <div className={styles.profileStatsContainer}>
         {/* Profile & Student Details */}
         <ProfilePicture {...profilePictureProps} />
@@ -139,19 +139,6 @@ StudentLayout.propTypes = {
     attended: PropTypes.number,
     total: PropTypes.number
   }),
-};
-
-// Default Props (from Code 2 style but with Code 1 functionality)
-StudentLayout.defaultProps = {
-  firstName: "Unknown",
-  studentId: "0",
-  rank: "N/A",
-  email: "No Email",
-  image: "",
-  tableData: { columns: [], data: [] },
-  barGraphData: [],
-  lineGraphData: [],
-  attendance: { attended: 0, total: 0 }
 };
 
 export default StudentLayout;

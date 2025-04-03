@@ -1,17 +1,6 @@
 // Data transformation: buildSubjectTestMatrix.js
 export const buildSubjectTestMatrix = (subjects, completedTests, testIds, attempts) => {
-  
-  // Handle empty cases
-  if (!testIds.length || !attempts.length) {
-    console.warn("No test attempts found.");
-    return {
-      columns: ["Subject", "Status"],
-      data: [{ Subject: "No Tests Attended", Status: "This student hasn't taken any tests yet" }],
-      averageScores: {},
-      barGraphData: [],
-      timeScoreData: []
-    };
-  }
+ 
 
   // 1. Group tests by subject
   const subjectTestsMap = new Map(subjects.map(subject => [subject.subjectName, []]));

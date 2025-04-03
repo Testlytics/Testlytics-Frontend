@@ -6,7 +6,7 @@ import StudentLayout from "../../layouts/StudentLayout/StudentLayout";
 import { studentService, subjectService, testService, testAttemptService } from "../../services/api";
 import { buildSubjectTestMatrix } from "../../utils/testDataTransformer";
 import students from "./students";
-import Profile from "../../assets/images/profile.jpg";
+
 
 const StudentPage = () => {
   const [apiStudents, setApiStudents] = useState([]);
@@ -164,13 +164,6 @@ const StudentPage = () => {
           {selectedStudent ? (
             <StudentLayout
               {...selectedStudent}
-              studentDetails={{
-                src: Profile,
-                firstName: selectedStudent.firstName,
-                studentId: selectedStudent.studentId,
-                rank: selectedStudent.rank,
-                email: selectedStudent.email || "No email available"
-              }}
               tableData={tableData}
               barGraphData={barGraphData}
               lineGraphData={lineGraphData}
