@@ -7,7 +7,6 @@ import { studentService, subjectService, testService, testAttemptService } from 
 import { buildSubjectTestMatrix } from "../../utils/testDataTransformer";
 import students from "./students";
 
-
 const StudentPage = () => {
   const [apiStudents, setApiStudents] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState(null);
@@ -53,7 +52,7 @@ const StudentPage = () => {
         data: [{ Subject: "Loading Test Data", Status: "Fetching records..." }]
       });
   
-      if (!selectedStudent?.userId && !selectedStudent?.studentId) {
+      if (!selectedStudent?.studentId) {
         setTableData({
           columns: ["Subject", "Status"],
           data: [{ Subject: "No Selection", Status: "Please select a student" }]
@@ -62,13 +61,11 @@ const StudentPage = () => {
         return;
       }
   
-      const studentId = selectedStudent.userId || selectedStudent.studentId;
-  
       try {
         const [subjects, completedTests, testIds] = await Promise.all([
           subjectService.getAllSubjects(),
           testService.getCompletedTests(),
-          testAttemptService.getUserTestIds(studentId),
+          testAttemptService.getUserTestIds(selectedStudent.studentId),
         ]);
   
         const attendedCompletedTests = testIds.filter(testId =>
@@ -91,7 +88,7 @@ const StudentPage = () => {
   
         const attempts = await Promise.all(
           attendedCompletedTests.map(testId =>
-            testAttemptService.getTestAttempt(testId, studentId)
+            testAttemptService.getTestAttempt(testId, selectedStudent.studentId)
               .then(attempt => attempt)
               .catch(() => ({ id: { testId }, score: null }))
         ));
@@ -114,8 +111,6 @@ const StudentPage = () => {
         }
   
         setBarGraphData(matrix.barGraphData);
-        
-        // Update line graph data based on modifications
         setLineGraphData(matrix.timeScoreData);
         setError("");
   
