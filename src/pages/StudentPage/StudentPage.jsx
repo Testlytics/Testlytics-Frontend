@@ -14,14 +14,13 @@ const StudentPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [barGraphData, setBarGraphData] = useState([]);
+  const [lineGraphData, setLineGraphData] = useState([]);
   const [tableData, setTableData] = useState({ 
     columns: ["Subject", "Status"], 
     data: [{ Subject: "Loading Data", Status: "Please wait..." }] 
   });
   const [usingLocalData, setUsingLocalData] = useState(false);
   const [attendance, setAttendance] = useState({ attended: 0, total: 0 });
-
-
 
   const handleStudentClick = (student) => {
     setSelectedStudent(student);
@@ -43,9 +42,7 @@ const StudentPage = () => {
         setError("Failed to load student list. Using local data.");
       }
     };
-    console.log("Bar Graph Data:", barGraphData);
     
-
     fetchStudents();
   }, []);
 
@@ -88,7 +85,7 @@ const StudentPage = () => {
             columns: ["Subject", "Status"],
             data: [{ Subject: "No Tests", Status: "Student hasn't taken any tests yet" }]
           });
-          setBarGraphData([]); // Reset graph if no tests
+          setBarGraphData([]);
           return;
         }
   
@@ -116,22 +113,12 @@ const StudentPage = () => {
           setTableData(matrix);
         }
   
-        // ✅ **Calculate Average Scores Per Subject**
-        const subjectScores = {};
-        attempts.forEach((attempt) => {
-          if (attempt.score !== null) {
-            const subject = attempt.subjectName;
-            if (!subjectScores[subject]) {
-              subjectScores[subject] = { total: 0, count: 0 };
-            }
-            subjectScores[subject].total += attempt.score;
-            subjectScores[subject].count += 1;
-          }
-        });
-  
         setBarGraphData(matrix.barGraphData);
-
+        
+        // Update line graph data based on modifications
+        setLineGraphData(matrix.timeScoreData);
         setError("");
+  
       } catch (error) {
         console.error("Error loading test data:", error);
         setTableData({
@@ -140,6 +127,7 @@ const StudentPage = () => {
         });
         setAttendance({ attended: 0, total: 0 });
         setBarGraphData([]);
+        setLineGraphData([]);
         setError("Failed to load test data. Please try again.");
       }
     };
@@ -147,7 +135,6 @@ const StudentPage = () => {
     fetchTestData();
   }, [selectedStudent]);
   
-
   const studentList = usingLocalData ? students : apiStudents;
 
   if (loading) return (
@@ -186,7 +173,7 @@ const StudentPage = () => {
               }}
               tableData={tableData}
               barGraphData={barGraphData}
-              lineGraphData={selectedStudent.lineGraphData || []}
+              lineGraphData={lineGraphData}
               attendance={attendance}
               error={error}
             />

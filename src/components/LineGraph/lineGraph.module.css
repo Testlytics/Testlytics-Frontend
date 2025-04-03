@@ -5,7 +5,8 @@ body {
 }
 
 .graphContainer {
-  height: 310px;
+  min-height: 350px; /* 🔄 Use min-height */
+  width: 600px; /* Increase width */
   background: #C2CABE;
   padding: 10px;
   color: #5A643C;
@@ -19,7 +20,7 @@ body {
 
 .chartWrapper {
   width: 100%;
-  height: 130%;
+  height: 100%;
   display: flex;
   justify-content: flex-start;
   align-items: center;
