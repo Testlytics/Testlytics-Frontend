@@ -12,19 +12,11 @@ function App() {
     </RecoilRoot>
   );
 }
-<<<<<<< HEAD
-
-function MainContent() {
-  const location = useLocation();
-  const hideNavbarPaths = ["/login"]; // Add more paths if needed
-
-=======
  
 function MainContent() {
   const location = useLocation();
   const hideNavbarPaths = ["/login"]; // Add more paths if needed
  
->>>>>>> feature-adith
   return (
     <>
       {!hideNavbarPaths.includes(location.pathname) && <Navbar />}
@@ -32,10 +24,5 @@ function MainContent() {
     </>
   );
 }
-<<<<<<< HEAD
-
-export default App;
-=======
  
 export default App;
->>>>>>> feature-adith
