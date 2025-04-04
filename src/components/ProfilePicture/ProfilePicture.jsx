@@ -18,7 +18,7 @@ const ProfilePicture = ({ src, alt = "Profile Picture", size = "250px", borderRa
 };
 
 ProfilePicture.propTypes = {
-  src: PropTypes.string, // ✅ No longer required to prevent errors
+ 
   alt: PropTypes.string,
   size: PropTypes.string,
   borderRadius: PropTypes.string,

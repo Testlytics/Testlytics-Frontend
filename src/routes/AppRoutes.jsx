@@ -1,4 +1,3 @@
-// src/routes/AppRoutes.jsx
 import { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
@@ -17,6 +16,7 @@ import SubjectPage from '../pages/SubjectPage/SubjectPage';
 import AddQuestionPage from '../pages/AddQuestionPage/AddQuestionPage';
 import Questions from '../pages/Questions/Questions';
 import ManageUsersPage from '../pages/ManageUsersPage/ManageUsersPage';
+
 import ChangePassword from '../pages/ChangePassword/ChangePassword';
 import ReportPage from '../pages/ReportPage/ReportPage'; // ✅ Import Report Page
 import OverviewPage from '../pages/OverviewPage/OverviewPage';
@@ -69,6 +69,7 @@ const AppRoutes = () => {
       <Route path="/login" element={<LoginPage />} />
 
 
+
       {/* ✅ Change Password Route */}
       <Route path="/change-password" element={<ProtectedRoute><ChangePassword /></ProtectedRoute>} />
 
@@ -76,6 +77,8 @@ const AppRoutes = () => {
       <Route path="/studentlist" element={<ProtectedRoute><StudentPage /></ProtectedRoute>} />
       <Route path="/overview" element={<ProtectedRoute><OverviewPage /></ProtectedRoute>} />
       
+
+
       <Route path="/exam" element={<ProtectedRoute><ExamOverviewPage /></ProtectedRoute>} />
       <Route path="/subjects" element={<ProtectedRoute><SubjectPage /></ProtectedRoute>} />
       <Route path="/add-question" element={<ProtectedRoute><AddQuestionPage /></ProtectedRoute>} />
@@ -85,15 +88,7 @@ const AppRoutes = () => {
       {/* ✅ New Report Page Route */}
       <Route path="/report" element={<ProtectedRoute><ReportPage /></ProtectedRoute>} />
 
-      <Route
-        path="/student"
-        element={
-        //   <ProtectedRoute>
-            <StudentPage />
-        //   </ProtectedRoute>
-        }
-      />
-     
+      
       
       <Route
         path="/missednupcoming"
@@ -120,11 +115,12 @@ const AppRoutes = () => {
       <Route path="*" element={<h1>Page Not Found</h1>} />
 
 
+     
     </Routes>
   );
 };
 
 
-export default AppRoutes;
 
+export default AppRoutes;
 
