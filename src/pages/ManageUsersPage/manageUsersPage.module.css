@@ -1,35 +1,88 @@
+/* ✅ Ensure the entire page is scrollable */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: auto; /* ✅ Allows full-page scrolling */
+}
+
+/* ✅ Ensure container takes full height and grows if needed */
 .container {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-  }
-  
-  .navbar {
-    height: 60px; /* Adjust the height of Navbar */
-    width: 100%;
-    background-color: white; /* Ensure it stands out */
-    position: fixed; /* Keeps it at the top */
-    top: 0;
-    left: 0;
-    z-index: 1000; /* Ensures Navbar stays above content */
-  }
-  
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* ✅ Allows page to grow */
+  width: 100vw;
+  overflow: auto; /* ✅ Ensures scrolling if content overflows */
+}
+
+/* ✅ Ensure content is flexible */
+.content {
+  display: flex;
+  flex: 1;
+  width: 100vw;
+  padding-top: 60px;
+  gap: 20px;
+  min-height: 0; /* ✅ Allows child elements to scroll */
+}
+
+/* ✅ Left Section (Sidebar) */
+.leftSection {
+  width: 430px;
+  background-color: white;
+  padding: 20px;
+  flex-shrink: 0; /* Prevents shrinking */
+}
+
+/* ✅ Right Section (Main Content) */
+.rightSection {
+  flex-grow: 1;
+  background-color: #F3F5ED;
+  overflow: visible; /* ✅ Allow page to scroll instead of just this section */
+  width: calc(100vw - 430px);
+}
+
+/* 🔽 Responsive for Tablets & Small Screens */
+@media (max-width: 1024px) {
   .content {
-    display: flex;
-    flex: 1;
-    padding-top: 60px; /* Ensures content does not go under Navbar */
+      flex-direction: column; /* ✅ Stack sections */
+      align-items: center;
   }
-  
+
   .leftSection {
-    width: 25%;
-    background-color: white;
-    padding: 20px;
+      width: 100%;
+      max-width: 430px;
+      text-align: center;
+      margin: 0 auto;
   }
-  
+
   .rightSection {
-    width: 75%;
-    background-color: #F3F5ED;
-    padding: 20px;
-    overflow-y: auto;
+      width: 100%;
+      overflow: visible; /* ✅ Page scrolls instead of section */
   }
-  
+}
+
+/* 🔽 Mobile View (≤ 400px) */
+@media (max-width: 400px) {
+  .container {
+    overflow: auto; /* ✅ Ensures full page scrolling */
+  }
+
+  .content {
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+  }
+
+  .leftSection {
+      width: 100%;
+      padding: 15px;
+      text-align: center;
+      margin: 0 auto;
+  }
+
+  .rightSection {
+      width: 100%;
+      padding: 15px;
+      overflow: visible; /* ✅ Fixes right section-only scrolling issue */
+  }
+}

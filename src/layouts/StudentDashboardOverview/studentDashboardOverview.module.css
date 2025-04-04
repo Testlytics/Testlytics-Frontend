@@ -1,14 +1,16 @@
-.wrapper {
-    min-height: 100vh; /* Full height */
-    display: flex;
-    align-items: center; /* Vertically center */
-    justify-content: center; /* Horizontally center */
-  }
-  .gridContainer {
-    min-height: 100vh; /* Full viewport height */
-    display: flex;
-    align-items: center; /* Center vertically */
-    justify-content: center; /* Center horizontally */
-    padding: 20px;
+.gridContainer {
+  padding: 20px;
+  width: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .gridContainer .row {
+    flex-direction: column;
   }
   
+  .col-md-6,
+  .col-md-3 {
+    width: 100%;
+  }
+}

@@ -26,6 +26,14 @@
     justify-content: space-between;
     align-items: center;
   }
+  .noExams {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 500;
+    color: #888;
+    margin-top: 130px;
+  }
+  
   
   .innerBox {
     display: flex;

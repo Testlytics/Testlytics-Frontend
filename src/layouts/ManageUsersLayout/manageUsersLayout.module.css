@@ -1,49 +1,102 @@
+/* Base Styles */
 .container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding: 30px;
-    width: 400px; /* Adjust width as needed */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 30px;
+  max-width: 400px; /* ✅ Ensures adaptability */
+  width: 100%;
+  margin: auto;
+}
+
+.mainHeading {
+  font-size: 2.5rem; /* ✅ Scales with screen size */
+  font-weight: bold;
+  text-align: center;
+}
+
+.addUserContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 50px; /* ✅ Reduced gap for smaller screens */
+}
+
+.subHeading {
+  font-size: 2rem;
+  font-weight: 400;
+  text-align: center;
+}
+
+.passwordContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.eyeButton {
+  position: absolute;
+  right: 15px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: gray;
+  font-size: 18px;
+  padding: 5px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+/* Responsive Design */
+
+/* Tablets (768px and below) */
+@media (max-width: 768px) {
+  .container {
+    max-width: 90%; /* ✅ Allows full screen usage */
+    padding: 20px;
   }
-  
+
   .mainHeading {
-    font-size: 40px;
-    font-weight: bold;
+    font-size: 2rem; /* ✅ Adjusted for tablets */
   }
-  
+
+  .subHeading {
+    font-size: 1.8rem;
+  }
+
   .addUserContainer {
-    display: flex;
-    flex-direction: column;
+    gap: 40px; /* ✅ Reduced spacing */
+  }
+}
+
+/* Mobile Devices (480px and below) */
+@media (max-width: 480px) {
+  .container {
+    max-width: 95%;
+    padding: 15px;
     gap: 15px;
   }
-  
+
+  .mainHeading {
+    font-size: 1.8rem; /* ✅ Smaller font for compact screens */
+  }
+
   .subHeading {
-    font-size: 36px;
-    font-weight: 400;
+    font-size: 1.5rem;
   }
-  
-  .passwordContainer {
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 100%;
-  }
-  
+
   .eyeButton {
-    position: absolute;
-    right: 15px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: gray;
-    font-size: 18px;
-    padding: 5px;
+    right: 10px; /* ✅ Ensures better touch accessibility */
+    font-size: 16px;
   }
-  
-  /* ✅ Centers the button */
+
   .buttonContainer {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
+    margin-top: 5px; /* ✅ Reduces extra space */
   }
-  
+}

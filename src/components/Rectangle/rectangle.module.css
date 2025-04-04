@@ -1,22 +1,40 @@
 .rectangle {
-    width: 260px;
-    height: 100px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-    border-radius: 15px;
-    background: linear-gradient(to right, #5A643C, #6E7C42);
-    color: white;
-  }
-  
-  .leftText {
-    font-size: 24px;
-    font-weight: bold;
-  }
-  
-  .rightText {
-    font-size: 38px;
-    font-weight: bold;
-  }
-  
+  width: 260px;
+  height: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  border-radius: 15px;
+  background: linear-gradient(to right, #5A643C, #6E7C42);
+  color: white;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.centerText {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+}
+
+
+.rectangle.center {
+  justify-content: center;
+  text-align: center;
+}
+.leftText {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.rightText {
+  font-size: 38px;
+  font-weight: bold;
+}
+
+.rectangle.center:hover {
+  transform: scale(1.05);
+  background: linear-gradient(to right, #6E7C42, #5A643C);
+  cursor: pointer;
+}

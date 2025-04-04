@@ -1,3 +1,4 @@
+/* Full-width container */
 .tableContainer {
   width: 100%;
   overflow-x: auto;
@@ -7,38 +8,87 @@
 }
 
 /* Table Styling */
-.table {
+.tableContainer .table {
   width: 100%;
+  min-width: 600px;
   border-collapse: collapse;
-  font-size: 25px;
+  font-size: 1.6rem;
+  border: none !important; /* ✅ Remove outer border */
 }
 
-/* Header Styling */
-th {
+/* Header Styling - Only Bottom Border */
+.tableContainer th {
   font-weight: bold;
   padding: 12px;
-  text-align: center !important;
-  color: #000 !important;
-  background: none !important;
-  border-bottom: 2px solid #000000 !important; /* ✅ Removes any background color */
+  text-align: center;
+  color: #000;
+  background: none;
+  border: 0px;
+  border-bottom: 2px solid #000 !important; /* ✅ Header separation */
 }
 
-/* Row Styling */
-td {
+/* Row Styling - No Borders */
+.tableContainer td {
   padding: 12px;
   text-align: center;
+  border: none !important; /* ✅ Remove all row borders */
 }
 
-/* ✅ Only Vertical Column Partitions */
-th + th, 
-td + td {
-  border-left: 1px solid #000; /* Adds vertical partition only */
+/* ✅ Only Vertical Column Separation */
+.tableContainer th + th,
+.tableContainer td + td {
+  border-left: 1px solid #000 !important; /* ✅ Column separation only */
 }
 
 /* No Data Message */
-.noDataMessage {
+.tableContainer .noDataMessage {
   text-align: center;
   padding: 20px;
-  font-size: 18px;
+  font-size: 1.2rem;
   color: #777;
+}
+
+/* Remove All Other Borders */
+.tableContainer table,
+.tableContainer tr {
+  border: none !important;
+  outline: none !important;
+}
+
+/* Responsive Design */
+
+/* Tablets (768px and below) */
+@media (max-width: 768px) {
+  .tableContainer .table {
+    font-size: 1.4rem;
+  }
+
+  .tableContainer th,
+  .tableContainer td {
+    padding: 10px;
+  }
+}
+
+/* Mobile Devices (480px and below) */
+@media (max-width: 480px) {
+  .tableContainer {
+    width: 100vw;
+    padding: 5px;
+  }
+
+  .tableContainer .table {
+    font-size: 1.2rem;
+    min-width: 500px;
+  }
+
+  .tableContainer th,
+  .tableContainer td {
+    padding: 8px;
+  }
+
+  /* ✅ Enables horizontal scrolling for small screens */
+  .tableContainer {
+    overflow-x: auto;
+    white-space: nowrap;
+  }
 }

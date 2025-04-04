@@ -1,13 +1,16 @@
+
 .overviewPage {
-    min-height: 100vh;
+    height: 100%;
     margin-top: 70px;
 }
   
   .topHalf {
-    background-color: #F3F5ED; /* Light greenish background */
+    background-color: #f3f5ed; /* Light greenish background */
     padding: 30px;
   }
-  
+  .bottomHalf{
+    background-color: white;
+  }
   /* Responsive Spacing */
   @media (max-width: 768px) {
     .topHalf {

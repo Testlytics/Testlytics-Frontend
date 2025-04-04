@@ -7,10 +7,10 @@ import Navbar from '../../components/Navbar/Navbar';
 import ViewButton from '../../components/Button/View/ViewButton'; // ✅ Import ViewButton
 
 const testNames = [
-  { name: 'Physics | Measurements', status: 'completed' },
-  { name: 'Chemistry | Organic', status: 'scheduled' },
-  { name: 'Biology | Brain', status: 'ongoing' },
-  { name: 'Physics | Measurements', status: 'completed' },
+  { name: 'Physics | Measurements', status: 'Completed' },
+  { name: 'Chemistry | Organic', status: 'Scheduled' },
+  { name: 'Biology | Brain', status: 'Ongoing' },
+  { name: 'Physics | Measurements', status: 'Completed' },
 ];
 
 const Questions = () => {

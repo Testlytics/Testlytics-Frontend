@@ -1,25 +1,30 @@
-import "./App.css";
-import Navbar from "./components/Navbar/Navbar"; 
-import { RecoilRoot } from "recoil"; 
-import { BrowserRouter as Router } from "react-router-dom";
-import AppRoutes from "./routes/Routes"; 
-
+import { RecoilRoot } from "recoil";
+import { BrowserRouter, useLocation } from "react-router-dom";
+import AppRoutes from "./routes/AppRoutes";
+import Navbar from "./components/Navbar/Navbar";
+ 
 function App() {
   return (
     <RecoilRoot>
-        <div className="App">
-          <Navbar />
-          <AppRoutes /> {/* ✅ Routes will handle navigation */}
-        </div>
-      
+      <BrowserRouter>
+        <MainContent />
+      </BrowserRouter>
     </RecoilRoot>
   );
 }
+<<<<<<< HEAD
 
 function MainContent() {
   const location = useLocation();
   const hideNavbarPaths = ["/login"]; // Add more paths if needed
 
+=======
+ 
+function MainContent() {
+  const location = useLocation();
+  const hideNavbarPaths = ["/login"]; // Add more paths if needed
+ 
+>>>>>>> feature-adith
   return (
     <>
       {!hideNavbarPaths.includes(location.pathname) && <Navbar />}
@@ -27,5 +32,10 @@ function MainContent() {
     </>
   );
 }
+<<<<<<< HEAD
 
 export default App;
+=======
+ 
+export default App;
+>>>>>>> feature-adith

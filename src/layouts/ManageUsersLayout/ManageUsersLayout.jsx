@@ -3,14 +3,14 @@ import styles from "./manageUsersLayout.module.css";
 import InputField from "../../components/InputField/InputField";
 import Dropdown from "../../components/Dropdown/Dropdown";
 import Button from "../../components/Button/Button";
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // ✅ Import eye icons
+import { FaEye, FaEyeSlash } from "react-icons/fa"; 
 
 const ManageUsersLayout = ({ mainHeading = "Manage Users" }) => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [selectedRole, setSelectedRole] = useState("");
 
-  // ✅ Toggle Password Visibility
+  
   const handleTogglePassword = () => {
     setShowPassword((prev) => !prev);
   };
@@ -30,23 +30,23 @@ const ManageUsersLayout = ({ mainHeading = "Manage Users" }) => {
         {/* ✅ Role Dropdown */}
         <Dropdown
           label="Role"
-          options={["Admin", "Instructor", "Student"]} // Modify as needed
+          options={["Admin", "Instructor", "Student"]} 
           selected={selectedRole}
           onSelect={setSelectedRole}
         />
 
-        {/* ✅ Password Input */}
+        {/* ✅ Password Input with Eye Icon */}
         <div className={styles.passwordContainer}>
           <InputField
             label="Password"
-            type={showPassword ? "text" : "password"} // ✅ Toggle type
+            type={showPassword ? "text" : "password"} 
             placeholder="Enter password"
             value={password}
-            
             onChange={(e) => setPassword(e.target.value)}
           />
-          {/* ✅ Move eye icon inside the div properly */}
-          
+          <button className={styles.eyeButton} onClick={handleTogglePassword}>
+            {showPassword ? <FaEyeSlash /> : <FaEye />}
+          </button>
         </div>
 
         {/* ✅ Submit Button Centered */}

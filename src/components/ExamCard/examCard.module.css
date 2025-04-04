@@ -5,6 +5,7 @@
   }
 
 .card {
+<<<<<<< HEAD
     width: 333px;
     height: 240px;
     padding: 16px;
@@ -15,6 +16,61 @@
     transition: all 0.3s ease-in-out;
     justify-content: space-between; /* Push button to the bottom */
     align-items: center;
+=======
+  width: 100%;
+  max-width: 333px; /* ✅ Prevents card from getting too wide */
+  height: auto;
+  min-height: 240px; /* ✅ Ensures minimum height */
+  padding: 16px;
+  margin-bottom: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #C2CABE;
+  transition: all 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: start;
+}
+
+/* 📌 Title */
+.title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #5A643C;
+  text-align: center;
+}
+
+/* 📌 Description */
+.description {
+  font-size: 24px;
+  font-weight: 600;
+  color: #000000;
+  margin-top: 2px;
+  text-align: center;
+}
+
+/* 📌 Value Container */
+.valueContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5px;
+}
+
+/* 📌 Value */
+.value {
+  font-size: 20px;
+  color: #000000;
+  text-align: center;
+}
+
+/* 📌 Responsive Adjustments */
+@media (max-width: 1024px) {
+  .card {
+    max-width: 90%; /* ✅ Adjust width for tablets */
+    padding: 14px;
+>>>>>>> feature-adith
   }
   
 

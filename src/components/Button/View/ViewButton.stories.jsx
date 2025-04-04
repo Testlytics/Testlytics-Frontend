@@ -2,35 +2,14 @@ import React from 'react';
 import ViewButton from './ViewButton';
 
 export default {
-  title: 'Components/Button/View',
+  title: 'Components/Button/ViewButton', // This defines where it appears in Storybook sidebar
   component: ViewButton,
-  argTypes: {
-    text: { control: 'text' },
-    onClick: { action: 'clicked' },
-    variant: {
-      control: 'select',
-      options: ['primary', 'secondary', 'disabled'],
-    },
-  },
 };
 
-const Template = (args) => <ViewButton {...args} />;
+export const Primary = () => (
+  <ViewButton text="View Responses" onClick={() => alert('Clicked!')} />
+);
 
-export const Primary = Template.bind({});
-Primary.args = {
-  text: 'View',
-  variant: 'primary',
-};
-
-export const Secondary = Template.bind({});
-Secondary.args = {
-  text: 'View',
-  variant: 'secondary',
-};
-
-export const Disabled = Template.bind({});
-Disabled.args = {
-  text: 'Disabled Button',
-  variant: 'disabled',
-  onClick: undefined,
-};
+export const Secondary = () => (
+  <ViewButton text="View" variant="secondary" onClick={() => alert('Secondary Clicked!')} />
+);
