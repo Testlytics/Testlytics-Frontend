@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom"; // Import useParams for dynamic subject selection
+import { useParams } from "react-router-dom"; 
 import LeftList from "../../layouts/LeftList/LeftList";
 import SubjectLayout from "../../layouts/SubjectLayout/SubjectLayout";
 import styles from "./subjectPage.module.css";
 import subjectsData from "./subjectData";
 
 const SubjectPage = () => {
-  const { subjectId } = useParams(); // Get subjectId from URL
+  const { subjectId } = useParams(); 
   const [selectedSubject, setSelectedSubject] = useState(null);
 
   useEffect(() => {
     if (subjectId) {
       const foundSubject = subjectsData.find((subject) => subject.subjectId.toString() === subjectId);
-      setSelectedSubject(foundSubject || subjectsData[0]); // Default to the first subject if not found
+      setSelectedSubject(foundSubject || subjectsData[0]);
     } else {
       setSelectedSubject(subjectsData[0]);
     }
