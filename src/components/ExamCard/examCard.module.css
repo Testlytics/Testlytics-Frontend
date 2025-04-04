@@ -5,18 +5,6 @@
   }
 
 .card {
-<<<<<<< HEAD
-    width: 333px;
-    height: 240px;
-    padding: 16px;
-    margin-bottom: 30px;
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #C2CABE;
-    transition: all 0.3s ease-in-out;
-    justify-content: space-between; /* Push button to the bottom */
-    align-items: center;
-=======
   width: 100%;
   max-width: 333px; /* ✅ Prevents card from getting too wide */
   height: auto;
@@ -70,7 +58,6 @@
   .card {
     max-width: 90%; /* ✅ Adjust width for tablets */
     padding: 14px;
->>>>>>> feature-adith
   }
   
 
@@ -102,7 +89,7 @@
     color: #000000;
     text-align: center;
   }
-
+}
   
   
  

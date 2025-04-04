@@ -45,11 +45,11 @@ const LoginPage = () => {
   
       localStorage.setItem("token", token);
       setUser({ email: user.email, role: user.role });
-      setUser({ email: user.email, role: user.role });
+      
       setUserRole(user.role);
       setIsAuthenticated(true);
       
-      navigate(user.role === "admin" ? "/overview" : "/student");
+      navigate(user.role === "admin" ? "/overview" : "/overview");
     } catch (err) {
       setError(() => err.response?.data?.message || "Invalid credentials");
       console.error("Login error:", err);
@@ -80,10 +80,10 @@ const LoginPage = () => {
  
         <div className={styles.formGroup}>
           <label className={styles.label} htmlFor="email">Email</label>
-          <label className={styles.label} htmlFor="email">Email</label>
+          
           <input
             id="email"
-            id="email"
+            
             type="email"
             placeholder="Enter your email"
             value={email}
@@ -92,16 +92,16 @@ const LoginPage = () => {
             className={`${styles.inputBox} ${error ? styles.inputError : ""}`}
             disabled={isLoading}
             aria-label="Enter your email"
-            aria-label="Enter your email"
+          
           />
         </div>
  
         <div className={styles.formGroup}>
           <label className={styles.label} htmlFor="password">Password</label>
-          <label className={styles.label} htmlFor="password">Password</label>
+          
           <input
             id="password"
-            id="password"
+           
             type="password"
             placeholder="Enter your password"
             value={password}
@@ -110,7 +110,7 @@ const LoginPage = () => {
             className={`${styles.inputBox} ${error ? styles.inputError : ""}`}
             disabled={isLoading}
             aria-label="Enter your password"
-            aria-label="Enter your password"
+            
           />
         </div>
  
@@ -119,10 +119,10 @@ const LoginPage = () => {
           onClick={handleLogin}
           disabled={isLoading}
           aria-busy={isLoading}
-          aria-busy={isLoading}
+         
         >
           {isLoading ? <span className={styles.spinner}></span> : "Login"}
-          {isLoading ? <span className={styles.spinner}></span> : "Login"}
+        
         </button>
       </div>
     </div>

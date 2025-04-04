@@ -40,10 +40,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      // Call logout API
-      // await authService.logout();
-      
-      // Clear client-side storage
+    
       localStorage.removeItem('token');
       localStorage.removeItem('userRole');
       
@@ -99,7 +96,7 @@ const Navbar = () => {
       {/* User Section */}
       <div className={styles.userSection} onClick={() => setIsModalOpen(!isModalOpen)}>
         <img src="/profile.png" alt="Profile" className={styles.profilePic} />
-        <img src="/profile.png" alt="Profile" className={styles.profilePic} />
+ 
         <span className={styles.username}>{userName}</span>
         <span className={styles.dropdownArrow}>▼</span>
       </div>

@@ -101,6 +101,10 @@ export const testAttemptService = {
   getTestAttempt: async (testId, userId) => {
     const response = await api.get(`/attempts/${testId}/user/${userId}`);
     return response.data.responseBody; // Returns full attempt details
+  },
+  getStudentsByTest: async (testId) => {
+    const response = await api.get(`/attempts/test/${testId}/students`);
+    return response.data.responseBody || []; // Returns list of students
   }
 };
 

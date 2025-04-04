@@ -27,7 +27,7 @@ const LeftList = ({ title, data = [], onItemClick, selectedItemId, itemKey, item
           filteredData.map((item) => (
             <ListCard
               key={item[itemKey]}
-              id={item[itemKey]}
+              // id={item[itemKey]}
               name={item[itemLabel]}
               isSelected={selectedItemId === item[itemKey]}
               onClick={() => onItemClick(item)}

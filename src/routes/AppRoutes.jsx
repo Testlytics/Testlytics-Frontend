@@ -18,12 +18,10 @@ import Questions from '../pages/Questions/Questions';
 import ManageUsersPage from '../pages/ManageUsersPage/ManageUsersPage';
 
 import ChangePassword from '../pages/ChangePassword/ChangePassword';
-import ReportPage from '../pages/ReportPage/ReportPage'; // ✅ Import Report Page
+import ReportPage from '../pages/ReportPage/ReportPage'; 
 import OverviewPage from '../pages/OverviewPage/OverviewPage';
 
-import ProtectedRoute from '../components/ProtectedRoute';
-import LoginPage from '../pages/LoginPage/LoginPage';
-import StudentPage from '../pages/StudentPage/StudentPage';
+
 import QuestionPaper from '../pages/QuestionPaper/QuestionPaper';
 
 import MissednUpcoming from '../pages/MissednUpcoming/MissednUpcoming';
@@ -98,7 +96,7 @@ const AppRoutes = () => {
         //   </ProtectedRoute>
         }
       />
-       {/* Default route for question paper */}
+      
        <Route path="/questionpaper/:variant" element={<QuestionPaper />} />
       
       <Route

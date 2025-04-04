@@ -6,16 +6,12 @@
   background: #f3f5ed;
   padding: 10px;
 }
- 
+
 /* Table Styling */
-.tableContainer .table {
 .tableContainer .table {
   width: 100%;
   min-width: 600px;
-  min-width: 600px;
   border-collapse: collapse;
-  font-size: 1.6rem;
-  border: none !important; /* ✅ Remove outer border */
   font-size: 1.6rem;
   border: none !important; /* ✅ Remove outer border */
 }
@@ -24,11 +20,6 @@
 .tableContainer th {
   font-weight: bold;
   padding: 12px;
-  text-align: center;
-  color: #000;
-  background: none;
-  border: 0px;
-  border-bottom: 2px solid #000 !important; /* ✅ Header separation */
   text-align: center;
   color: #000;
   background: none;
@@ -48,13 +39,11 @@
 .tableContainer td + td {
   border-left: 1px solid #000 !important; /* ✅ Column separation only */
 }
- 
+
 /* No Data Message */
-.tableContainer .noDataMessage {
 .tableContainer .noDataMessage {
   text-align: center;
   padding: 20px;
-  font-size: 1.2rem;
   font-size: 1.2rem;
   color: #777;
 }

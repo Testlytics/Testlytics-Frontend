@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Search } from "lucide-react"; // Importing the search icon
+import { Search } from "lucide-react";
 import styles from "./searchBar.module.css";
 
 const SearchBar = ({ onSearch }) => {
@@ -21,7 +21,7 @@ const SearchBar = ({ onSearch }) => {
         className={styles.input}
       />
       <button onClick={handleSearch} className={styles.button}>
-        <Search size={30} className={styles.icon} /> {/* Search Icon */}
+        <Search size={30} className={styles.icon} /> 
       </button>
     </div>
   );
