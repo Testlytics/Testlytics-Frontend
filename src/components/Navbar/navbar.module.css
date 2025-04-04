@@ -1,65 +1,350 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
-
+ 
 body {
   font-family: 'Outfit', sans-serif;
+  margin: 0;
+  padding: 0;
 }
+ 
+/* ✅ Navbar */
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-    background: #ffffff;
-    color: rgb(0, 0, 0);
-    font-family: "Outfit", sans-serif;
-    width: 100%;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  color: rgb(0, 0, 0);
+  font-family: "Outfit", sans-serif;
+  width: 100%;
+  max-width: 100vw;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  padding: 0 20px;
+}
+ 
+/* ✅ Logo */
+.logo {
+  font-size: 36px;
+  font-weight: bold;
+  background: linear-gradient(to right, #5A643C, #000000);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+ 
+/* ✅ Navigation Menu */
+.menu {
+  display: flex;
+  list-style: none;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  margin: 0 auto;
+  padding: 0;
+  transition: transform 0.4s ease-in-out, opacity 0.3s ease-in-out;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+ 
+.menuItem {
+  font-size: 22px;
+  font-weight: normal;
+  cursor: pointer;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: color 0.3s ease-in-out;
+  position: relative;
+  color: black;
+}
+ 
+/* ✅ Hover Effect */
+.menuItem:hover {
+  color: #5A643C;
+  font-weight: bold;
+}
+ 
+/* ✅ Underline on Hover */
+.menuItem::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 100%;
+  height: 7px;
+  background-color: #5A643C;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.3s ease-in-out;
+}
+ 
+.menuItem:hover::after {
+  transform: scaleX(1);
+}
+ 
+/* ✅ Underline for Active Tab */
+.menuItem.active {
+  color: #5A643C;
+  font-weight: bold;
+}
+ 
+.menuItem.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 100%;
+  height: 7px;
+  background-color: #5A643C;
+  transform: scaleX(1); /* Always visible for active tab */
+}
+ 
+/* ✅ User Section */
+.userSection {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 10px;
+}
+ 
+.profilePic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+ 
+.username {
+  font-size: 18px;
+}
+ 
+/* ✅ Dropdown Arrow Animation */
+.dropdownArrow {
+  font-size: 18px;
+  transition: transform 0.3s ease-in-out;
+}
+ 
+.dropdownArrow.open {
+  transform: rotate(180deg);
+}
+ 
+/* ✅ Modal */
+.modal {
+  position: absolute;
+  top: 120px;
+  right: 20px;
+  background: white;
+  color: black;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 350px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.3s ease-out forwards;
+}
+ 
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
   }
-  
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+ 
+/* ✅ Modal Exit Animation */
+.modal-exit {
+  animation: fadeOutDown 0.3s ease-out forwards;
+}
+ 
+@keyframes fadeOutDown {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+ 
+ 
+.modalProfilePic {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+}
+ 
+.modalUsername {
+  font-size: 28px;
+  font-weight: bold;
+}
+ 
+.modalRole {
+  font-size: 18px;
+  color: gray;
+  margin-bottom: 10px;
+}
+ 
+.modalButton {
+  background-color: transparent;
+  color: #5A643C;
+  padding: 10px;
+  border: none;
+  font-size: 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 5px;
+  transition: background-color 0.4s ease-in-out, transform 0.3s ease-in-out;
+}
+ 
+.modalButton:hover {
+   /* Light gray on hover */
+  transform: scale(1.15); /* Slightly enlarge the button */
+}
+ 
+.logoutButton {
+  background-color: #992E2E;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.4s ease-in-out, transform 0.3s ease-in-out;
+}
+ 
+.logoutButton:hover {
+  background-color: #cc3a3a; /* Lighter red color on hover */
+  transform: scale(1.05); /* Slightly enlarge the button */
+}
+ 
+ 
+/* ✅ Hamburger Menu */
+.hamburger {
+  display: none;
+  width: 30px;
+  height: 22px;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+}
+ 
+.hamburger span {
+  display: block;
+  height: 4px;
+  width: 70%;
+  background: black;
+  border-radius: 2px;
+  transition: all 0.3s ease-in-out;
+}
+ 
+/* ✅ Animation for Open Hamburger */
+.hamburger.open span:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+ 
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+}
+ 
+.hamburger.open span:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+ 
+/* ✅ Responsive Styles */
+ 
+@media screen and (max-width: 992px) {
+  .navbar {
+    padding: 10px 15px;
+    height: 70px;
+  }
+ 
   .logo {
-    font-size: 34px;
-    font-weight: bold;
-    background: linear-gradient(to right, #5A643C, #000000);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-size: 36px;
+    text-align: left;
+    flex-grow: 1;
   }
-  
+ 
   .menu {
-    list-style: none;
-    display: flex;
-    gap: 30px;
-  }
-  
-  .menuItem {
-    font-size: 24px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  
-  .userSection {
-    display: flex;
+    flex-direction: column;
     align-items: center;
-    cursor: pointer;
-  }
-  
-  .username {
-    font-size: 20px;
-    font-weight: bold;
-    margin-right: 10px;
-  }
-  
-  .dropdownArrow {
-    font-size: 18px;
-  }
-  
-  .modal {
+    justify-content: center;
     position: absolute;
-    top: 60px;
-    right: 20px;
+    top: 70px;
+    left: 0;
+    width: 100%;
     background: white;
-    color: black;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 15px 0;
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
   }
-  
+ 
+  .menu.open {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+ 
+  .menuItem {
+    font-size: 22px;
+    padding: 12px 0;
+    text-align: center;
+    width: 100%;
+  }
+ 
+  /* ✅ Show Hamburger */
+  .hamburger {
+    display: flex;
+  }
+ 
+  /* ✅ Modal Adjustments */
+  .modal {
+    width: 150px;
+  }
+}
+ 
+/* ✅ Small Phones (480px) */
+@media screen and (max-width: 480px) {
+  .navbar {
+    height: 55px;
+    padding: 0 10px;
+  }
+ 
+  .logo {
+    font-size: 22px;
+  }
+ 
+  .menuItem {
+    font-size: 16px;
+    padding: 10px;
+  }
+ 
+  .profilePic {
+    width: 28px;
+    height: 28px;
+  }
+ 
+  .username {
+    font-size: 13px;
+  }
+ 
+  .menu {
+    top: 55px;
+  }
+}
+ 
+ 

@@ -15,6 +15,17 @@ export default {
     isEditable: { control: "boolean" }, // Control for editable variant
     isEvaluated: { control: "boolean" }, // ✅ New control for evaluated variant
     selectedIndex: { control: "number" }, // ✅ Control for selectedIndex
+    studentName: { control: "text" },
+    variant: {
+      control: {
+        type: "select",
+        options: [
+          "default",
+          "marked",
+          "editable", // ✅ Editable variant included
+        ],
+      },
+    },
   },
 };
 
@@ -26,6 +37,7 @@ export const Default = Template.bind({});
 Default.args = {
   subjectName: "Physics",
   testName: "Measurements",
+  variant: "default",
   totalQuestions: 3,
   totalMarks: 30,
   duration: 15,
@@ -61,8 +73,8 @@ Default.args = {
 export const Editable = Template.bind({});
 Editable.args = {
   ...Default.args,
-  isEditable: true, // Enable editable variant
-  selectedIndex: 1, // ✅ Highlight second question
+  variant: "editable",
+  
   questions: [
     {
       question: "What is the capital of France?",
@@ -78,15 +90,24 @@ Editable.args = {
       correctOption: 1,
       selectedOption: null,
     },
+    {
+      question: "Who developed the theory of relativity?",
+      options: ["Newton", "Einstein", "Galileo", "Tesla"],
+      image: null,
+      correctOption: 1,
+      selectedOption: null,
+    },
   ],
+  isEditable: true, // Enable editable variant
+  selectedIndex: 1, // ✅ Highlight second question
 };
 
 // ✅ New Evaluated Story - Highlights correct/incorrect options
 export const Evaluated = Template.bind({});
 Evaluated.args = {
   ...Default.args,
-  isEvaluated: true, // Enable evaluated variant
-  selectedIndex: 2, // ✅ Highlight third question
+  variant: "editable",
+  studentName:"Swetha",
   questions: [
     {
       question: "What is the capital of France?",
@@ -94,6 +115,7 @@ Evaluated.args = {
       image: "images/girl2.jpeg",
       correctOption: 2, // ✅ Correct option (Paris)
       selectedOption: 2, // ✅ Correctly selected (Paris)
+
     },
     {
       question: "Which planet is known as the Red Planet?",
@@ -110,4 +132,6 @@ Evaluated.args = {
       selectedOption: 1, // ✅ Correctly selected (Einstein)
     },
   ],
+  isEvaluated: true, // Enable evaluated variant
+  selectedIndex: 2, // ✅ Highlight third question
 };

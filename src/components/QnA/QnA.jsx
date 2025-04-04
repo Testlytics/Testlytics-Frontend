@@ -1,25 +1,48 @@
-import React from "react";
-import { FaEdit, FaTrashAlt } from "react-icons/fa"; // ✅ Imported icons
+import React, { useState } from "react";
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import styles from "./qna.module.css";
+import { attendTestData } from "../../data/attendTestData";
 
-const QnA = ({
-  question,
-  options,
-  image,
-  questionNumber,
-  variant = "default",
-  correctOption,
-  selectedOption, // ✅ New prop for selected answer
-  onEdit, // ✅ New prop for editing
-  onDelete, // ✅ New prop for deleting
-}) => {
+const QnA = ({ variant = "selectable", onOptionSelect, ...props }) => {
+  // Load data from attendTestData based on variant
+  const data = attendTestData[variant] || {};
+
+  // Merge props with default data (props override default test data)
+  const {
+    question,
+    options,
+    image,
+    questionNumber,
+    correctOption,
+    selectedOption: parentSelectedOption,
+    onEdit,
+    onDelete,
+  } = { ...data, ...props };
+
+  // Local state to manage selected option
+  const [selectedOption, setSelectedOption] = useState(parentSelectedOption || null);
+
   // Map option index to alphabetical labels
   const getOptionLabel = (index) => String.fromCharCode(65 + index); // 65 is 'A'
 
+  // Handle option selection
+  const handleOptionChange = (index) => {
+    setSelectedOption(index);
+    onOptionSelect(questionNumber, index);
+  };
+
+  // Handle clearing the selection
+  const handleClearSelection = () => {
+    setSelectedOption(null);
+    onOptionSelect(questionNumber, null); // Notify parent that selection is cleared
+  };
+
   return (
-    <div className={`${styles.qnaContainer} ${
-      variant === "selectable" ? styles.selectableStyle : ""
-    }`}>
+    <div
+      className={`${styles.qnaContainer} ${
+        variant === "selectable" ? styles.selectableStyle : ""
+      }`}
+    >
       {/* Header with Question and Icons */}
       <div className={styles.questionWrapper}>
         {/* Question Text with Number */}
@@ -73,7 +96,8 @@ const QnA = ({
                   name={`question-${questionNumber}`}
                   id={`option-${index}`}
                   className={styles.radioButton}
-                  defaultChecked={selectedOption === index}
+                  checked={selectedOption === index}
+                  onChange={() => handleOptionChange(index)} // Notify parent
                 />
               ) : (
                 // Alphabetical Label for Default or Highlighted Variant
@@ -86,11 +110,16 @@ const QnA = ({
               <label htmlFor={`option-${index}`} className={styles.optionText}>
                 {option}
               </label>
-
-         
             </div>
           ))}
         </div>
+
+        {/* Clear Selection Button (Only for Selectable Variant) */}
+        {variant === "selectable" && selectedOption !== null && (
+          <button className={styles.clearButton} onClick={handleClearSelection}>
+            Clear
+          </button>
+        )}
       </div>
 
       {/* Optional Image beside the question */}

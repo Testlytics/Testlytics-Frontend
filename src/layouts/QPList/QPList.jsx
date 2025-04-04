@@ -3,12 +3,14 @@ import React, { useState } from "react";
 import { FaChevronRight } from "react-icons/fa"; // ✅ Icon for selected item
 import styles from "./qpList.module.css";
 
-const QPList = ({ title, items }) => {
+const QPList = ({ title, items, onSelect }) => {
   const [selectedIndex, setSelectedIndex] = useState(null);
 
   // Handle item click
   const handleItemClick = (index) => {
+    const selectedTestName = items[index];
     setSelectedIndex(index);
+    onSelect(selectedTestName);
   };
 
   return (

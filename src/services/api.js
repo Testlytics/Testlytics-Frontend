@@ -31,5 +31,12 @@ export const authService = {
         }
       }}}
   
+export const testService = {
+  getTestsByVariant: async (variant) => {
+   const response = await api.get(`/tests?variant=${variant}`);
+    return response.data;
+  },
+};
+
 
 export default api;
