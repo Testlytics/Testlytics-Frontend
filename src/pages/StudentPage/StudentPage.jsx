@@ -3,7 +3,7 @@ import styles from "./studentPage.module.css";
 import Navbar from "../../components/Navbar/Navbar";
 import LeftList from "../../layouts/LeftList/LeftList";
 import StudentLayout from "../../layouts/StudentLayout/StudentLayout";
-import studentsData from "./students"; 
+import students from "./students"; 
 import Profile from "../../assets/images/profile.jpg";
 
   const StudentPage = () => {
@@ -72,14 +72,39 @@ import Profile from "../../assets/images/profile.jpg";
             )
           );
     
+          const filteredAttempts = attempts.filter(a => a !== null && a.score !== null);
+    
+          // **Generate barGraphData**
+          const barGraphData = subjects.map(subject => {
+            const subjectAttempts = filteredAttempts.filter(attempt => 
+              completedTests.some(test => test.testId === attempt.id.testId && test.subjectId === subject.subjectId)
+            );
+    
+            const averageScore = subjectAttempts.length
+              ? subjectAttempts.reduce((sum, attempt) => sum + attempt.score, 0) / subjectAttempts.length
+              : 0;
+    
+            return {
+              subject: subject.name,
+              score: averageScore.toFixed(2)  // Keep two decimal places
+            };
+          });
+    
           const matrix = buildSubjectTestMatrix(
             subjects,
             completedTests,
             attendedCompletedTests,
-            attempts.filter(a => a !== null)
+            filteredAttempts
           );
     
           setTableData(matrix);
+    
+          // **Set selectedStudent with new data**
+          setSelectedStudent(prev => ({
+            ...prev,
+            barGraphData,
+          }));
+          
         } catch (error) {
           console.error("Error loading test data:", error);
           setTableData({ columns: [], data: [] });
@@ -89,6 +114,7 @@ import Profile from "../../assets/images/profile.jpg";
     
       fetchTestData();
     }, [selectedStudent]);
+    
     
    
     // Determine which student list to use

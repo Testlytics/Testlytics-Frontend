@@ -13,14 +13,14 @@ body {
   height: 55px;
   padding: 12px 20px;
   border: none;
-  border-radius: 12px;
+  border-radius: 15px;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 20px;
   text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: 600;
+  font-weight: 500;
   transition: all 0.3s ease-in-out;
 }
 

@@ -26,7 +26,7 @@ body {
   padding: 0 20px;
 }
 
-/* ✅ Logo (Centered on Small Screens) */
+/* ✅ Logo */
 .logo {
   font-size: 36px;
   font-weight: bold;
@@ -34,25 +34,23 @@ body {
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  display: inline-block; /* ✅ Fix for some browsers */
+  display: inline-block;
 }
-
 
 /* ✅ Navigation Menu */
 .menu {
   display: flex;
   list-style: none;
-  justify-content: center; /* ✅ Center items */
-  align-items: center; /* ✅ Align vertically */
-  gap: 50px; /* Adjust spacing */
-  margin: 0 auto; /* ✅ Center horizontally */
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  margin: 0 auto;
   padding: 0;
   transition: transform 0.4s ease-in-out, opacity 0.3s ease-in-out;
   position: absolute;
   left: 50%;
-  transform: translateX(-50%); /* ✅ Perfect centering */
+  transform: translateX(-50%);
 }
-
 
 .menuItem {
   font-size: 22px;
@@ -61,7 +59,7 @@ body {
   padding: 10px 15px;
   border-radius: 5px;
   transition: color 0.3s ease-in-out;
-  position: relative; /* Needed for underline effect */
+  position: relative;
   color: black;
 }
 
@@ -71,22 +69,39 @@ body {
   font-weight: bold;
 }
 
-/* ✅ Thick Underline on Hover */
+/* ✅ Underline on Hover */
 .menuItem::after {
   content: "";
   position: absolute;
   left: 0;
-  bottom: -5px; /* Adjust underline position */
+  bottom: -5px;
   width: 100%;
-  height: 4px; /* Thickness of the underline */
+  height: 7px;
   background-color: #5A643C;
-  transform: scaleX(0); /* Initially hidden */
+  transform: scaleX(0);
   transform-origin: center;
   transition: transform 0.3s ease-in-out;
 }
 
 .menuItem:hover::after {
-  transform: scaleX(1); /* Expand underline on hover */
+  transform: scaleX(1);
+}
+
+/* ✅ Underline for Active Tab */
+.menuItem.active {
+  color: #5A643C;
+  font-weight: bold;
+}
+
+.menuItem.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 100%;
+  height: 7px;
+  background-color: #5A643C;
+  transform: scaleX(1); /* Always visible for active tab */
 }
 
 /* ✅ User Section */
@@ -114,10 +129,10 @@ body {
 }
 
 .dropdownArrow.open {
-  transform: rotate(180deg); /* Rotate the arrow when modal is open */
+  transform: rotate(180deg);
 }
 
-/* ✅ Modal Fade-in and Slide-up Animation */
+/* ✅ Modal */
 .modal {
   position: absolute;
   top: 120px;
@@ -249,76 +264,22 @@ body {
 
 /* ✅ Responsive Styles */
 
-@media screen and (max-width: 1440px) {
-  .navbar {
-    padding: 0 30px;
-  }
-  .logo {
-    font-size: 32px;
-  }
-  .menu {
-    gap: 60px;
-  }
-  .menuItem {
-    font-size: 20px;
-  }
-}
-
-/* For 1280px screens */
-@media screen and (max-width: 1280px) {
-  .navbar {
-    padding: 0 25px;
-  }
-  .logo {
-    font-size: 30px;
-  }
-  .menu {
-    gap: 30px;
-  }
-  .menuItem {
-    font-size: 18px;
-  }
-}
-
-/* For 1024px screens */
-@media screen and (max-width: 1024px) {
-  .navbar {
-    padding: 0 20px;
-  }
-  .logo {
-    font-size: 28px;
-  }
-  .menu {
-    gap: 40px;
-  }
-  .menuItem {
-    font-size: 17px;
-  }
-}
 @media screen and (max-width: 992px) {
   .navbar {
     padding: 10px 15px;
     height: 70px;
   }
 
-  /* ✅ Center Logo */
   .logo {
     font-size: 36px;
-    font-weight: bold;
-    background: linear-gradient(to right, #5A643C, #000000);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    display: inline-block; /* ✅ Fix for some browsers */
     text-align: left;
     flex-grow: 1;
   }
 
-  /* ✅ Hide Menu Initially */
   .menu {
     flex-direction: column;
-    align-items: center; /* ✅ Center items horizontally */
-    justify-content: center; /* ✅ Center items vertically */
+    align-items: center;
+    justify-content: center;
     position: absolute;
     top: 70px;
     left: 0;
@@ -332,7 +293,6 @@ body {
     transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
   }
 
-  /* ✅ Menu when Open */
   .menu.open {
     transform: translateY(0);
     opacity: 1;
@@ -341,77 +301,19 @@ body {
 
   .menuItem {
     font-size: 22px;
-    padding: 12px 0; /* More padding for spacing */
+    padding: 12px 0;
     text-align: center;
-    width: 100%; /* Make items span full width */
+    width: 100%;
   }
 
-  /* ✅ Closing Animation */
-  .menu.closing {
-    transform: translateY(-100%);
-    opacity: 0;
-    visibility: hidden;
-  }
-
-  /* ✅ Staggered Animation */
-  .menu.open .menuItem {
-    transform: translateY(0);
-    opacity: 1;
-  }
-
-  .menu.open .menuItem:nth-child(1) { transition-delay: 0.1s; }
-  .menu.open .menuItem:nth-child(2) { transition-delay: 0.2s; }
-  .menu.open .menuItem:nth-child(3) { transition-delay: 0.3s; }
-  .menu.open .menuItem:nth-child(4) { transition-delay: 0.4s; }
-
-  /* ✅ Show Hamburger Menu */
+  /* ✅ Show Hamburger */
   .hamburger {
     display: flex;
   }
 
-  /* ✅ User Section Adjustments */
-  .userSection {
-    gap: 5px;
-  }
-
-  .profilePic {
-    width: 35px;
-    height: 35px;
-  }
-
-  .username {
-    font-size: 16px;
-  }
-}
-
-/* ✅ Tablets (768px) */
-@media screen and (max-width: 768px) {
-  .navbar {
-    height: 65px;
-    padding: 0 15px;
-  }
-
-  .logo {
-    font-size: 26px;
-    text-align: left;
-  }
-
-  .menuItem {
-    font-size: 18px;
-    padding: 8px;
-  }
-
-  .profilePic {
-    width: 32px;
-    height: 32px;
-  }
-
-  .username {
-    font-size: 15px;
-  }
-
-  .menu {
-    top: 65px;
+  /* ✅ Modal Adjustments */
+  .modal {
+    width: 150px;
   }
 }
 
@@ -424,7 +326,6 @@ body {
 
   .logo {
     font-size: 22px;
-    text-align: left;
   }
 
   .menuItem {
@@ -439,16 +340,6 @@ body {
 
   .username {
     font-size: 13px;
-  }
-
-  .userSection {
-    gap: 5px;
-    margin-right: 5px;
-  }
-
-  /* ✅ Adjust Modal for Small Phones */
-  .modal {
-    width: 150px;
   }
 
   .menu {

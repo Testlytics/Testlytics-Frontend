@@ -27,7 +27,6 @@ const AreaChartComponent = () => {
             </linearGradient>
           </defs>
 
-          <CartesianGrid strokeDasharray="3 3" stroke="#ccc" />
           <XAxis dataKey="name" />
           <YAxis />
           <Tooltip />

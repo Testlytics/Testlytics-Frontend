@@ -7,7 +7,7 @@
     padding: 15px;
     border-radius: 10px;
     color: rgb(0, 0, 0);
-    text-align: center;
+    text-align: left;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -34,7 +34,7 @@
     .gridContainer .row {
       flex-direction: column;
     }
-  
+    
     .col-md-6,
     .col-md-3 {
       width: 100%;

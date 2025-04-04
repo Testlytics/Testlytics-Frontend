@@ -6,20 +6,25 @@ const LiveExamDetails = ({ exams = [] }) => {
   return (
     <div className={styles.container}>
       <Heading text="Live Exams" size="32px" align="center" weight="600" />
-      <div className={styles.examSlots}>
-        {exams.map((exam, index) => (
-          <div key={index} className={styles.examCard}>
-            <div className={styles.innerBox}>
-              <div className={styles.details}>
-                <div className={styles.testName}>{exam.name}</div>
-                <div className={styles.subject}>{exam.subject}</div>
-                <div className={styles.duration}>Duration: {exam.duration} mins</div>
+      
+      {exams.length === 0 ? (
+        <p className={styles.noExams}>No live exams at the moment.</p>
+      ) : (
+        <div className={styles.examSlots}>
+          {exams.map((exam, index) => (
+            <div key={index} className={styles.examCard}>
+              <div className={styles.innerBox}>
+                <div className={styles.details}>
+                  <div className={styles.testName}>{exam.name}</div>
+                  <div className={styles.subject}>{exam.subject}</div>
+                  <div className={styles.duration}>Duration: {exam.duration} mins</div>
+                </div>
+                <div className={styles.time}>{exam.time}</div>
               </div>
-              <div className={styles.time}>{exam.time}</div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
