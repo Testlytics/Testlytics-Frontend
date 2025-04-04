@@ -9,7 +9,7 @@ import {
 } from '../states/UserState';
 import ProtectedRoute from '../components/ProtectedRoute';
 import LoginPage from '../pages/LoginPage/LoginPage';
-import StudentPage from '../pages/StudentPage/StudentPage';
+
 import QuestionPaper from '../pages/QuestionPaper/QuestionPaper';
 import ChangePassword from '../pages/ChangePassword/ChangePassword';
 import Exams from '../pages/Exams/Exams';
@@ -53,14 +53,7 @@ const AppRoutes = () => {
     <Routes>
       <Route path="/" element={<Navigate to="/login" replace />} />
       <Route path="/login" element={<LoginPage />} />
-      <Route
-        path="/student"
-        element={
-        //   <ProtectedRoute>
-            <StudentPage />
-        //   </ProtectedRoute>
-        }
-      />
+      
       <Route
         path="/changepassword"
         element={
