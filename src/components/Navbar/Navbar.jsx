@@ -75,6 +75,7 @@ const Navbar = () => {
       {/* User Section */}
       <div className={styles.userSection} onClick={() => setIsModalOpen(!isModalOpen)}>
         <img src="/profile.png" alt="Profile" className={styles.profilePic} />
+        <img src="/profile.png" alt="Profile" className={styles.profilePic} />
         <span className={styles.username}>{userName}</span>
         <span className={styles.dropdownArrow}>▼</span>
       </div>
@@ -105,5 +106,5 @@ const Navbar = () => {
     </nav>
   );
 };
-
+ 
 export default Navbar;

@@ -1,0 +1,86 @@
+/* src/pages/QPandQuestionsPage.module.css */
+.pageContainer {
+    display: flex;
+    height: 100vh;
+    background-color: #F3F5ED;
+    overflow:auto;
+    width: 100%;
+  }
+  
+  /* Sidebar */
+  .sidebar {
+    width: 570px;
+    background-color: #ffffff;
+    overflow-x: hidden;
+    padding: 20px;
+    height: 100vh; 
+    overflow-y:auto;
+  }
+  
+  /* Main Content */
+  .content {
+    flex-grow: 1;
+    padding: 20px; 
+    margin: 0 auto;/* Centering content vertically */
+    justify-content: space-between;
+    width: 100vw;
+    height: 100vh;
+    display: flex;  /* Enables flexbox */
+    flex-direction: column; /* Aligns items in a column */
+    align-items: center; 
+    
+  }
+  
+  /* Page Title */
+  .pageTitle {
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    margin-top: 60px;
+    margin-left: 40px;
+    text-align: center;
+  }
+  
+  /* Button */
+  .Button {
+    
+    padding: 12px 20px;
+    font-size: 20px;
+    cursor: pointer;
+    margin-top: 20px;
+    align-self: center;
+    margin-bottom: 40px;
+  }
+
+  /* Wrapper for the questions section */
+.questionWrapper {
+    flex-grow: 1;
+    padding: 20px;
+   
+   
+    overflow-y: auto;
+    width: 100%;
+  }
+  
+  .addquestion {
+  
+    color: #000000;
+  
+    
+    text-align: right;
+   
+    font-size: 16px;
+    cursor: pointer;
+    
+    margin-top: 20px;
+  }
+  
+ 
+  .buttonContainer {
+    width: 100%;
+    background: white;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    position: relative; /* Keeps it in place */
+  }

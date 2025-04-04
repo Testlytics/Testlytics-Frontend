@@ -18,6 +18,7 @@ html, body {
   padding: 0;
   overflow: hidden;
   overflow-y: auto;
+  margin-top: 100px;
 }
 
 /* Wrapper to hold both sections and fill remaining space */
