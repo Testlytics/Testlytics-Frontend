@@ -3,14 +3,19 @@ import styles from "./manageUsersTableLayout.module.css";
 import Table from "../../components/Table/Table";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import EditProfileModal from "../../components/EditProfileModal/EditProfileModal";
-import { getUsersByRole, updateUser } from "../../services/api";
+import { getUsersByRole, updateUser,deleteUser } from "../../services/api";
+import DeleteConfirmationModal from "../../components/DeleteConfirmationModal/DeleteConfirmationModal";
+
 
 const ManageUsersTableLayout = () => {
-  const columns = ["ID", "Name", "Modified At", "Actions"];
+  const columns = ["ID", "Name", "Email", "Actions"];
   const [students, setStudents] = useState([]);
   const [admins, setAdmins] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+const [userToDelete, setUserToDelete] = useState(null);
+
 
   // Fetch students and admins on mount
   const fetchData = async () => {
@@ -34,11 +39,27 @@ const ManageUsersTableLayout = () => {
   };
   
 
-  const handleDelete = (user) => {
-    console.log("Delete:", user);
-    // TODO: Add delete API call
+  const handleDeleteClick = (user) => {
+    setUserToDelete(user);
+    setIsDeleteModalOpen(true);
   };
-
+  
+  const handleConfirmDelete = async () => {
+    if (!userToDelete) return;
+  
+    try {
+      await deleteUser(userToDelete.id);
+     
+      await fetchData();
+    } catch (error) {
+      console.error("Delete error:", error);
+     
+    } finally {
+      setIsDeleteModalOpen(false);
+      setUserToDelete(null);
+    }
+  };
+  
   const handleInputChange = (field, value) => {
     setEditingUser((prev) => ({ ...prev, [field]: value }));
   };
@@ -69,15 +90,13 @@ console.log("Is File instance:", updatedUser.image instanceof File);
       
       await fetchData();
       setIsModalOpen(false);
-      alert("User updated successfully!");
+      
     } catch (error) {
       console.error("Detailed error:", {
         status: error.response?.status,
         data: error.response?.data,
         message: error.message
       });
-      
-      alert(error.response?.data?.message || "Failed to update user");
     }
   };
   
@@ -87,11 +106,11 @@ console.log("Is File instance:", updatedUser.image instanceof File);
     data.map((item) => ({
       ID: item.id,
       Name: item.name,
-      "Modified At": item.modifiedAt,
+      Email: item.email,
       Actions: (
         <div className={styles.actions}>
           <FaEdit className={styles.editIcon} onClick={() => handleEdit(item)} />
-          <FaTrash className={styles.deleteIcon} onClick={() => handleDelete(item)} />
+          <FaTrash className={styles.deleteIcon} onClick={() => handleDeleteClick(item)} />
         </div>
       ),
     }));
@@ -111,7 +130,15 @@ console.log("Is File instance:", updatedUser.image instanceof File);
         onChange={handleInputChange}
         onSave={handleSave}
       />
+
+<DeleteConfirmationModal
+  isOpen={isDeleteModalOpen}
+  onClose={() => setIsDeleteModalOpen(false)}
+  onConfirm={handleConfirmDelete}
+  user={userToDelete}
+/>
     </div>
+    
   );
 };
 

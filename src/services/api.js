@@ -203,6 +203,9 @@ export const updateUser = async (id, user, imageFile) => {
     throw error;
   }
 };
-
+export const deleteUser = async (userId) => {
+  const response = await api.delete(`/users/${userId}`);
+  return response.data;
+};
 
 export default api;
