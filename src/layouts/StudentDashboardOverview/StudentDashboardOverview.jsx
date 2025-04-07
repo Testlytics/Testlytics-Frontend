@@ -6,9 +6,18 @@ import styles from "./studentDashboardOverview.module.css";
 import "bootstrap/dist/css/bootstrap.min.css"; // Bootstrap for grid system
 
 const StudentDashboardOverview = () => {
-  const accuracy = 95; // Change this dynamically if needed
+  const accuracy = 95;
 
-  // Function to determine description based on score
+  // Sample data for the student's performance
+  const studentPerformance = [
+    { name: "Jan", score: 60 },
+    { name: "Feb", score: 75 },
+    { name: "Mar", score: 70 },
+    { name: "Apr", score: 80 },
+    { name: "May", score: 85 },
+    { name: "Jun", score: 95 },
+  ];
+
   const getDescription = (score) => {
     if (score >= 90) return "Excellent performance!";
     if (score >= 75) return "You are highly accurate!";
@@ -19,7 +28,7 @@ const StudentDashboardOverview = () => {
   return (
     <div className={`container-fluid ${styles.gridContainer}`}>
       <div className="row d-flex align-items-center g-4">
-        {/* Exam Card - 1st Column (1/4) */}
+        {/* Exam Card */}
         <div className="col-lg-4 col-md-6 d-flex justify-content-center">
           <ExamCard
             title="Next Exam"
@@ -30,12 +39,16 @@ const StudentDashboardOverview = () => {
           />
         </div>
 
-        {/* Area Chart - 2nd & 3rd Column (2/4) */}
+        {/* Area Chart */}
         <div className="col-lg-4 col-md-6 d-flex justify-content-center">
-          <AreaChartComponent />
+          <AreaChartComponent
+            title="Your Performance"
+            data={studentPerformance}
+            dataKey="score"
+          />
         </div>
 
-        {/* Stat Card - 4th Column (1/4) */}
+        {/* Stat Card */}
         <div className="col-lg-4 col-md-12 d-flex justify-content-center">
           <StatCard
             heading="Accuracy"

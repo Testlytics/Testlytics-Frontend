@@ -5,7 +5,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { authService } from "../../services/api";
 import styles from "./navbar.module.css";
 import { FiLogOut } from "react-icons/fi";
-
+ 
 const Navbar = () => {
   const [userRole, setUserRole] = useRecoilState(userRoleState);
   const [isAuthenticated, setIsAuthenticated] = useRecoilState(isAuthenticatedState);
@@ -13,7 +13,7 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-
+ 
   const menuItems =
     userRole === "admin"
       ? [
@@ -30,20 +30,17 @@ const Navbar = () => {
           { name: "Questions", path: "/questions" },
           { name: "Reports", path: "/reports" }
         ];
-
+ 
   const userName = userRole === "admin" ? "Admin User" : "Student User";
-
+ 
   const handleMenuItemClick = (path) => {
     setIsMenuOpen(false);
     navigate(path);
   };
-
+ 
   const handleLogout = async () => {
     try {
-      // Call logout API
-      // await authService.logout();
-      
-      // Clear client-side storage
+    
       localStorage.removeItem('token');
       localStorage.removeItem('userRole');
       
@@ -65,7 +62,7 @@ const Navbar = () => {
       navigate('/login');
     }
   };
-
+ 
   return (
     <nav className={styles.navbar}>
       {/* Hamburger Menu Button */}
@@ -77,10 +74,10 @@ const Navbar = () => {
         <span></span>
         <span></span>
       </div>
-
+ 
       {/* Logo */}
       <h1 className={styles.logo} onClick={() => navigate("/")}>Testlytics</h1>
-
+ 
       {/* Navigation Menu */}
       <ul className={`${styles.menu} ${isMenuOpen ? styles.open : ""}`}>
         {menuItems.map(({ name, path }) => (
@@ -95,15 +92,15 @@ const Navbar = () => {
           </li>
         ))}
       </ul>
-
+ 
       {/* User Section */}
       <div className={styles.userSection} onClick={() => setIsModalOpen(!isModalOpen)}>
         <img src="/profile.png" alt="Profile" className={styles.profilePic} />
-        <img src="/profile.png" alt="Profile" className={styles.profilePic} />
+ 
         <span className={styles.username}>{userName}</span>
         <span className={styles.dropdownArrow}>▼</span>
       </div>
-
+ 
       {/* Profile Modal */}
       {isModalOpen && (
         <div className={styles.modal}>
@@ -111,12 +108,12 @@ const Navbar = () => {
           <p className={styles.modalUsername}>{userName}</p>
           <p className={styles.modalRole}>{userRole.toUpperCase()}</p>
           <button className={styles.modalButton}>Change Password</button>
-          <button 
+          <button
             className={styles.logoutButton}
             onClick={handleLogout}
           >
             <FiLogOut className={styles.logoutIcon} />
-            Logout
+           
           </button>
         </div>
       )}

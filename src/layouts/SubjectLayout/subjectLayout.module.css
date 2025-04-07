@@ -1,58 +1,42 @@
+
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+
 .container {
-  display: grid;
-  gap: 120px;
   width: 100%;
   padding: 20px;
+  box-sizing: border-box;
 }
 
-/* First Row: Subject Details, Class Toppers, Performance Graph */
-.firstRow {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr; /* Three equal sections */
-  align-items: center; /* Align items at the top */
-  justify-content: center;
-}
-.details{
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-/* Align all headings in the first row in a single line */
-.firstRow h2 {
-  margin-bottom: 20px;
-  font-weight: bold;
-  font-size: 30px;
-  text-align: center;
-}
-.secondRow h2 {
-  margin-bottom: 20px;
-  font-weight: bold;
-  font-size: 30px;
-  text-align: center;
-}
-.topperList {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
 
-.topperList li {   /* Space between toppers */
-  font-size: 28px;
-  margin-top: 55px;
+.tableContainer {
+  overflow-x: auto;
+  max-height: 500px;
 }
-/* Remove background, padding, and borders */
-.box {
+.centerColumn {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 20px;
+  height: 100%;
 }
 
-/* Second Row: Table and Class Accuracy Graph */
-.secondRow {
-  display: grid;
-  grid-template-columns: 2fr 1fr; /* Table takes 2 parts, Accuracy Graph takes 1 part */
-  gap: 20px;
+
+
+
+@media (max-width: 768px) {
+  .tableContainer {
+    max-height: none;
+  }
+
+  .rectangles {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }

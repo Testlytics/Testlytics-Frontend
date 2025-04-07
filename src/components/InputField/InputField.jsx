@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./inputField.module.css";
 
-const InputField = ({ label, placeholder, value, onChange }) => {
+const InputField = ({ label, placeholder, value, onChange, type = "text" }) => {
   return (
     <div className={styles.inputContainer}>
       {/* Heading */}
@@ -9,7 +9,7 @@ const InputField = ({ label, placeholder, value, onChange }) => {
 
       {/* Input Field */}
       <input
-        type="text"
+        type={type}
         className={styles.input}
         placeholder={placeholder}
         value={value}

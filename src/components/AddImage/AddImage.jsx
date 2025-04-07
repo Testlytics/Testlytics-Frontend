@@ -1,42 +1,42 @@
 import React, { useState, useRef } from "react";
-import { AiOutlineCamera, AiOutlineDelete, AiOutlineEdit } from "react-icons/ai"; // Import delete and edit icons
+import { AiOutlineCamera, AiOutlineDelete, AiOutlineEdit } from "react-icons/ai"; 
 import styles from "./addImage.module.css";
 
 const AddImage = () => {
-  const [image, setImage] = useState(null); // State to store the selected image
-  const fileInputRef = useRef(null); // Ref to the file input
+  const [image, setImage] = useState(null); 
+  const fileInputRef = useRef(null); 
 
-  // Handle file selection
+  
   const handleImageChange = (event) => {
-    const file = event.target.files[0]; // Get the selected file
+    const file = event.target.files[0]; 
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImage(reader.result); // Set the image URL once loaded
+        setImage(reader.result); 
       };
-      reader.readAsDataURL(file); // Read the file as a Data URL
+      reader.readAsDataURL(file); 
     }
   };
 
-  // Trigger file input when clicking on the camera icon
+  
   const handleClick = () => {
-    fileInputRef.current.click(); // Programmatically trigger the file input
+    fileInputRef.current.click(); 
   };
 
-  // Handle image change (for changing the image)
+  
   const handleChangeImage = () => {
-    fileInputRef.current.click(); // Trigger file input to change image
+    fileInputRef.current.click(); 
   };
 
-  // Handle image delete
+  
   const handleDeleteImage = () => {
-    setImage(null); // Remove the image
+    setImage(null); 
   };
 
   return (
     <div className={styles.container}>
       {!image ? (
-        // Show camera icon and heading when no image is selected
+        
         <>
           
           <div className={styles.imageSymbol} onClick={handleClick}>
@@ -44,17 +44,17 @@ const AddImage = () => {
           </div>
         </>
       ) : (
-        // Show image preview and Change/Delete options when an image is selected
+        
         <div className={styles.imagePreviewContainer}>
           <img src={image} alt="Selected" className={styles.previewImage} />
           <div className={styles.options}>
             <AiOutlineEdit
-              className={styles.icon}
+              className={styles.editicon}
               onClick={handleChangeImage}
               title="Change Image"
             />
             <AiOutlineDelete
-              className={styles.icon}
+              className={styles.deleteicon}
               onClick={handleDeleteImage}
               title="Delete Image"
             />

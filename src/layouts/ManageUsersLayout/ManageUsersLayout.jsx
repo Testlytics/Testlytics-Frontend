@@ -27,6 +27,8 @@ const ManageUsersLayout = ({ mainHeading = "Manage Users" }) => {
         {/* ✅ Name Input */}
         <InputField label="Name" placeholder="Enter full name" />
 
+        <InputField label="Email" placeholder="Enter email" type="email" />
+
         {/* ✅ Role Dropdown */}
         <Dropdown
           label="Role"
