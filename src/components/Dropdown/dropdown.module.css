@@ -3,7 +3,6 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
    /* Ensure the container takes full width */
 }
 

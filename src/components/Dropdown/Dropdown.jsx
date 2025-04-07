@@ -1,22 +1,16 @@
 import React, { useState } from "react";
 import styles from "./dropdown.module.css";
 
-const Dropdown = ({ label, options = [], defaultValue, onChange }) => {
-  const [selectedOption, setSelectedOption] = useState(defaultValue);
-
-  const handleChange = (event) => {
-    setSelectedOption(event.target.value);
-    if (onChange) onChange(event.target.value);
-  };
-
+const Dropdown = ({ label, options = [], value, onChange }) => {
   return (
     <div className={styles.container}>
       {label && <label className={styles.label}>{label}</label>}
       <select
-        value={selectedOption}
-        onChange={handleChange}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
         className={styles.dropdown}
       >
+        <option value="">Select a role</option>
         {options.map((option, index) => (
           <option key={index} value={option}>
             {option}

@@ -1,20 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InputField from "../InputField/InputField";
 import AddImage from "../AddImage/AddImage";
 import styles from "./editProfileModal.module.css";
-import Dropdown from "../Dropdown/Dropdown"; // ✅ Added Dropdown
+import Dropdown from "../Dropdown/Dropdown";
 
-const EditProfileModal = ({ isOpen, onClose, initialData = {}, onSave }) => {
-  const [name, setName] = useState(initialData.name || "");
-  const [email, setEmail] = useState(initialData.email || "");
-  const [role, setRole] = useState(initialData.role || "");
-  const [image, setImage] = useState(initialData.image || "");
+const EditProfileModal = ({ isOpen, onClose, userData = {}, onChange, onSave }) => {
+  const [localUser, setLocalUser] = useState({
+    name: "",
+    email: "",
+    role: "",
+    image: null,
+  });
 
-  const handleSave = () => {
-    onSave({ name, email, role, image });
-    onClose();
+  useEffect(() => {
+  if (userData) {
+    setLocalUser({
+      id: userData.id || null, // ✅ Include ID
+      name: userData.name || "",
+      email: userData.email || "",
+      role: (userData.role || "").toLowerCase(),
+      image: userData.image || null,
+    });
+  }
+}, [userData]);
+
+  const handleChange = (field, value) => {
+    const updated = { ...localUser, [field]: value };
+    setLocalUser(updated);
+    onChange?.(field, value);
   };
 
+ 
   if (!isOpen) return null;
 
   return (
@@ -25,36 +41,39 @@ const EditProfileModal = ({ isOpen, onClose, initialData = {}, onSave }) => {
         <InputField
           label="Name"
           placeholder="Enter name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          value={localUser.name}
+          onChange={(e) => handleChange("name", e.target.value)}
         />
 
         <InputField
           label="Email"
           type="email"
           placeholder="Enter email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={localUser.email}
+          onChange={(e) => handleChange("email", e.target.value)}
         />
 
         <Dropdown
-        label="Role"
-        options={["admin", "student"]}
-        value={role}
-        onChange={(e) => setRole(e.target.value)}
+          label="Role"
+          options={["student", "admin"]}
+          value={localUser.role}
+          onChange={(val) => handleChange("role", val)}
         />
 
-
-        {/* ✅ AddImage instead of image URL */}
-        <AddImage className={styles.addimage} image={image} onChange={setImage} />
+        <AddImage
+          className={styles.addimage}
+          image={localUser.image}
+          onChange={(file) => handleChange("image", file)}
+        />
 
         <div className={styles.buttonGroup}>
           <button className={styles.cancelBtn} onClick={onClose}>
             Cancel
           </button>
-          <button className={styles.saveBtn} onClick={handleSave}>
-            Save
-          </button>
+          <button className={styles.saveBtn} onClick={() => onSave(localUser)}>
+  Save
+</button>
+
         </div>
       </div>
     </div>

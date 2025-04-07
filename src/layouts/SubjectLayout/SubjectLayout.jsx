@@ -1,12 +1,8 @@
 import React from "react";
 import { useRecoilValue } from "recoil";
 import { userRoleState } from "../../states/UserState";
-import { useRecoilValue } from "recoil";
-import { userRoleState } from "../../states/UserState";
 import SubjectDetails from "../../components/SubjectDetails/SubjectDetails";
 import Table from "../../components/Table/Table";
-import AreaChartComponent from "../../components/AreaChartComponent/AreaChartComponent";
-import BarGraph from "../../components/BarGraph/BarGraph";
 import AreaChartComponent from "../../components/AreaChartComponent/AreaChartComponent";
 import BarGraph from "../../components/BarGraph/BarGraph";
 import LineGraph from "../../components/LineGraph/LineGraph";
@@ -21,8 +17,6 @@ const SubjectLayout = ({
   performanceGraphData = [],
   classAccuracyData = [],
   classToppers = [],
-  rectangleOneText = { left: "Attendance", right: "85%" },
-  rectangleTwoText = { left: "Accuracy", right: "+6%" },
   rectangleOneText = { left: "Attendance", right: "85%" },
   rectangleTwoText = { left: "Accuracy", right: "+6%" },
 }) => {
@@ -184,6 +178,3 @@ const SubjectLayout = ({
 };
  
 export default SubjectLayout;
-        
-
-     

@@ -47,7 +47,7 @@ export const authService = {
   }
 };
 
-// Student Service
+
 export const studentService = {
   getStudents: async () => {
     try {
@@ -117,6 +117,7 @@ export const testAttemptService = {
       return 0;
     }
   }
+
 };
 
 
@@ -127,6 +128,69 @@ export const subjectService = {
   }
 };
 
+export const createUser = async (user, imageFile) => {
+  const formData = new FormData();
+  formData.append("user", JSON.stringify(user));
+  if (imageFile) {
+    formData.append("image", imageFile);
+  }
+
+  try {
+    const response = await api.post("/users", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error creating user:", error);
+    throw error;
+  }
+};
+
+export const getUsersByRole = async (role) => {
+  try {
+    const response = await api.get("/users");
+    const users = response.data.responseBody;
+
+    // Normalize role and filter
+    const filtered = users.filter(
+      (user) => user.role && user.role.toLowerCase() === role.toLowerCase()
+    );
+
+    return filtered.map((user) => ({
+      id: user.userId || "-", // Use userId from backend
+      name: user.name || "Unknown",
+      email: user.email || "No Email",
+      modifiedAt: user.modifiedAt || "N/A",
+      image: user.image || null,
+      role: user.role,
+    }));
+  } catch (error) {
+    console.error(`Error fetching ${role}s:`, error);
+    throw new Error(`Failed to fetch ${role}s`);
+  }
+};
+export const updateUser = async (id, user, imageFile) => {
+  
+  const formData = new FormData();
+  formData.append("user", JSON.stringify(user));
+  if (imageFile && typeof imageFile !== "string") {
+    formData.append("image", imageFile);
+  }
+
+  try {
+    const response = await api.put(`/users/${id}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error updating user:", error);
+    throw error;
+  }
+};
 
 
 export default api;

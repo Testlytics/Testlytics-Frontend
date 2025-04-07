@@ -29,7 +29,6 @@ import QuestionPaper from '../pages/QuestionPaper/QuestionPaper';
 import StartTest from '../pages/StartTest/StartTest';
 import AttendTest from '../pages/AttendTest/AttendTest';
 
-import { getCurrentUser } from '../services/api'; // Assuming this is defined
 
 const AppRoutes = () => {
   const setIsAuthenticated = useSetRecoilState(isAuthenticatedState);
