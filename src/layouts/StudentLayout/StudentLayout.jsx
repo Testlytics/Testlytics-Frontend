@@ -36,7 +36,7 @@ const StudentLayout = ({
   return (
     <div className={`container-fluid ${styles.layout}`}>
       {/* 🚀 Row 1 */}
-      <div className="row align-items-start my-4 gy-4">
+      <div className="row align-items-center my-4 gy-4">
         {/* Profile Picture */}
         <div className="col-12 col-md-2 d-flex justify-content-center align-items-center">
           <ProfilePicture src={imageUrl} />
@@ -112,16 +112,29 @@ StudentLayout.propTypes = {
   email: PropTypes.string,
   image: PropTypes.string,
   tableData: PropTypes.shape({
-    columns: PropTypes.arrayOf(PropTypes.string),
-    data: PropTypes.arrayOf(PropTypes.object),
+    columns: PropTypes.arrayOf(PropTypes.string).isRequired,
+    data: PropTypes.arrayOf(PropTypes.object).isRequired,
   }),
   barGraphData: PropTypes.array,
   lineGraphData: PropTypes.array,
-  attendance: PropTypes.shape({
-    attended: PropTypes.number,
-    total: PropTypes.number,
+  rectangleOneText: PropTypes.shape({
+    left: PropTypes.string.isRequired,
+    right: PropTypes.string.isRequired,
   }),
-  accuracy: PropTypes.number,
+  rectangleTwoText: PropTypes.shape({
+    left: PropTypes.string.isRequired,
+    right: PropTypes.string.isRequired,
+  }),
 };
 
+// ✅ **Default Props to Prevent Undefined Errors**
+StudentLayout.defaultProps = {
+  profilePicture: { imageUrl: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" },
+  studentDetails: { firstName: "John Doe", studentId: "12345", rank: "1" },
+  tableData: { columns: [], data: [] },
+  barGraphData: [],
+  lineGraphData: [],
+  rectangleOneText: { left: "Performance", right: "85%" },
+  rectangleTwoText: { left: "Improvements", right: "+5%" },
+};
 export default StudentLayout;

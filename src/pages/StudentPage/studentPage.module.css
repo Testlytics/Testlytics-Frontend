@@ -1,12 +1,13 @@
+/* Base layout */
 .container {
     display: flex;
     flex-direction: column;
     margin-left: 30px;
     height: 100vh;
-    overflow: hidden; /* Keep hidden here to avoid double scrollbars */
-}
-
-.mainContent {
+    overflow: hidden;
+  }
+  
+  .mainContent {
     display: flex;
     align-items: flex-start;
     gap: 25px;
@@ -15,7 +16,7 @@
     margin-top: 70px;
   }
   
-  /* Sidebar default - left on big screens */
+  /* Sidebar */
   .leftSidebar {
     z-index: 10;
     width: 350px;
@@ -23,7 +24,7 @@
     overflow-y: auto;
   }
   
-  /* Right section default */
+  /* Right container */
   .rightContainer {
     flex: 1;
     height: 100vh;
@@ -32,23 +33,27 @@
     display: flex;
     justify-content: center;
   }
-.studentLayout {
+  
+  /* Student layout inside right container */
+  .studentLayout {
     width: 100%;
     z-index: 2;
     margin-top: 40px;
-    overflow: visible; /* ✅ Allow scrollable content */
-}
-@media (max-width: 768px) {
+    overflow: visible;
+  }
+  
+  /* 📱 Tablet & Mobile: Stack sidebar and content vertically */
+  @media (max-width: 1024px) {
     .mainContent {
-      flex-direction: column; /* ⬅️ Stack on small screens */
+      flex-direction: column;
       align-items: stretch;
     }
   
     .leftSidebar {
       width: 100%;
       height: auto;
-      max-height: 250px; /* Limit height so it doesn’t overflow */
-      overflow-y: auto;
+      max-height: 250px;
+      overflow-x: auto;
     }
   
     .rightContainer {
@@ -56,4 +61,10 @@
       height: auto;
       overflow-y: auto;
     }
+  
+    .studentLayout {
+      margin-top: 20px;
+      padding: 0 10px;
+    }
   }
+  
