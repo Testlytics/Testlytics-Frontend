@@ -1,0 +1,18 @@
+.gridWrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 40px;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+  }
+  
+  /* Optional: Adjust layout for smaller screens */
+  @media (max-width: 600px) {
+    .gridWrapper {
+      grid-template-columns: 1fr;
+      padding: 20px;
+      gap: 24px;
+    }
+  }
+  

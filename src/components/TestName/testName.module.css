@@ -1,19 +1,68 @@
 .rectangle {
-    width: 568px;
-    height: 68px;
-    background-color: #C2CABE;
-    border: 2px solid #ccc;
-    border-radius: 15px;
-    display: flex;
-    margin: 20px auto;
-    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 568px;
+  height: 68px;
+  background-color: #C2CABE;
+  border: 2px solid #ccc;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 20px auto;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 0 1.25rem; /* 20px */
+  transition: all 0.3s ease-in-out;
+}
 
+.rectangle-text {
+  font-size: 2rem; /* 32px */
+  color: #000000;
+  margin: 0;
+  word-wrap: break-word;
+  text-align: left;
+}
+
+/* Medium devices (<= 992px) */
+@media (max-width: 992px) {
+  .rectangle {
+    justify-content: center;
+    padding: 0.9rem 1.2rem;
   }
-  
+
   .rectangle-text {
-    font-size: 32px;
-    padding-left: 20px;
-    color: #000000;
-    text-align: left;
+    font-size: 1.75rem; /* ~28px */
+    text-align: center;
   }
-  
+}
+
+/* Tablets and smaller laptops (<= 768px) */
+@media (max-width: 768px) {
+  .rectangle {
+    height: auto;
+    padding: 0.75rem 1rem;
+  }
+
+  .rectangle-text {
+    font-size: 1.5rem; /* 24px */
+    white-space: nowrap;
+  }
+}
+
+/* Phones and small devices (<= 480px) */
+@media (max-width: 480px) {
+  .rectangle {
+    padding: 0.6rem 0.9rem;
+    max-width: 95%;
+  }
+
+  .rectangle-text {
+    font-size: 1.25rem; /* 20px */
+  }
+}
+
+/* Extra small phones (<= 360px) */
+@media (max-width: 360px) {
+  .rectangle-text {
+    font-size: 1.1rem; /* ~18px */
+  }
+}

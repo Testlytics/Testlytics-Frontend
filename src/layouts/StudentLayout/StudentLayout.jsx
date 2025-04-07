@@ -7,24 +7,21 @@ import BarGraph from "../../components/BarGraph/BarGraph";
 import LineGraph from "../../components/LineGraph/LineGraph";
 import Rectangle from "../../components/Rectangle/Rectangle";
 
-const StudentLayout = ({ 
+const StudentLayout = ({
   firstName = "Unknown",
   studentId = "0",
   rank = "N/A",
   email = "No Email",
   image = "",
   tableData,
-  barGraphData = [], 
+  barGraphData = [],
   lineGraphData = [],
   attendance = { attended: 0, total: 0 },
   accuracy = {},
 }) => {
-
-  
-  // Safely handle all data with proper fallbacks (from Code 1)
   const safeTableData = {
     columns: Array.isArray(tableData?.columns) ? tableData.columns : [],
-    data: Array.isArray(tableData?.data) ? tableData.data : []
+    data: Array.isArray(tableData?.data) ? tableData.data : [],
   };
 
   const safeBarGraphData = Array.isArray(barGraphData) ? barGraphData : [];
@@ -37,7 +34,7 @@ const StudentLayout = ({
 
 
   const imageUrl = image
-    ? `data:image/png;base64,${image}` 
+    ? `data:image/png;base64,${image}`
     : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
 
   const profilePictureProps = {
@@ -65,54 +62,67 @@ const StudentLayout = ({
   
 
   return (
-    <div className={styles.layout}>
-   
-      <div className={styles.profileStatsContainer}>
-        {/* Profile & Student Details */}
-        <ProfilePicture {...profilePictureProps} />
-        <StudentDetails {...studentDetailsProps} />
-
-        {/* Rectangles & Performance Graph */}
-        <div className={styles.rectangles}>
-          <Rectangle {...rectangleOneProps} />
-          <Rectangle {...rectangleTwoProps} />
+    <div className={`container-fluid ${styles.layout}`}>
+      {/* 🚀 Row 1 */}
+      <div className="row align-items-start my-4 gy-4">
+        {/* Profile Picture */}
+        <div className="col-12 col-md-2 d-flex justify-content-center align-items-center">
+          <ProfilePicture src={imageUrl} />
         </div>
-        
-        <div className={styles.graphContainer}>
-  <div className={styles.graphTitle}>Performance Graph</div>
-  <div className={styles.graph}>
-    {safeBarGraphData.length ? (
-      <BarGraph data={safeBarGraphData} />
-    ) : (
-      <p>No bar graph data</p>
-    )}
-  </div>
-</div>
 
+        {/* Student Details */}
+        <div className="col-12 col-md-3 d-flex justify-content-center align-items-center">
+          <StudentDetails
+            id={studentId}
+            firstName={firstName}
+            email={email}
+            rank={rank}
+          />
+        </div>
+
+        {/* Rectangles */}
+        <div className="col-12 col-md-2 d-flex flex-column gap-3 align-items-center justify-content-center">
+          <Rectangle
+            leftText="Attendance"
+            rightText={`${attendancePercentage}%`}
+            subText={`${attendance.attended}/${attendance.total} tests`}
+          />
+          <Rectangle leftText="Accuracy" rightText={`${accuracy}%`} />
+        </div>
+
+        {/* Bar Graph */}
+        <div className="col-12 col-md-5">
+          <h5 className={`text-center mb-3 ${styles.graphTitle}`}>Performance Graph</h5>
+          <div className="d-flex justify-content-center">
+            {barGraphData.length ? (
+              <BarGraph data={barGraphData} />
+            ) : (
+              <p>No bar graph data</p>
+            )}
+          </div>
+        </div>
       </div>
 
-
-
-      {/* Table & Line Graph in One Container (from Code 2) */}
-      <div className={styles.dataContainer}>
-        {/* Table Section */}
-        <div className={styles.tableWrapper}>
-          {safeTableData.columns.length > 0 && safeTableData.data.length > 0 ? (
-            <Table 
-              columns={safeTableData.columns} 
-              data={safeTableData.data} 
-            />
+      {/* 📊 Row 2 */}
+      <div className="row mt-5 gy-4">
+        {/* Table */}
+        <div className="col-12 col-lg-6">
+          {safeTableData.columns.length && safeTableData.data.length ? (
+            <Table columns={safeTableData.columns} data={safeTableData.data} />
           ) : (
-            <p className={styles.noData}>No test score data available</p>
+            <p className="text-center">No test score data available</p>
           )}
         </div>
 
-        {/* Line Graph Section */}
-        <div className={styles.graphContainer}>
-          <div className={styles.graphTitle}>Time vs Score</div>
-          <div className={styles.graph}>
-            {safeLineGraphData.length ? (
-              <LineGraph data={safeLineGraphData} lines={[{ dataKey: "marks", color: "#282A2B" }]} />
+        {/* Line Graph */}
+        <div className="col-12 col-lg-6">
+          <h5 className={`text-center mb-3 ${styles.graphTitle}`}>Time vs Score</h5>
+          <div className="d-flex justify-content-center">
+            {lineGraphData.length ? (
+              <LineGraph
+                data={lineGraphData}
+                lines={[{ dataKey: "marks", color: "#282A2B" }]}
+              />
             ) : (
               <p>No line graph data</p>
             )}
@@ -123,7 +133,6 @@ const StudentLayout = ({
   );
 };
 
-// Prop Types (combined from both)
 StudentLayout.propTypes = {
   firstName: PropTypes.string,
   studentId: PropTypes.string,
@@ -132,14 +141,15 @@ StudentLayout.propTypes = {
   image: PropTypes.string,
   tableData: PropTypes.shape({
     columns: PropTypes.arrayOf(PropTypes.string),
-    data: PropTypes.arrayOf(PropTypes.object)
+    data: PropTypes.arrayOf(PropTypes.object),
   }),
   barGraphData: PropTypes.array,
   lineGraphData: PropTypes.array,
   attendance: PropTypes.shape({
     attended: PropTypes.number,
-    total: PropTypes.number
+    total: PropTypes.number,
   }),
+  accuracy: PropTypes.number,
   accuracy: PropTypes.number,
 
 };

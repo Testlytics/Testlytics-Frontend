@@ -3,6 +3,16 @@ import StatCard from "../../components/StatCard/StatCard";
 import AreaChartComponent from "../../components/AreaChartComponent/AreaChartComponent";
 import styles from "./dashboardOverview.module.css";
 
+// Sample data for the chart (replace with actual data as needed)
+const performanceData = [
+  { name: "Jan", score: 65 },
+  { name: "Feb", score: 50 },
+  { name: "Mar", score: 75 },
+  { name: "Apr", score: 20 },
+  { name: "May", score: 85 },
+  { name: "Jun", score: 10 },
+];
+
 const DashboardOverview = () => {
   return (
     <div className={`container-fluid ${styles.gridContainer}`}>
@@ -14,7 +24,11 @@ const DashboardOverview = () => {
 
         {/* Area Chart - 2nd Column */}
         <div className="col-lg-4 col-md-6 d-flex justify-content-center">
-          <AreaChartComponent />
+          <AreaChartComponent
+            title="Performance Overview"
+            data={performanceData}
+            dataKey="score"
+          />
         </div>
 
         {/* Class Toppers - 3rd Column */}

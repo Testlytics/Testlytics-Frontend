@@ -1,9 +1,10 @@
-/* Full-width container */
+/* Full-width and height scrollable container */
 .tableContainer {
   width: 100%;
+  max-height: 400px; /* ✅ Set max height for vertical scroll */
   overflow-x: auto;
+  overflow-y: auto;
   border-radius: 8px;
-  background: #f3f5ed;
   padding: 10px;
 }
 
@@ -13,7 +14,7 @@
   min-width: 600px;
   border-collapse: collapse;
   font-size: 1.6rem;
-  border: none !important; /* ✅ Remove outer border */
+  border: none !important;
 }
 
 /* Header Styling - Only Bottom Border */
@@ -24,20 +25,20 @@
   color: #000;
   background: none;
   border: 0px;
-  border-bottom: 2px solid #000 !important; /* ✅ Header separation */
+  border-bottom: 2px solid #000 !important;
 }
 
 /* Row Styling - No Borders */
 .tableContainer td {
   padding: 12px;
   text-align: center;
-  border: none !important; /* ✅ Remove all row borders */
+  border: none !important;
 }
 
 /* ✅ Only Vertical Column Separation */
 .tableContainer th + th,
 .tableContainer td + td {
-  border-left: 1px solid #000 !important; /* ✅ Column separation only */
+  border-left: 1px solid #000 !important;
 }
 
 /* No Data Message */
@@ -54,6 +55,7 @@
   border: none !important;
   outline: none !important;
 }
+
 
 /* Responsive Design */
 
@@ -74,6 +76,7 @@
   .tableContainer {
     width: 100vw;
     padding: 5px;
+    max-height: 300px; /* Adjust height for small screens */
   }
 
   .tableContainer .table {
@@ -86,9 +89,9 @@
     padding: 8px;
   }
 
-  /* ✅ Enables horizontal scrolling for small screens */
   .tableContainer {
     overflow-x: auto;
+    overflow-y: auto;
     white-space: nowrap;
   }
 }

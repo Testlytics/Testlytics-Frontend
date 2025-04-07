@@ -22,11 +22,16 @@
     cursor: pointer;
   }
   
-  .icon {
-    font-size: 80px;
+  .editicon {
+    font-size: 30px;
     color: #5a643c;
+    cursor: pointer;
   }
-  
+  .deleteicon {
+    font-size: 30px;
+    color: #992e2e;
+    cursor: pointer;
+  }
   .fileInput {
     display: none;
   }

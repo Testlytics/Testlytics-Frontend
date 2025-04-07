@@ -1,6 +1,7 @@
 import React from "react";
 import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import styles from "./lineGraph.module.css";
+import Heading from "../Heading/Heading";
 
 const LineGraph = ({ timeScoreData = [] }) => {
   if (!timeScoreData.length) {
