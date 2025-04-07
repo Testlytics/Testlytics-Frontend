@@ -27,13 +27,13 @@
   }
   
   
-  h2 {
+  .page-container h2 {
     margin-top: 20;
     font-size: 40px;
     text-align: center;
   }
   
-  p {
+ .page-container p {
     margin: 10px 0;
     font-size: 24px;
     text-align: left;

@@ -17,6 +17,7 @@ const StudentLayout = ({
   barGraphData = [], 
   lineGraphData = [],
   attendance = { attended: 0, total: 0 },
+  accuracy = {},
 }) => {
 
   
@@ -29,17 +30,16 @@ const StudentLayout = ({
   const safeBarGraphData = Array.isArray(barGraphData) ? barGraphData : [];
   const safeLineGraphData = Array.isArray(lineGraphData) ? lineGraphData : [];
 
-  // Calculate attendance percentage (from Code 1)
+  
   const attendancePercentage = attendance.total > 0 
     ? Math.round((attendance.attended / attendance.total) * 100)
     : 0;
 
-  // Image handling 
+
   const imageUrl = image
     ? `data:image/png;base64,${image}` 
     : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
 
-  // Prepare props for UI structure 
   const profilePictureProps = {
     src: imageUrl
   };
@@ -59,8 +59,9 @@ const StudentLayout = ({
 
   const rectangleTwoProps = {
     leftText: "Accuracy",
-    rightText: "N/A" // Placeholder, can be calculated if accuracy data is available
+    rightText: `${accuracy}%`
   };
+  
   
 
   return (
@@ -139,6 +140,8 @@ StudentLayout.propTypes = {
     attended: PropTypes.number,
     total: PropTypes.number
   }),
+  accuracy: PropTypes.number,
+
 };
 
 export default StudentLayout;

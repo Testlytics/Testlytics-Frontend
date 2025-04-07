@@ -105,8 +105,20 @@ export const testAttemptService = {
   getStudentsByTest: async (testId) => {
     const response = await api.get(`/attempts/test/${testId}/students`);
     return response.data.responseBody || []; // Returns list of students
+  },
+  getAccuracyForTest: async (testId, userId) => {
+    try {
+      const response = await api.get(`/tests/${testId}/outcomes/accuracy`, {
+        params: { userId }
+      });
+      return response.data.responseBody;
+    } catch (error) {
+      console.error(`Error fetching accuracy for test ${testId} and user ${userId}:`, error);
+      return 0;
+    }
   }
 };
+
 
 export const subjectService = {
   getAllSubjects: async () => {
@@ -114,4 +126,7 @@ export const subjectService = {
     return response.data.responseBody || [];
   }
 };
+
+
+
 export default api;

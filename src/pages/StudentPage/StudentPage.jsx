@@ -20,6 +20,8 @@ const StudentPage = () => {
   });
   const [usingLocalData, setUsingLocalData] = useState(false);
   const [attendance, setAttendance] = useState({ attended: 0, total: 0 });
+  const [accuracy, setAccuracy] = useState(0);
+
 
   const handleStudentClick = (student) => {
     setSelectedStudent(student);
@@ -92,7 +94,24 @@ const StudentPage = () => {
               .then(attempt => attempt)
               .catch(() => ({ id: { testId }, score: null }))
         ));
-  
+        const accuracies = await Promise.all(
+          attendedCompletedTests.map(async (testId) => {
+              try {
+                  const accuracy = await testAttemptService.getAccuracyForTest(testId, selectedStudent.studentId);
+                  return accuracy || 0; // Fallback to 0 if accuracy is falsy (0, null, undefined)
+              } catch (error) {
+                  console.error("[Accuracy Error] Test:", testId, "Error:", error);
+                  return 0; // Force 0% on API errors
+              }
+          })
+      );
+      
+      const avgAccuracy = accuracies.length > 0
+          ? Math.round((accuracies.reduce((a, b) => a + b, 0) / accuracies.length) )
+          : 0;
+      
+      setAccuracy(avgAccuracy);
+        
         const matrix = buildSubjectTestMatrix(
           subjects,
           completedTests,
@@ -163,6 +182,7 @@ const StudentPage = () => {
               barGraphData={barGraphData}
               lineGraphData={lineGraphData}
               attendance={attendance}
+              accuracy={accuracy}
               error={error}
             />
           ) : (

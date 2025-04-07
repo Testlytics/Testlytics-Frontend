@@ -113,7 +113,7 @@ const Navbar = () => {
             onClick={handleLogout}
           >
             <FiLogOut className={styles.logoutIcon} />
-            Logout
+           
           </button>
         </div>
       )}
