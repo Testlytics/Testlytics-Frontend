@@ -2,27 +2,24 @@ import React, { useEffect, useState } from "react";
 import InputField from "../InputField/InputField";
 import AddImage from "../AddImage/AddImage";
 import styles from "./editProfileModal.module.css";
-import Dropdown from "../Dropdown/Dropdown";
 
 const EditProfileModal = ({ isOpen, onClose, userData = {}, onChange, onSave }) => {
   const [localUser, setLocalUser] = useState({
     name: "",
     email: "",
-    role: "",
     image: null,
   });
 
   useEffect(() => {
-  if (userData) {
-    setLocalUser({
-      id: userData.id || null, // ✅ Include ID
-      name: userData.name || "",
-      email: userData.email || "",
-      role: (userData.role || "").toLowerCase(),
-      image: userData.image || null,
-    });
-  }
-}, [userData]);
+    if (userData) {
+      setLocalUser({
+        id: userData.id || null,
+        name: userData.name || "",
+        email: userData.email || "",
+        image: userData.image || null,
+      });
+    }
+  }, [userData]);
 
   const handleChange = (field, value) => {
     const updated = { ...localUser, [field]: value };
@@ -30,7 +27,6 @@ const EditProfileModal = ({ isOpen, onClose, userData = {}, onChange, onSave }) 
     onChange?.(field, value);
   };
 
- 
   if (!isOpen) return null;
 
   return (
@@ -53,13 +49,6 @@ const EditProfileModal = ({ isOpen, onClose, userData = {}, onChange, onSave }) 
           onChange={(e) => handleChange("email", e.target.value)}
         />
 
-        <Dropdown
-          label="Role"
-          options={["student", "admin"]}
-          value={localUser.role}
-          onChange={(val) => handleChange("role", val)}
-        />
-
         <AddImage
           className={styles.addimage}
           image={localUser.image}
@@ -71,9 +60,8 @@ const EditProfileModal = ({ isOpen, onClose, userData = {}, onChange, onSave }) 
             Cancel
           </button>
           <button className={styles.saveBtn} onClick={() => onSave(localUser)}>
-  Save
-</button>
-
+            Save
+          </button>
         </div>
       </div>
     </div>
