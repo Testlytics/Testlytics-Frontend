@@ -5,16 +5,16 @@ body {
 }
 
 .graphContainer {
-    width: 100%; /* Make it take full width */
-    max-width: 400px; /* Limit max width for large screens */
-    height: auto;
-    min-height: 220px; /* Maintain aspect ratio */
+    width: 100%;
+    max-width: auto; /* ✅ Auto width */
+    height: 350px; /* ✅ Fixed height */
     padding: 10px;
     border-radius: 8px;
     display: flex;
     justify-content: center;
     align-items: center;
-}
+  }
+  
 
 /* 📌 Adjust for tablets (≤1024px) */
 @media (max-width: 1024px) {

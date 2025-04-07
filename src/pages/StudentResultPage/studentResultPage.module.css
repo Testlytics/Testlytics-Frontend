@@ -1,0 +1,33 @@
+.pageWrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+    margin-top: 50px;
+  }
+  
+  /* Left Section */
+  .leftSection {
+    background-color: #f3f5ed;
+    padding: 20px;
+    overflow-y: auto;
+  }
+  
+  /* Right Section */
+  .rightSection {
+    background-color: #ffffff;
+    padding: 20px;
+    overflow-y: auto;
+  }
+  
+  /* Responsive Layout */
+  @media (max-width: 1024px) {
+    .pageWrapper {
+      grid-template-columns: 1fr;
+    }
+  
+    .leftSection,
+    .rightSection {
+      padding: 16px;
+    }
+  }
+  

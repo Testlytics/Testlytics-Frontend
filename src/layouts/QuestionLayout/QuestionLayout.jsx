@@ -5,48 +5,58 @@ import Button from '../../components/Button/Button';
 import styles from './questionLayout.module.css';
 
 const QuestionLayout = () => {
-  const [options, setOptions] = useState(['', '', '', '']); // Default 4 options
+  const [options, setOptions] = useState(['', '', '', '']);
+  const [correctAnswerIndex, setCorrectAnswerIndex] = useState(null);
   const [questionNo, setQuestionNo] = useState('');
   const [question, setQuestion] = useState('');
 
-  // Handle adding a new option
   const handleAddOption = () => {
     if (options.length < 8) {
       setOptions([...options, '']);
     }
   };
-  
 
-  // Handle deleting an option
   const handleDeleteOption = (index) => {
-    if (options.length > 4) { // Prevents deleting below 4 options
+    if (options.length > 4) {
       setOptions(options.filter((_, i) => i !== index));
+      if (correctAnswerIndex === index) {
+        setCorrectAnswerIndex(null); // Reset if the correct one was deleted
+      } else if (correctAnswerIndex > index) {
+        setCorrectAnswerIndex(correctAnswerIndex - 1); // Shift index
+      }
     }
   };
 
-  // Handle saving data
   const handleSave = () => {
     console.log('Save clicked');
+    console.log({
+      questionNo,
+      question,
+      options,
+      correctAnswer: options[correctAnswerIndex]
+    });
   };
 
-  // Handle submitting data
   const handleSubmit = () => {
     console.log('Submit clicked');
+    console.log({
+      questionNo,
+      question,
+      options,
+      correctAnswer: options[correctAnswerIndex]
+    });
   };
 
   return (
     <div className={styles.container}>
-      {/* Heading */}
       <h1 className={styles.heading}>Add Question</h1>
 
-      {/* Question No, Question Input Fields, and Add Image in Row */}
       <div className={styles.inputFieldsRow}>
         <InputField label="Question No" placeholder="Enter Question Number" value={questionNo} onChange={(e) => setQuestionNo(e.target.value)} />
         <InputField label="Question" placeholder="Enter Question" value={question} onChange={(e) => setQuestion(e.target.value)} />
         <AddImage />
       </div>
 
-      {/* Choices Heading and Add Option Button */}
       <div className={styles.choicesHeader}>
         <h2 className={styles.choicesTitle}>Choices</h2>
         <button className={styles.addOptionButton} onClick={handleAddOption}>
@@ -54,10 +64,19 @@ const QuestionLayout = () => {
         </button>
       </div>
 
-      {/* Render Input Fields for Each Option in Rows */}
       <div className={styles.optionFields}>
         {options.map((option, index) => (
           <div key={index} className={styles.optionWrapper}>
+            {/* Radio Button to Select Correct Answer */}
+            <input
+              type="radio"
+              name="correctAnswer"
+              className={styles.radioInput}
+              checked={correctAnswerIndex === index}
+              onChange={() => setCorrectAnswerIndex(index)}
+            />
+
+            {/* Option Input */}
             <InputField 
               label={`Option ${index + 1}`} 
               placeholder="Enter option" 
@@ -68,7 +87,8 @@ const QuestionLayout = () => {
                 setOptions(newOptions);
               }} 
             />
-            {options.length > 4 && ( // Only show delete button if more than 4 options exist
+
+            {options.length > 4 && (
               <button 
                 className={styles.deleteButton} 
                 onClick={() => handleDeleteOption(index)}
@@ -80,7 +100,6 @@ const QuestionLayout = () => {
         ))}
       </div>
 
-      {/* Save and Submit Buttons */}
       <div className={styles.buttonContainer}>
         <Button text="Save" onClick={handleSave} />
         <Button text="Submit" onClick={handleSubmit} />

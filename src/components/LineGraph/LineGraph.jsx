@@ -1,17 +1,29 @@
-import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 import styles from "./lineGraph.module.css";
+import Heading from "../Heading/Heading";
 
-const LineGraph = ({ data = [], lines = [] }) => {
-  // Prevent rendering if data is empty
+const LineGraph = ({ title = "", data = [], lines = [] }) => {
   if (data.length === 0 || lines.length === 0) {
     return <div className={styles.graphContainer}>No data available</div>;
   }
 
   return (
     <div className={styles.graphContainer}>
-      <ResponsiveContainer width="100%" height="100%">
+      {title && (
+        <div className={styles.titleContainer}>
+          <Heading text={title} size="30px"/>
+        </div>
+      )}
+      <ResponsiveContainer width="100%" height={300}>
         <LineChart data={data}>
-          <XAxis dataKey="label" />
+          <XAxis dataKey="testName" />
           <YAxis />
           <Tooltip />
           {lines.map((line, index) => (
@@ -19,7 +31,7 @@ const LineGraph = ({ data = [], lines = [] }) => {
               key={index}
               type="monotone"
               dataKey={line.dataKey}
-              stroke={line.color || "#5A643C"} // Default stroke color if undefined
+              stroke={line.color || "#5A643C"}
               strokeWidth={2}
             />
           ))}

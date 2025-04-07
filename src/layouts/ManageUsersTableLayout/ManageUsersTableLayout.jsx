@@ -1,25 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./manageUsersTableLayout.module.css";
-import Table from "../../components/Table/Table"; // ✅ Import Table Component
-import { FaEdit, FaTrash } from "react-icons/fa"; // ✅ Import Icons
+import Table from "../../components/Table/Table";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import EditProfileModal from "../../components/EditProfileModal/EditProfileModal";
 
 const ManageUsersTableLayout = ({ students = [], admins = [] }) => {
-  // ✅ Define table column labels
-  const columns = ["ID", "Name", "Modified At", "Actions"]; // ✅ Pass only labels
+  const columns = ["ID", "Name", "Modified At", "Actions"];
 
-  // ✅ Dummy handlers (replace with actual logic)
-  const handleEdit = (item) => {
-    console.log("Edit:", item);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingUser, setEditingUser] = useState(null);
+
+  const handleEdit = (user) => {
+    setEditingUser(user);
+    setIsModalOpen(true);
   };
 
-  const handleDelete = (item) => {
-    console.log("Delete:", item);
+  const handleDelete = (user) => {
+    console.log("Delete:", user);
   };
 
-  // ✅ Format table data to match expected column format
+  const handleInputChange = (field, value) => {
+    setEditingUser((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleSave = () => {
+    console.log("Saving user:", editingUser);
+    setIsModalOpen(false);
+    // TODO: Save logic via API
+  };
+
   const formatData = (data = []) =>
     data.map((item) => ({
-      ID: item.id || "-", // ✅ Keys must match column labels exactly
+      ID: item.id || "-",
       Name: item.name || "-",
       "Modified At": item.modifiedAt || "-",
       Actions: (
@@ -32,13 +44,20 @@ const ManageUsersTableLayout = ({ students = [], admins = [] }) => {
 
   return (
     <div className={styles.container}>
-      {/* ✅ Manage Students Table */}
       <h1 className={styles.heading}>Manage Students</h1>
       <Table columns={columns} data={formatData(students)} />
 
-      {/* ✅ Manage Admins Table */}
       <h1 className={styles.heading}>Manage Admins</h1>
       <Table columns={columns} data={formatData(admins)} />
+
+      {/* ✅ Call the EditProfileModal */}
+      <EditProfileModal
+        isOpen={isModalOpen}
+        userData={editingUser}
+        onClose={() => setIsModalOpen(false)}
+        onChange={handleInputChange}
+        onSave={handleSave}
+      />
     </div>
   );
 };

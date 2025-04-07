@@ -7,7 +7,7 @@ export const userState = atom({
  
 export const userRoleState = atom({
   key: 'userRoleState',
-  default: 'admin',
+  default: '',
 });
  
 export const isAuthenticatedState = atom({

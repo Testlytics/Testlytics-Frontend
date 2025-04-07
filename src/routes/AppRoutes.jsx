@@ -4,7 +4,8 @@ import { useSetRecoilState } from 'recoil';
 import {
   isAuthenticatedState,
   userState,
-  authLoadingState
+  authLoadingState,
+  userRoleState
 } from '../states/UserState';
 import ProtectedRoute from './ProtectedRoute';
 import LoginPage from '../pages/LoginPage/LoginPage';
@@ -15,14 +16,15 @@ import AddQuestionPage from '../pages/AddQuestionPage/AddQuestionPage';
 import Questions from '../pages/Questions/Questions';
 import ManageUsersPage from '../pages/ManageUsersPage/ManageUsersPage';
 import ChangePassword from '../pages/ChangePassword/ChangePassword';
-import ReportPage from '../pages/ReportPage/ReportPage'; // ✅ Import Report Page
+import ReportPage from '../pages/ReportPage/ReportPage'; 
 import OverviewPage from '../pages/OverviewPage/OverviewPage';
+import StudentResultPage from "../pages/StudentResultPage/StudentResultPage";
 
 const AppRoutes = () => {
   const setIsAuthenticated = useSetRecoilState(isAuthenticatedState);
   const setUser = useSetRecoilState(userState);
   const setIsLoading = useSetRecoilState(authLoadingState);
-
+  const setUserRole = useSetRecoilState(userRoleState);
   useEffect(() => {
     const checkAuth = async () => {
       setIsLoading(true);
@@ -46,22 +48,17 @@ const AppRoutes = () => {
       <Route path="/" element={<Navigate to="/login" replace />} />
       <Route path="/login" element={<LoginPage />} />
 
-      {/* ✅ Change Password Route */}
       <Route path="/change-password" element={<ProtectedRoute><ChangePassword /></ProtectedRoute>} />
-
-      {/* ✅ Protected Routes */}
       <Route path="/studentlist" element={<ProtectedRoute><StudentPage /></ProtectedRoute>} />
       <Route path="/overview" element={<ProtectedRoute><OverviewPage /></ProtectedRoute>} />
-      
       <Route path="/exam" element={<ProtectedRoute><ExamOverviewPage /></ProtectedRoute>} />
       <Route path="/subjects" element={<ProtectedRoute><SubjectPage /></ProtectedRoute>} />
       <Route path="/add-question" element={<ProtectedRoute><AddQuestionPage /></ProtectedRoute>} />
       <Route path="/questions" element={<ProtectedRoute><Questions /></ProtectedRoute>} />
       <Route path="/manage-users" element={<ProtectedRoute><ManageUsersPage /></ProtectedRoute>} />
-
-      {/* ✅ New Report Page Route */}
-      <Route path="/report" element={<ProtectedRoute><ReportPage /></ProtectedRoute>} />
-    </Routes>
+      <Route path="/reports" element={<ProtectedRoute><ReportPage /></ProtectedRoute>} />
+      <Route path="/student-report" element={<ProtectedRoute><StudentResultPage /></ProtectedRoute>} />
+      </Routes>
   );
 };
 
