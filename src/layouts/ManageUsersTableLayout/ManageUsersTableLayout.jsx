@@ -42,31 +42,42 @@ const ManageUsersTableLayout = () => {
   const handleInputChange = (field, value) => {
     setEditingUser((prev) => ({ ...prev, [field]: value }));
   };
-
+ 
   const handleSave = async (updatedUser) => {
-    const roleIdMap = {
-      ADMIN: 1,
-      STUDENT: 2,
-    };
-  
     const userPayload = {
-      username: updatedUser.name,          // username instead of "name"
+      username: updatedUser.name, // Ensure this matches your User entity
       email: updatedUser.email,
-      password: updatedUser.name,          // assuming password = username
-      role: {
-        id: roleIdMap[updatedUser.role.toUpperCase()],
-      },
+      password: updatedUser.password || updatedUser.name, // Fallback if password not provided
+      role: { // Must match your backend Role structure
+        id: updatedUser.role.toUpperCase() === "ADMIN" ? 1 : 2
+      }
     };
-  
-    const imageFile = updatedUser.image instanceof File ? updatedUser.image : null;
   
     try {
-      await updateUser(updatedUser.id, userPayload, imageFile);
+      console.log("Sending payload:", {
+        user: userPayload,
+        hasImage: !!updatedUser.image
+      });
+  
+      await updateUser(
+        updatedUser.id, 
+        userPayload,
+        updatedUser.image instanceof File ? updatedUser.image : null
+      );
+      console.log("Image file type:", typeof updatedUser.image);
+console.log("Is File instance:", updatedUser.image instanceof File);
+      
       await fetchData();
       setIsModalOpen(false);
+      alert("User updated successfully!");
     } catch (error) {
-      console.error("Error saving user:", error);
-      alert("Failed to update user");
+      console.error("Detailed error:", {
+        status: error.response?.status,
+        data: error.response?.data,
+        message: error.message
+      });
+      
+      alert(error.response?.data?.message || "Failed to update user");
     }
   };
   

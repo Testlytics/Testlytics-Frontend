@@ -172,10 +172,18 @@ export const getUsersByRole = async (role) => {
   }
 };
 export const updateUser = async (id, user, imageFile) => {
-  
   const formData = new FormData();
-  formData.append("user", JSON.stringify(user));
-  if (imageFile && typeof imageFile !== "string") {
+  
+  // 1. Stringify the user object exactly as backend expects
+  formData.append("user", JSON.stringify({
+    username: user.username,
+    email: user.email,
+    password: user.password,
+    role: user.role // Should be the Role object with id
+  }));
+  
+  // 2. Proper image handling
+  if (imageFile instanceof File) {
     formData.append("image", imageFile);
   }
 
@@ -183,11 +191,15 @@ export const updateUser = async (id, user, imageFile) => {
     const response = await api.put(`/users/${id}`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
+        "Authorization": `Bearer ${localStorage.getItem('token')}`
       },
     });
     return response.data;
   } catch (error) {
-    console.error("Error updating user:", error);
+    console.error("Update error details:", {
+      config: error.config,
+      response: error.response?.data
+    });
     throw error;
   }
 };

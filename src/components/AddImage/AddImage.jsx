@@ -2,19 +2,15 @@ import React, { useState, useRef } from "react";
 import { AiOutlineCamera, AiOutlineDelete, AiOutlineEdit } from "react-icons/ai"; 
 import styles from "./addImage.module.css";
 
-const AddImage = () => {
+const AddImage = ({ onChange }) => {
   const [image, setImage] = useState(null); 
   const fileInputRef = useRef(null); 
 
-  
-  const handleImageChange = (event) => {
-    const file = event.target.files[0]; 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImage(reader.result); 
-      };
-      reader.readAsDataURL(file); 
+      setImage(URL.createObjectURL(file)); // for preview
+      onChange(file); // ✅ send actual File object to parent
     }
   };
 
