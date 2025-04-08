@@ -16,7 +16,7 @@ import StudentResultPage from "../pages/StudentResultPage/StudentResultPage";
 import ChangePassword from '../pages/ChangePassword/ChangePassword';
 import ReportPage from '../pages/ReportPage/ReportPage'; // ✅ Import Report Page
 import OverviewPage from '../pages/OverviewPage/OverviewPage';
-
+import DetailedReport from '../pages/DetailedReport/DetailedReport';
 import Exams from '../pages/Exams/Exams';
 
 import QuestionPaper from '../pages/QuestionPaper/QuestionPaper';
@@ -48,7 +48,7 @@ const AppRoutes = () => {
       <Route path="/missednupcoming" element={<ProtectedRoute><MissednUpcoming /></ProtectedRoute>} />
       <Route path="/starttest" element={<ProtectedRoute><StartTest /></ProtectedRoute>} />
       <Route path='/test-reports' element={<ProtectedRoute><TestReports /></ProtectedRoute>} />
-
+      <Route path="/detailed-report/:testId" element={<ProtectedRoute><DetailedReport /></ProtectedRoute>} />
       {/* Public Test Pages */}
       <Route path="/attend-test" element={<AttendTest />} />
       <Route path="/questionpaper/:variant" element={<QuestionPaper />} />

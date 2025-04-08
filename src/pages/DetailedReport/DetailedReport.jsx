@@ -1,62 +1,126 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 import styles from "./detailedReport.module.css";
 import TableColour from "../../components/TableColour/TableColour";
+import Button from "../../components/Button/Button";
+import { testAttemptService } from "../../services/api";
 
 const DetailedReport = () => {
-  const { topic } = useParams();
-
-  // Define column names
+  const { testId } = useParams();
   const columnNames = ["Student ID", "Student Name", "Submitted Time", "Score", "Accuracy", "Query", "Feedback"];
+  const [feedbackData, setFeedbackData] = useState([]);
+  const [classAverage, setClassAverage] = useState(0);
 
-  // Define demo data with initial empty feedback fields
-  const initialData = [
-    ["101", "Alice Johnson", "10:05 AM", "85%", "90%", "Why was question 3 tricky?", ""],
-    ["102", "Bob Smith", "10:10 AM", "78%", "85%", "Can you explain question 5?", ""],
-    ["103", "Charlie Brown", "10:15 AM", "92%", "95%", "I had trouble with question 2.", ""],
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const students = await testAttemptService.getStudentsByTest(testId);
 
-  // Use state to manage feedback input for each student
-  const [feedbackData, setFeedbackData] = useState(initialData);
+        const enrichedData = await Promise.all(
+          students.map(async (student) => {
+            const userId = student.id || student.userId;
+            const name = student.name || student.firstName || "Unknown";
 
-  // Handle feedback input change
+            try {
+              const attempt = await testAttemptService.getTestAttempt(testId, userId);
+              const accuracy = await testAttemptService.getAccuracyForTest(testId, userId);
+
+              const score = attempt?.responseBody?.score ?? "N/A";
+              const submittedTime = attempt?.responseBody?.attemptEndTime?.split("T")[0] ?? "N/A";
+              const query = attempt?.responseBody?.query ?? "N/A";
+              const feedback = attempt?.responseBody?.feedback ?? "";
+
+              return [
+                userId,
+                name,
+                submittedTime,
+                `${score}%`,
+                `${accuracy}%`,
+                query,
+                feedback,
+              ];
+            } catch (err) {
+              console.error("Error fetching attempt for student", userId, err);
+              return [
+                userId,
+                name,
+                "N/A",
+                "N/A",
+                "0%",
+                "N/A",
+                "",
+              ];
+            }
+          })
+        );
+
+        setFeedbackData(enrichedData);
+
+        // Compute average score
+        const totalScore = enrichedData.reduce((sum, row) => {
+          const score = parseFloat(row[3].replace('%', ''));
+          return isNaN(score) ? sum : sum + score;
+        }, 0);
+        const average = enrichedData.length ? (totalScore / enrichedData.length).toFixed(2) : "0.00";
+        setClassAverage(average);
+      } catch (err) {
+        console.error("Error loading report data", err);
+      }
+    };
+
+    if (testId) {
+      fetchData();
+    }
+  }, [testId]);
+
   const handleFeedbackChange = (index, value) => {
     const updatedData = [...feedbackData];
-    updatedData[index][6] = value; // 6 is the index for "Feedback" column
+    updatedData[index][6] = value;
     setFeedbackData(updatedData);
   };
 
-  // Modify data to include input fields in the Feedback column
   const modifiedData = feedbackData.map((row, index) => [
-    row[0], // Student ID
-    row[1], // Student Name
-    row[2], // Submitted Time
-    row[3], // Score
-    row[4], // Accuracy
-    row[5], // Query
+    row[0],
+    row[1],
+    row[2],
+    row[3],
+    row[4],
+    row[5],
     <input
       type="text"
       value={row[6]}
       onChange={(e) => handleFeedbackChange(index, e.target.value)}
-      className={styles.feedbackInput} // Apply styles
+      className={styles.feedbackInput}
       placeholder="Enter feedback"
     />,
   ]);
+
+  const handlePublish = () => {
+    // Placeholder: Replace with API call to save feedback
+    console.log("Publishing feedback:", feedbackData);
+  };
 
   return (
     <div className={styles.detailedReportContainer}>
       <Navbar />
       <h1 className={styles.title}>Detailed Report</h1>
-      
-      {/* Row with Test Name on Left & Class Average on Right */}
+
       <div className={styles.headerRow}>
-        <h2 className={styles.testTitle}>Test: {topic}</h2>
-        <h2 className={styles.classAverage}>Class Average: </h2>
+        <h2 className={styles.testTitle}>Test: {testId}</h2>
+        <h2 className={styles.classAverage}>Class Average: {classAverage}%</h2>
       </div>
 
       <div className={styles.tableContainer}>
         <TableColour columnNames={columnNames} data={modifiedData} />
+      </div>
+
+      <div className={styles.publishButtonContainer}>
+        <Button
+          text="Publish"
+          className={styles.publishButton}
+          onClick={handlePublish}
+        />
       </div>
     </div>
   );

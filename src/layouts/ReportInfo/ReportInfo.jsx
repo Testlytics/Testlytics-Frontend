@@ -4,8 +4,13 @@ import StatCard from "../../components/StatCard/StatCard";
 import AreaChartComponent from "../../components/AreaChartComponent/AreaChartComponent";
 import Rectangle from "../../components/Rectangle/Rectangle";
 import styles from "./reportInfo.module.css";
+import { useNavigate } from 'react-router-dom';
+
+
+
 
 const ReportInfo = () => {
+  const navigate = useNavigate();
   return (
     <div className={`container-fluid ${styles.gridContainer}`}>
       {/* First Row: Stat Card, Area Chart, and Class Toppers */}
@@ -29,13 +34,14 @@ const ReportInfo = () => {
 
         {/* Stat Card - 3rd Column */}
         <div className="col-lg-4 col-md-6 d-flex justify-content-center">
-          <StatCard 
-            heading="Pending Results" 
-            value="5" 
-            variant="withButton" 
-            buttonText="View Details" 
-            onButtonClick={() => alert('Details Clicked')} 
-          />
+        <StatCard 
+  heading="Pending Results" 
+  value="5" 
+  variant="withButton" 
+  buttonText="View Details" 
+  onButtonClick={() => navigate("/test-reports")} 
+/>
+
         </div>
       </div>
 

@@ -65,6 +65,7 @@ export const studentService = {
       // Filter only users with role "STUDENT" (assuming role is case-insensitive)
       const students = users.filter(user => 
         user.role && user.role.toLowerCase() === "student"
+        
       );
 
       return students.map(student => ({
@@ -218,7 +219,10 @@ export const getUsersByRole = async (role) => {
     const users = response.data.responseBody;
 
     const filtered = users.filter(
-      (user) => user.role && user.role.toLowerCase() === role.toLowerCase()
+      (user) =>
+        user.role &&
+        user.role.toLowerCase() === role.toLowerCase() &&
+        !user.deletedOn // Exclude soft-deleted users
     );
 
     return filtered.map((user) => ({
@@ -234,6 +238,7 @@ export const getUsersByRole = async (role) => {
     throw new Error(`Failed to fetch ${role}s`);
   }
 };
+
 
 export const updateUser = async (id, user, imageFile) => {
   const formData = new FormData();
