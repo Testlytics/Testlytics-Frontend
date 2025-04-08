@@ -6,21 +6,41 @@ import styles from "./questionPaper.module.css";
 // import Button from "../../components/Button/Button";
 // import { defaultTestData, editableTestData, evaluatedTestData } from "../../data/testData"
 import Navbar from '../../components/Navbar/Navbar';
+import { useLocation } from "react-router-dom";
+import { testService, questionService, subjectService } from "../../services/api";
+
+
 
 const QuestionPaper = () => {
-  const { variant } = useParams(); // ✅ Get the variant from the route
-  const [selectedTest, setSelectedTest] = useState(null);
-  const [testData, setTestData] = useState([]); // ✅ Store test data based on the variant
+//  const { variant } = useParams(); // ✅ Get the variant from the route
+const [selectedVariant, setSelectedVariant] = useState("default");
+  
+const [selectedTest, setSelectedTest] = useState(null);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [allTests, setAllTests] = useState([]);
+const [completedTests, setCompletedTests] = useState([]);
+
+  const location = useLocation();
+const { testId } = location.state || {};
+
+ const testData = [...allTests, ...completedTests];
+
 
   useEffect(() => {
     const fetchTests = async () => {
       setLoading(true);
       setError(null);
       try {
-        const data = await testService.getTestsByVariant(variant);
-        setTestData(data);
+        const { allTests, completedTests } = await testService.getAllTestData();
+        setAllTests(allTests);
+        setCompletedTests(completedTests);
+        
+        if (testId) {
+          const selected = allTests.find(t => t.testId === testId);
+          setSelectedTest(selected || null);
+        }
       } catch (err) {
         setError(err.message || "Failed to load tests");
       } finally {
@@ -29,30 +49,74 @@ const QuestionPaper = () => {
     };
 
     fetchTests();
-  }, [variant]);
+  }, [testId]);
 
-  // Fetch correct test data based on variant
-  // useEffect(() => {
-  //   switch (variant) {
-  //     case "default":
-  //       setTestData(defaultTestData);
-  //       break;
-  //     case "editable":
-  //       setTestData(editableTestData);
-  //       break;
-  //     case "evaluated":
-  //       setTestData(evaluatedTestData);
-  //       break;
-  //     default:
-  //       setTestData([]); // Handle unexpected cases
-  //   }
-  // }, [variant]);
 
-  const handleTestSelect = (testName) => {
-    const test = testData.find((t) => t.testName === testName);
-    console.log("Selected Test:", test);
-    setSelectedTest(test);
+  const handleTestSelect = async (selected) => {
+    try {
+      console.log("Selected Test ID:", selected.testId);
+      console.log("Selected test object:", selected);
+
+       // 1. Fetch full test details using testId
+    const testDetailsResponse = await testService.getTestById(selected.testId);
+    const testDetails = testDetailsResponse.data.responseBody;
+    console.log("Full test details:", testDetails);
+
+    // Determine variant based on status
+const variant =
+testDetails.status === "scheduled" ? "editable" : "default";
+setSelectedVariant(variant);
+
+console.log("Auto-selected variant:", variant);
+    let subjectName = "Unknown Subject";
+
+    if (!testDetails || !testDetails.subjectId) {
+      console.warn("Subject ID is missing from test details:", testDetails);
+    } else {
+      try {
+        const subjectResponse = await subjectService.getSubjectById(testDetails.subjectId);
+        console.log("Subject API response:", subjectResponse.data);
+        subjectName = subjectResponse.data.responseBody.subjectName || "Unknown Subject";
+
+        console.log("Resolved subject name:", subjectName);
+      } catch (e) {
+        console.error("Error fetching subject name:", e);
+      }
+    }
+    const questionsResponse = await questionService.getQuestionsByTestId(testDetails.testId);
+console.log("Raw Questions API response:", questionsResponse);
+
+const rawQuestions = questionsResponse.responseBody; // ✅ FIXED
+
+
+const formattedQuestions = rawQuestions.map((question, index) => ({
+  id: question.questionId,
+  text: question.questionText,
+  answer: question.answer,
+  options: question.options.map((opt) => ({
+    id: opt.optionId,
+    text: opt.optionText,
+    correct: opt.correct,
+  })),
+  image: question.imageBase64,
+  
+}));
+      const testWithQuestions = {
+        subjectName,
+        testName: testDetails.testName,
+        totalQuestions: formattedQuestions.length,
+        totalMarks: formattedQuestions.length * 1, // 1 mark per Q or use actual marks
+        duration: testDetails.testDuration,
+      questions: formattedQuestions,
+      };
+  
+      setSelectedTest(testWithQuestions);
+    } catch (err) {
+      console.error("Failed to load questions:", err);
+      alert("Failed to load questions for this test.");
+    }
   };
+  
 
   const handleDownload = () => {
     alert("Question paper downloaded successfully");
@@ -69,7 +133,7 @@ const QuestionPaper = () => {
   const renderQuestionsList = () => {
     if (!selectedTest) return null;
 
-    switch (variant) {
+    switch (selectedVariant) {
       case "default":
         return (
           <>
@@ -108,11 +172,20 @@ const QuestionPaper = () => {
         ) : error ? (
           <p>Error: {error}</p>
         ) : testData.length > 0 ? (
+          <>
+          {console.log("testData passed to QPList:", testData)}
           <QPList
             title="QP List"
-            items={testData.map((t) => t.testName)}
+            items={testData.map((t) => ({
+              testName: t.testName,
+              testId: t.testId,
+              subjectName: t.subjectName,
+              testDuration: t.testDuration,
+            }))}
+
             onSelect={handleTestSelect}
-          />
+                   />
+                    </>
         ) : (
           <p>No tests available</p>
         )}

@@ -6,12 +6,14 @@ import styles from "./qpList.module.css";
 const QPList = ({ title, items, onSelect }) => {
   const [selectedIndex, setSelectedIndex] = useState(null);
 
-  // Handle item click
   const handleItemClick = (index) => {
-    const selectedTestName = items[index];
+    const selectedTest = items[index];
     setSelectedIndex(index);
-    onSelect(selectedTestName);
+    onSelect && onSelect(selectedTest);
   };
+
+ 
+
 
   return (
     <div className={styles.listContainer}>
@@ -22,16 +24,14 @@ const QPList = ({ title, items, onSelect }) => {
       <ul className={styles.list}>
         {items.map((item, index) => (
           <li
-            key={index}
-            className={`${styles.listItem} ${
-              selectedIndex === index ? styles.selectedItem : ""
-            }`}
+          key={item.testId || index}
+          className={`${styles.listItem} ${selectedIndex === index ? styles.selectedItem : ""}`}
             onClick={() => handleItemClick(index)}
           >
              {/* Wrap index + item text to keep them aligned to left */}
              <div className={styles.itemContent}>
               <span className={styles.index}>{index + 1}. </span>
-              <span className={styles.itemText}>{item}</span>
+              <span className={styles.itemText}>{item.testName || "Unnamed Test"}</span>
             </div>
             {/* Show Icon when item is clicked */}
             {selectedIndex === index && (

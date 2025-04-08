@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from "./testName.module.css";
-
+ 
 const TestName = ({ text }) => {
   return (
     <div className={styles['rectangle']}>
@@ -8,5 +8,5 @@ const TestName = ({ text }) => {
     </div>
   );
 };
-
+ 
 export default TestName;

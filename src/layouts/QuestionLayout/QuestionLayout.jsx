@@ -1,6 +1,8 @@
 import React from 'react';
+import React from 'react';
 import InputField from '../../components/InputField/InputField';
 import AddImage from '../../components/AddImage/AddImage';
+import Button from '../../components/Button/Button';
 import Button from '../../components/Button/Button';
 import styles from './questionLayout.module.css';
 import { toast } from 'react-toastify';
@@ -69,6 +71,10 @@ const QuestionLayout = ({
               placeholder="Enter option"
               value={option}
               onChange={(e) => {
+                const updated = [...options];
+                updated[index] = e.target.value;
+                setOptions(updated);
+              }}
                 const updated = [...options];
                 updated[index] = e.target.value;
                 setOptions(updated);

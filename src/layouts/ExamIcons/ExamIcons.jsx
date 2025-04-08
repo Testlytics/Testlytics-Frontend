@@ -5,14 +5,14 @@ import { FaPlus, FaBook, FaQuestion } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css"; // Bootstrap for grid
 import styles from "./examIcons.module.css"; 
 
-const ExamIcons = () => {
+const ExamIcons = ({ totalExams }) => {
   return (
     <div className="container py-4">
       {/* Centering the grid items */}
       <div className="row g-4 justify-content-center text-center">
         {/* Total Exams */}
         <div className="col-12 col-md-6 col-lg-3 d-flex justify-content-center">
-          <StatCard heading="Total Exams" variant="withIcon" value="10" />
+          <StatCard heading="Total Exams" variant="withIcon" value={totalExams} />
         </div>
 
         {/* Add Exam - Clickable */}

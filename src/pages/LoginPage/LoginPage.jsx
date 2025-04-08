@@ -38,7 +38,7 @@ const LoginPage = () => {
     setError(""); // Reset error message
  
     try {
-      const { token, user } = await authService.login({ email, password });
+      const { token, user, userId } = await authService.login({ email, password });
       
       if (!token) throw new Error("Authentication token missing");
       

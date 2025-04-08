@@ -7,44 +7,47 @@
 .tableContainer {
     width: 100%;
     margin: 20px auto;
-    border: 2px solid black; /* ✅ Keeps border around the table */
-    max-height: 400px; /* ✅ Fixed height for vertical scroll */
-    overflow-y: auto; /* ✅ Enables only vertical scrolling */
-    
-}
-
-.table {
-    width: 100%; /* ✅ Full width to avoid horizontal scroll */
-    border-collapse: collapse; /* Ensures borders are uniform */
+    border: 2px solid black;
+    max-height: 240px; /* 🔁 Approx height for 3 rows + header */
+    overflow-y: auto;
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
     background: transparent;
     font-family: 'Outfit', sans-serif;
-    font-size: 26px;
-}
-
-th, td {
+    font-size: 23px;
+  }
+  
+  th, td {
     padding: 10px;
     color: black;
     border: 1px solid black;
     background: transparent;
-    white-space: nowrap; /* ✅ Keeps text in a single line */
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-
-th {
-    background-color: #3E4727; /* Dark greenish shade */
+  }
+  
+  th {
+    background-color: #3E4727;
     color: white;
     text-align: left;
     font-weight: 700;
-    position: sticky; /* ✅ Keeps headers fixed */
+    position: sticky;
     top: 0;
     z-index: 2;
-}
-
-.rowEven {
+  }
+  
+  .rowEven {
     background-color: #B0BEA8;
-}
-
-.rowOdd {
+  }
+  
+  .rowOdd {
     background-color: #C2CABE;
-}
+  }
+  .centerCell {
+    text-align: center;
+  }
+  

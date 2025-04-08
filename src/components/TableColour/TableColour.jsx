@@ -16,8 +16,14 @@ const TableColour = ({ columnNames, data }) => {
           {data.map((row, rowIndex) => (
             <tr key={rowIndex} className={rowIndex % 2 === 0 ? styles.rowEven : styles.rowOdd}>
               {row.map((cell, colIndex) => (
-                <td key={colIndex}>{cell}</td>
-              ))}
+  <td
+    key={colIndex}
+    className={typeof cell === 'object' && cell.cellClass ? styles[cell.cellClass] : ""}
+  >
+    {typeof cell === 'object' && cell.content ? cell.content : cell}
+  </td>
+))}
+
             </tr>
           ))}
         </tbody>

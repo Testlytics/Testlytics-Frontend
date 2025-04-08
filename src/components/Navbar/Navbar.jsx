@@ -79,7 +79,7 @@ const Navbar = () => {
         <span></span>
         <span></span>
       </div>
-
+ 
       {/* Logo */}
       <h1 className={styles.logo} onClick={() => navigate("/")}>
         Testlytics

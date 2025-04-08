@@ -11,8 +11,18 @@ import SubjectPage from '../pages/SubjectPage/SubjectPage';
 import AddQuestionPage from '../pages/AddQuestionPage/AddQuestionPage';
 import Questions from '../pages/Questions/Questions';
 import ManageUsersPage from '../pages/ManageUsersPage/ManageUsersPage';
+<<<<<<< HEAD
 import ReportPage from '../pages/ReportPage/ReportPage';
 import StudentResultPage from "../pages/StudentResultPage/StudentResultPage";
+=======
+import ChangePassword from '../pages/ChangePassword/ChangePassword';
+import ReportPage from '../pages/ReportPage/ReportPage'; // ✅ Import Report Page
+import OverviewPage from '../pages/OverviewPage/OverviewPage';
+
+import Exams from '../pages/Exams/Exams';
+
+import QuestionPaper from '../pages/QuestionPaper/QuestionPaper';
+>>>>>>> feature-navaneetha
 
 // Test-Taking Pages
 import MissednUpcoming from '../pages/MissednUpcoming/MissednUpcoming';
@@ -31,6 +41,7 @@ const AppRoutes = () => {
       <Route path="/change-password" element={<ProtectedRoute><ChangePassword /></ProtectedRoute>} />
       <Route path="/overview" element={<ProtectedRoute><OverviewPage /></ProtectedRoute>} />
       <Route path="/studentlist" element={<ProtectedRoute><StudentPage /></ProtectedRoute>} />
+      <Route path="/studentexam" element={<ProtectedRoute><Exams /></ProtectedRoute>} />
       <Route path="/exam" element={<ProtectedRoute><ExamOverviewPage /></ProtectedRoute>} />
       <Route path="/subjects" element={<ProtectedRoute><SubjectPage /></ProtectedRoute>} />
       <Route path="/add-question" element={<ProtectedRoute><AddQuestionPage /></ProtectedRoute>} />
@@ -44,6 +55,36 @@ const AppRoutes = () => {
       {/* Public Test Pages */}
       <Route path="/attend-test" element={<AttendTest />} />
       <Route path="/questionpaper/:variant" element={<QuestionPaper />} />
+      
+
+   
+     
+
+      <Route
+        path="/missednupcoming"
+        element={
+        //   <ProtectedRoute>
+            <MissednUpcoming />
+        //   </ProtectedRoute>
+        }
+      />
+       {/* Default route for question paper */}
+       <Route path="/questionpaper/:variant" element={<QuestionPaper />} />
+      
+      <Route
+        path="/starttest"
+        element={
+        //   <ProtectedRoute>
+            <StartTest />
+        //   </ProtectedRoute>
+        }
+      />
+     
+
+     <Route path="/attend-test/:testName" element={<AttendTest />} />
+
+      <Route path="*" element={<h1>Page Not Found</h1>} />
+
 
       {/* Fallback */}
       <Route path="*" element={<h1>Page Not Found</h1>} />
