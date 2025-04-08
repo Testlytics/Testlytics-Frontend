@@ -1,4 +1,5 @@
 import React from 'react';
+import { RecoilRoot } from 'recoil';
 import QuestionLayout from './QuestionLayout';
 
 export default {
@@ -6,4 +7,8 @@ export default {
   component: QuestionLayout,
 };
 
-export const Default = () => <QuestionLayout />;
+export const Default = () => (
+  <RecoilRoot>
+    <QuestionLayout />
+  </RecoilRoot>
+);

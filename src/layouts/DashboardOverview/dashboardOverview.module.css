@@ -1,0 +1,43 @@
+.gridContainer {
+    padding: 20px;
+    width: 100%;
+  }
+  
+  .toppers {
+    padding: 15px;
+    border-radius: 10px;
+    color: rgb(0, 0, 0);
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .heading {
+    font-size: 30px;
+    font-weight: 600;
+  }
+  
+  .toppersList {
+    list-style: none;
+    padding: 0;
+    font-size: 24px;
+  }
+  
+  .toppersList li {
+    margin-top: 50px;
+    font-weight: 500;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .gridContainer .row {
+      flex-direction: column;
+    }
+    
+    .col-md-6,
+    .col-md-3 {
+      width: 100%;
+    }
+  }
+  

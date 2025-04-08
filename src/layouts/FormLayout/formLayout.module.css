@@ -3,32 +3,163 @@
     flex-direction: column;
     gap: 20px;
     padding: 20px;
-    width: 300px;
+    width: 350px;
     margin: 0 auto;
-  }
-  
-  .label {
+    margin-top: 80px;
+}
+
+.head {
+    font-size: 70px;
+    text-align: center;
+}
+
+.label {
     font-size: 26px;
     margin-bottom: 8px;
     color: #333;
-  }
-  
-  .inputField {
+}
+
+.inputField {
     padding: 8px;
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 4px;
     width: 100%;
     margin-bottom: 20px;
-  }
-  
-  .timeInputs {
+}
+
+.timeInputs {
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+.timeInputs input {
+    width: 100%;
+}
+
+/* 📌 Adjust for large laptops (≤1440px) */
+@media (max-width: 1440px) {
+    .container {
+        width: 400px;
+    }
+
+    .head {
+        font-size: 60px;
+    }
+}
+
+/* 📌 Adjust for small laptops (≤1280px) */
+@media (max-width: 1280px) {
+    .container {
+        width: 380px;
+    }
+
+    .head {
+        font-size: 55px;
+    }
+}
+
+/* 📌 Adjust for tablets (≤1024px) */
+@media (max-width: 1024px) {
+    .container {
+        width: 80%;
+    }
+
+    .head {
+        font-size: 50px;
+    }
+
+    .label {
+        font-size: 22px;
+    }
+}
+
+/* 📌 Adjust for mobile screens (≤768px) */
+/* ⚡ Converts inputs into a 2-column grid */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+        margin-top: 60px;
+        padding: 15px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .head {
+        font-size: 40px;
+        grid-column: span 2; /* Ensure the title spans both columns */
+    }
+
+    .label {
+        font-size: 20px;
+        grid-column: span 2; /* Labels stay above inputs */
+    }
+    
+    .inputField {
+        font-size: 16px;
+        padding: 10px;
+        grid-column: span 1; /* Each input takes one grid cell */
+    }
+
+    .timeInputs {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+}
+
+/* 📌 Adjust for small phones (≤480px) */
+/* ⚡ Converts inputs into a single-column layout for small screens */
+@media (max-width: 480px) {
+    .container {
+        width: 95%;
+        margin-top: 40px;
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .head {
+        font-size: 32px;
+    }
+
+    .label {
+        font-size: 18px;
+    }
+
+    .inputField {
+        font-size: 14px;
+        padding: 8px;
+        grid-column: span 1;
+    }
+
+    .timeInputs {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+
+.headerRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
   }
   
-  .timeInputs input {
-    width: 100%;
+  .saveButton {
+    background-color: #5A643C;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .saveButton:hover {
+    background-color: #5A643C;
   }
   

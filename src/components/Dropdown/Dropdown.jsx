@@ -1,22 +1,21 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./dropdown.module.css";
 
-const Dropdown = ({ label, options = [], defaultValue, onChange }) => {
-  const [selectedOption, setSelectedOption] = useState(defaultValue);
-
+const Dropdown = ({ label, options = [], selected, onChange }) => {
   const handleChange = (event) => {
-    setSelectedOption(event.target.value);
-    if (onChange) onChange(event.target.value);
+    const value = event.target.value;
+    if (onChange) onChange(value);
   };
 
   return (
     <div className={styles.container}>
       {label && <label className={styles.label}>{label}</label>}
       <select
-        value={selectedOption}
+        value={selected} // ✅ Fully controlled component
         onChange={handleChange}
         className={styles.dropdown}
       >
+        <option value="">Select {label}</option>
         {options.map((option, index) => (
           <option key={index} value={option}>
             {option}

@@ -1,0 +1,16 @@
+.gridContainer {
+  padding: 20px;
+  width: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .gridContainer .row {
+    flex-direction: column;
+  }
+  
+  .col-md-6,
+  .col-md-3 {
+    width: 100%;
+  }
+}

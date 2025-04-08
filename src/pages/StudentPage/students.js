@@ -47,10 +47,10 @@ const students = [
         ],
       },
       barGraphData: [
-        { label: "Math", value: 80 },
-        { label: "Science", value: 90 },
-        { label: "History", value: 75 },
-        { label: "English", value: 82 },
+        { subject: "Math", score: 80 },
+        { subject: "Science", score: 90 },
+        { subject: "History", score: 75 },
+        { subject: "English", score: 82 },
       ],
       lineGraphData: [
         { label: "Week 1", marks: 78 },

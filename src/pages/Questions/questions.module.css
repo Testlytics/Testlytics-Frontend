@@ -1,16 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&display=swap');
-
+ 
 * {
-    font-family: 'Outfit', sans-serif;
-  }
-
-
-/* Prevent horizontal scrolling */
-body, html {
-  width: 100%;
-  overflow-x: hidden;
+  font-family: 'Outfit', sans-serif;
 }
-
+.questions-page{
+  margin-top: 110px;
+}
  
 .questions-container {
   display: flex;
@@ -19,44 +14,64 @@ body, html {
   padding: 10px;
   width: 100%;
 }
-
-  .questions-heading {
-    font-size: 36px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-
-  .search-bar-container {
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
-    margin-bottom: 20px;
-    margin-left: 1025px; 
-  }
-  
-  .rectangles-container {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 10px;
-    flex: 1;
-  }
-
+ 
+/* Heading styles */
+.questions-heading {
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 120px;
+  text-align: center;
+ 
+}
+.search-bar-container {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-right: 0;
+}
+ 
+ 
+/* Flex container for question row */
+.question-row {
+  display: flex;
+  justify-content: space-between; /* Ensure TestName and Rectangles are spaced correctly */
+  align-items: center;
+  width: 100%;
+  padding: 8px 12px;
+  gap: 12px; /* Add space between TestName and Rectangle */
+}
+ 
+/* Test name container aligned to the left */
+.test-name-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex: 1;
+}
+ 
+/* Container for the rectangles (ViewButton and StatusRectangle) */
+.rectangles-container {
+  display: flex;
+  justify-content: flex-start; /* Align elements to the left */
+  gap: 8px; /* Reduce the gap between ViewButton and StatusRectangle */
+  flex: 1;
+  align-items: center;
+}
+ 
+/* Responsive grid for small screens */
+@media (max-width: 768px) {
   .question-row {
-    display: flex;
-    justify-content: space-between; /* Place TestName and Rectangle on the same row */
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    padding: 8px 12px;
-   
+    flex-direction: column; /* Stack elements vertically on small screens */
+    align-items: flex-start; /* Align items to the left */
   }
-
-  .test-name-container {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex: 1;
+ 
+  .rectangles-container {
+    justify-content: flex-start; /* Align rectangles to the left on small screens */
+    gap: 5px; /* Reduce gap even more for smaller screens */
   }
-  
+ 
+  .search-bar-container {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}

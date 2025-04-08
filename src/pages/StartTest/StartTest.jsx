@@ -1,9 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from "./startTest.module.css"; // Import the CSS file for styling
 import Navbar from '../../components/Navbar/Navbar';
 import Button from '../../components/Button/Button';
+import { useNavigate } from 'react-router-dom'; 
+import { testService } from '../../services/api'; 
 
 const StartTest = () => {
+
+  const navigate = useNavigate();
+  const [testData, setTestData] = useState(null);
+
+  useEffect(() => {
+    const fetchTestData = async () => {
+      try {
+        const response = await testService.getTestById(1); // Replace 1 with dynamic ID if needed
+        setTestData(response.data);
+      } catch (error) {
+        console.error('Error fetching test data:', error);
+      }
+    };
+
+    fetchTestData();
+  }, []);
+
+  const handleStartTest = () => {
+    if (testData && testData.testName) {
+      navigate(`/attend-test/${testData.testName}`);
+    }
+  };
+
+  if (!testData) {
+    return <div>Loading...</div>;
+  }
+
+
   return (
 
     <div className={styles['page-container']}>
@@ -87,7 +117,7 @@ const StartTest = () => {
 </div>
 {/* Call the Button Component Here */}
 <div className={styles['button-container']}>
-            <Button label="Start Test" text="Start Test" />
+            <Button label="Start Test" text="Start Test" onClick={handleStartTest}/>
           </div>
 
  

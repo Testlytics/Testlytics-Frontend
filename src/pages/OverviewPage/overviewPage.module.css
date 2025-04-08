@@ -1,0 +1,20 @@
+
+.overviewPage {
+    height: 100%;
+    margin-top: 70px;
+}
+  
+  .topHalf {
+    background-color: #f3f5ed; /* Light greenish background */
+    padding: 30px;
+  }
+  .bottomHalf{
+    background-color: white;
+  }
+  /* Responsive Spacing */
+  @media (max-width: 768px) {
+    .topHalf {
+      padding: 20px;
+    }
+  }
+  

@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './viewButton.module.css';
-
+ 
 const ViewButton = ({ text, onClick, type = 'button', variant = 'primary' }) => {
   return (
     <button
@@ -12,5 +12,5 @@ const ViewButton = ({ text, onClick, type = 'button', variant = 'primary' }) => 
     </button>
   );
 };
-
+ 
 export default ViewButton;

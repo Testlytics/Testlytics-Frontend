@@ -1,4 +1,4 @@
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, LabelList } from "recharts";
 import styles from "./barGraph.module.css";
 
 const COLORS = ["#282A2B", "#677727", "#B0BEA8"]; // Different colors for bars
@@ -11,7 +11,10 @@ const BarGraph = ({ data }) => {
           <XAxis type="number" hide />
           <YAxis dataKey="label" type="category" width={50} />
           <Tooltip />
-          <Bar dataKey="value" barSize={25} radius={[0, 15,15,0]}>
+          <Bar dataKey="value" barSize={25} radius={[0, 15, 15, 0]}>
+            {/* ✅ Show value on top of each bar */}
+            <LabelList dataKey="value" position="right" fill="black" fontSize={24} fontWeight="bold" />
+
             {data.map((entry, index) => (
               <Cell key={index} fill={COLORS[index % COLORS.length]} />
             ))}

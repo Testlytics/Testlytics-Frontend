@@ -1,0 +1,79 @@
+/* Base Styles */
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  margin-top: 20px;
+  padding: 30px;
+  width: 100%;
+}
+
+.heading {
+  font-size: 2.5rem; /* ✅ Scales for better responsiveness */
+  font-weight: 500;
+  color: #5A643C;
+  text-align: left; /* ✅ Centers text for smaller screens */
+}
+
+.actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center; /* ✅ Keeps icons aligned on small screens */
+}
+
+.editIcon {
+  color: #5A643C;
+  cursor: pointer;
+  font-size: 1.5rem; /* ✅ Increases touch-friendly size */
+}
+
+.deleteIcon {
+  color: #992E2E;
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+/* Responsive Design */
+
+/* Tablets (768px and below) */
+@media (max-width: 768px) {
+  .container {
+    max-width: 90%; /* ✅ Uses more screen space */
+    padding: 20px;
+  }
+
+  .heading {
+    font-size: 2rem; /* ✅ Reduces font size for tablets */
+  }
+
+  .actions {
+    gap: 10px;
+  }
+
+  .editIcon, .deleteIcon {
+    font-size: 1.3rem; /* ✅ Adjusts for tablets */
+  }
+}
+
+/* Mobile Devices (480px and below) */
+@media (max-width: 480px) {
+  .container {
+    max-width: 95%;
+    padding: 15px;
+    gap: 20px;
+  }
+
+  .heading {
+    font-size: 1.8rem; /* ✅ Ensures readability on small screens */
+  }
+
+  .actions {
+    flex-direction: column; /* ✅ Stacks icons on smaller screens */
+    align-items: center;
+    gap: 8px;
+  }
+
+  .editIcon, .deleteIcon {
+    font-size: 1.2rem; /* ✅ Slightly smaller for compact layouts */
+  }
+}

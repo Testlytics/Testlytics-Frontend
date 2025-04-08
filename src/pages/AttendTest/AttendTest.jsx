@@ -3,9 +3,18 @@ import QnA from "../../components/QnA/QnA";
 import AttendQuestions from "../../layouts/AttendQuestions/AttendQuestions";
 import { attendTestData } from "../../data/attendTestData";
 import styles from "./attendTest.module.css";
+import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
+
 
 const AttendTest = () => {
   console.log("AttendTest Component Rendered");
+  const location = useLocation();
+ // const testName = location.state?.testName || "Test Name"; // fallback if not passed
+  const { testName } = useParams();
+
+console.log("Location State:", location.state); // ✅ DEBUG
+console.log("Test Name:", testName);  
 
   // State to track selected questions
   const [selectedQuestions, setSelectedQuestions] = useState(new Set());
@@ -29,7 +38,8 @@ const AttendTest = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.heading}>Test Name</h1>
+       <h1 className={styles.heading}>{testName}</h1> {/* 🆕 Display the dynamic test name */}
+
 
       {/* Layout */}
       <div className={styles.contentWrapper}>

@@ -1,24 +1,62 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&display=swap');
 
-* {
-    font-family: 'Outfit', sans-serif;
-  }
-
-.button {
-    padding: 12px 20px;
-    font-size: 32px;
-    border: none;
-    border-radius: 15px;
-    cursor: pointer;
-    width: 250px;
-    height: 68px;
-  }
-  
-  /* Primary Button */
-  .primary {
-    background-color: #C2CABE;
-    color: #5A643C;
-  }
-  
  
   
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&display=swap');
+ 
+* {
+  font-family: 'Outfit', sans-serif;
+}
+ 
+.button {
+  padding: 12px 20px;
+  font-size: 32px;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  width: 250px;
+  height: 68px;
+  transition: all 0.3s ease-in-out;
+}
+ 
+/* Primary Button */
+.primary {
+  background-color: #C2CABE;
+  color: #5A643C;
+}
+ 
+/* 🔹 Medium Screens: Tablets (<= 992px) */
+@media (max-width: 992px) {
+  .button {
+    width: 220px;
+    font-size: 28px;
+    height: 64px;
+  }
+}
+ 
+/* 🔹 Small Screens: Phones (<= 768px) */
+@media (max-width: 768px) {
+  .button {
+    width: 200px;
+    font-size: 24px;
+    height: 60px;
+  }
+}
+ 
+/* 🔹 Extra Small Devices (<= 480px) */
+@media (max-width: 480px) {
+  .button {
+    width: 180px;
+    font-size: 20px;
+    height: 56px;
+    padding: 10px 16px;
+  }
+}
+ 
+/* 🔹 Ultra Small Devices (<= 360px) */
+@media (max-width: 360px) {
+  .button {
+    width: 160px;
+    font-size: 18px;
+    height: 52px;
+  }
+}

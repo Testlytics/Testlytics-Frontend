@@ -18,15 +18,17 @@ const QuestionsList = ({
   selectedIndex, // ✅ Selected index if needed for dynamic data
   studentName, // New prop for the student's name
 }) => {
-  // ✅ State to manage questions dynamically
-  // const [questionsData, setQuestionsData] = useState({
-  //   subjectName: "",
-  //   testName: "",
-  //   totalQuestions: 0,
-  //   totalMarks: 0,
-  //   duration: 0,
-  //   questions: [],
-  // });
+  
+  //✅ State to manage questions dynamically
+  const [questionsData, setQuestionsData] = useState({
+    subjectName: "",
+    testName: "",
+    totalQuestions: 0,
+    totalMarks: 0,
+    duration: 0,
+    questions: [],
+    variant: "default",
+  });
 
   const handleButtonClick = () => {
     alert("Button Clicked!"); // Replace with actual functionality
@@ -55,7 +57,7 @@ const QuestionsList = ({
   };
 
   const getButtonText = () => {
-    switch (variant) {
+    switch (questionsData.variant) {
       case "editable":
         return "Save";
       case "evaluated":
@@ -103,7 +105,7 @@ const QuestionsList = ({
 
       {/* Render List of Questions */}
       <div className={styles.questionsContainer}>
-        {questionsData.questions.length > 0 ? (
+        {questionsData.questions && questionsData.questions.length > 0 ? (
           <div className={styles.gridContainer}>
           {questionsData.questions.map((question, index) => (
             <div
@@ -116,8 +118,9 @@ const QuestionsList = ({
               <div className={styles.questionText}>
                 <QnA
                   questionNumber={index + 1}
-                  question={question.question}
-                  options={question.options}
+                  question={question.text}
+                  correctOption={question.answer}
+                  options={question.options.map((opt) => opt.text)}
                   image={question.image || null}
                   // ✅ Determine variant based on isEditable and isEvaluated
                   variant={
@@ -127,7 +130,7 @@ const QuestionsList = ({
                       ? "editable" // Enable editable mode
                       : "default" // Default variant
                   }
-                  correctOption={question.correctOption} // ✅ For evaluation
+                   // ✅ For evaluation
                   selectedOption={question.selectedOption} // ✅ For evaluation
                 />
               </div>

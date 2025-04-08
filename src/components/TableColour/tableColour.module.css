@@ -1,27 +1,53 @@
-.table {
-    width: 60%;
-    margin: 20px auto;
-    border-collapse: collapse; /* Ensures borders are uniform */
-    border: 2px solid black; /* Adds border around the table */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
+
+* {
+  font-family: 'Outfit', sans-serif;
 }
 
-th, td {
+.tableContainer {
+    width: 100%;
+    margin: 20px auto;
+    border: 2px solid black;
+    max-height: 240px; /* 🔁 Approx height for 3 rows + header */
+    overflow-y: auto;
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    background: transparent;
+    font-family: 'Outfit', sans-serif;
+    font-size: 23px;
+  }
+  
+  th, td {
     padding: 10px;
     color: black;
-    border-left: 1px solid black;  /* ✅ Vertical partitioning */
-    border-right: 1px solid black; /* ✅ Vertical partitioning */
-}
-
-th {
-    background-color: #3E4727; /* Dark greenish shade */
+    border: 1px solid black;
+    background: transparent;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  th {
+    background-color: #3E4727;
     color: white;
     text-align: left;
-}
-
-.rowEven {
-    background-color: #B0BEA8; /* First alternating color */
-}
-
-.rowOdd {
-    background-color: #C2CABE; /* Second alternating color */
-}
+    font-weight: 700;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+  
+  .rowEven {
+    background-color: #B0BEA8;
+  }
+  
+  .rowOdd {
+    background-color: #C2CABE;
+  }
+  .centerCell {
+    text-align: center;
+  }
+  
