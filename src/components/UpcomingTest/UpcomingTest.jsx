@@ -1,12 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import styles from "./upcomingTest.module.css";
 import Heading from "../Heading/Heading";
+import { testService } from "../../services/api";
 
-const UpcomingTest = ({ tests = [] }) => {
+const UpcomingTest = () => {
   const [startIndex, setStartIndex] = useState(0);
+  const [tests, setTests] = useState([]);
 
-  // Function to generate the next 6 days
+  useEffect(() => {
+    const fetchTests = async () => {
+      try {
+        const allTests = await testService.getAllTests();
+        console.log("Fetched tests:", allTests); // ✅ check what's coming in
+        setTests(allTests);
+      } catch (error) {
+        console.error("Failed to fetch tests:", error);
+      }
+    };
+
+    fetchTests();
+  }, []);
+
   const getNextDates = () => {
     const today = new Date();
     const dates = [];
@@ -14,16 +29,22 @@ const UpcomingTest = ({ tests = [] }) => {
     for (let i = startIndex; i < startIndex + 6; i++) {
       const date = new Date();
       date.setDate(today.getDate() + i);
-      const formattedDate = date.toISOString().split("T")[0]; // Format as YYYY-MM-DD
+      const formattedDate = date.toISOString().split("T")[0];
+
+      const matchedTest = tests.find((t) => {
+        console.log("Checking for date:", formattedDate, "against", t.testDate);
+        return t.testDate === formattedDate;
+      });
 
       dates.push({
         date: date.getDate(),
-        month: date.toLocaleDateString("en-US", { month: "short" }), // e.g., Jan, Feb
-        day: date.toLocaleDateString("en-US", { weekday: "short" }), // e.g., Mon, Tue
-        isToday: date.toDateString() === today.toDateString(), // Check if it's today
-        test: tests.find((t) => t.date === formattedDate) || null,
+        month: date.toLocaleDateString("en-US", { month: "short" }),
+        day: date.toLocaleDateString("en-US", { weekday: "short" }),
+        isToday: date.toDateString() === today.toDateString(),
+        test: matchedTest || null,
       });
     }
+
     return dates;
   };
 
@@ -32,7 +53,8 @@ const UpcomingTest = ({ tests = [] }) => {
 
   return (
     <div className={styles.container}>
-<Heading text="Upcoming Tests " size="32px" align="left" weight="600" />
+      <Heading text="Upcoming Tests" size="32px" align="left" weight="600" />
+
       <div className={styles.header}>
         <button className={styles.navButton} onClick={handlePrev} disabled={startIndex === 0}>
           <FaChevronLeft />
@@ -41,7 +63,7 @@ const UpcomingTest = ({ tests = [] }) => {
           <FaChevronRight />
         </button>
       </div>
-    
+
       <div className={styles.grid}>
         {getNextDates().map((item, index) => (
           <div
@@ -53,7 +75,7 @@ const UpcomingTest = ({ tests = [] }) => {
             <div className={styles.date}>{item.date}</div>
             <div className={styles.month}>{item.month}</div>
             <div className={styles.day}>{item.day}</div>
-            {item.test && <div className={styles.subject}>{item.test.subject}</div>}
+            {item.test && <div className={styles.subject}>{item.test.testName}</div>}
           </div>
         ))}
       </div>

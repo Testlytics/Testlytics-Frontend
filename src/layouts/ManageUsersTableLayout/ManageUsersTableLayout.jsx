@@ -70,23 +70,23 @@ const [userToDelete, setUserToDelete] = useState(null);
       email: updatedUser.email,
       password: updatedUser.password || updatedUser.name, // Fallback if password not provided
       role: { // Must match your backend Role structure
-        id: updatedUser.role.toUpperCase() === "ADMIN" ? 1 : 2
+        id: updatedUser.role=== "ADMIN" ? 1 : 2
       }
     };
   
     try {
-      console.log("Sending payload:", {
-        user: userPayload,
-        hasImage: !!updatedUser.image
-      });
+      // console.log("Sending payload:", {
+      //   user: userPayload,
+      //   hasImage: !!updatedUser.image
+      // });
   
       await updateUser(
         updatedUser.id, 
         userPayload,
         updatedUser.image instanceof File ? updatedUser.image : null
       );
-      console.log("Image file type:", typeof updatedUser.image);
-console.log("Is File instance:", updatedUser.image instanceof File);
+//       console.log("Image file type:", typeof updatedUser.image);
+// console.log("Is File instance:", updatedUser.image instanceof File);
       
       await fetchData();
       setIsModalOpen(false);

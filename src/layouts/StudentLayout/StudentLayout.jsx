@@ -150,7 +150,7 @@ StudentLayout.propTypes = {
     total: PropTypes.number,
   }),
   accuracy: PropTypes.number,
-  accuracy: PropTypes.number,
+ 
 
 };
 

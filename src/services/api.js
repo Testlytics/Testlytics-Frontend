@@ -89,7 +89,7 @@ export const studentService = {
 
 export const testService = {
   getAllTests: async () => {
-    const response = await api.get('/tests');
+    const response = await api.get('/tests/upcoming');
     return response.data.responseBody;
   },
   getCompletedTests: async () => {
