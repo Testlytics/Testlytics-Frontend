@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import StatCard from "../../components/StatCard/StatCard";
 import AreaChartComponent from "../../components/AreaChartComponent/AreaChartComponent";
 import styles from "./dashboardOverview.module.css";
-import { testService, testAttemptService, studentService } from "../../services/api";
+import {
+  testService,
+  testAttemptService,
+  studentService,
+} from "../../services/api";
 
 // Converts percentile to grade
 const getGradeFromPercentile = (percentile) => {
@@ -15,9 +19,9 @@ const getGradeFromPercentile = (percentile) => {
 
 const DashboardOverview = () => {
   const [topScorers, setTopScorers] = useState([]);
-  const [userPercentile, setUserPercentile] = useState(null);
-  const [grade, setGrade] = useState("N/A");
   const [performanceData, setPerformanceData] = useState([]);
+  const [avgGrade, setAvgGrade] = useState("N/A");
+  const [classPercentile, setClassPercentile] = useState("N/A");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,10 +31,8 @@ const DashboardOverview = () => {
           studentService.getStudents(),
         ]);
 
-        const studentMap = new Map(students.map(s => [String(s.studentId), s]));
+        const studentMap = new Map(students.map((s) => [String(s.studentId), s]));
         const studentScores = new Map();
-
-        const userId = students[0]?.studentId?.toString(); // 🔁 Replace this with actual user ID from auth/session
 
         const tempPerformance = [];
 
@@ -55,23 +57,20 @@ const DashboardOverview = () => {
             userData.totalScore += attempt.score;
             userData.testCount += 1;
 
-            // Collect current user's performance
-            if (idStr === userId) {
-              const time = parseFloat(attempt.totalTime);
-              const subject = attempt.subjectName || "Subject";
-              const existing = tempPerformance.find((d) => d.time === time);
-              if (existing) {
-                existing[subject] = attempt.score;
-              } else {
-                tempPerformance.push({ time, [subject]: attempt.score });
-              }
+            const time = parseFloat(attempt.totalTime);
+            const subject = attempt.subjectName || "Subject";
+            const existing = tempPerformance.find((d) => d.time === time);
+            if (existing) {
+              existing[subject] = attempt.score;
+            } else {
+              tempPerformance.push({ time, [subject]: attempt.score });
             }
           }
         }
 
         setPerformanceData(tempPerformance.sort((a, b) => a.time - b.time));
 
-        // Compute averages and sort
+        // Compute average scores and percentiles
         const allScorers = Array.from(studentScores.entries()).map(([id, data]) => ({
           userId: id,
           name: data.name,
@@ -83,23 +82,18 @@ const DashboardOverview = () => {
         const sorted = allScorers.sort((a, b) => b.averageScore - a.averageScore);
         setTopScorers(sorted.slice(0, 3));
 
-        const current = allScorers.find(s => s.userId === userId);
-
-        if (current && current.testCount > 0) {
-          const studentsBelow = allScorers.filter(s => s.averageScore < current.averageScore).length;
-          const percentile = (studentsBelow / allScorers.length) * 100;
-
-          setUserPercentile(percentile.toFixed(2));
-          setGrade(getGradeFromPercentile(percentile));
-        } else {
-          setUserPercentile("N/A");
-          setGrade("N/A");
+        // Optional: Calculate overall class percentile (mean) and grade
+        if (sorted.length > 0) {
+          const avg = sorted.reduce((sum, s) => sum + s.averageScore, 0) / sorted.length;
+          const percentile = 100 * (sorted.filter((s) => s.averageScore < avg).length / sorted.length);
+          setClassPercentile(percentile.toFixed(2));
+          setAvgGrade(getGradeFromPercentile(percentile));
         }
 
       } catch (error) {
         console.error("Error in DashboardOverview:", error);
-        setUserPercentile("N/A");
-        setGrade("N/A");
+        setAvgGrade("N/A");
+        setClassPercentile("N/A");
       }
     };
 
@@ -109,14 +103,14 @@ const DashboardOverview = () => {
   return (
     <div className={`container-fluid ${styles.gridContainer}`}>
       <div className="row d-flex align-items-center g-4">
-        {/* Stat Card - Grade & Percentile */}
+        {/* Grade & Percentile for class average */}
         <div className="col-lg-4 col-md-6 d-flex justify-content-center">
           <StatCard
             heading="Class Grade"
             value={
               <div>
-                <div> {grade}</div>
-                {/* <div><strong>Percentile:</strong> {userPercentile}%</div> */}
+                <div> {avgGrade}</div>
+                {/* <div><strong>Class Percentile:</strong> {classPercentile}%</div> */}
               </div>
             }
           />

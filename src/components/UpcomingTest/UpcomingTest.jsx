@@ -12,7 +12,7 @@ const UpcomingTest = () => {
     const fetchTests = async () => {
       try {
         const allTests = await testService.getAllTests();
-        console.log("Fetched tests:", allTests); // ✅ check what's coming in
+   
         setTests(allTests);
       } catch (error) {
         console.error("Failed to fetch tests:", error);
@@ -32,7 +32,7 @@ const UpcomingTest = () => {
       const formattedDate = date.toISOString().split("T")[0];
 
       const matchedTest = tests.find((t) => {
-        console.log("Checking for date:", formattedDate, "against", t.testDate);
+        
         return t.testDate === formattedDate;
       });
 

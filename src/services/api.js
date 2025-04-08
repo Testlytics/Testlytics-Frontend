@@ -35,7 +35,10 @@ export const authService = {
   login: async (credentials) => {
     const response = await api.post('/auth/login', credentials);
     const token = response.data.token;
-    const role = response.data.role.toLowerCase();
+const role = response.data.role.toLowerCase();
+
+    const userId = response.data.userId;
+
 
     // Save to localStorage
     localStorage.setItem("token", token);
