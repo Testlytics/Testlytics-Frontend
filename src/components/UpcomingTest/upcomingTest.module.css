@@ -54,8 +54,8 @@ body {
 
 /* Individual Date Boxes */
 .box {
-    width: 100px;
-    height: 130px;
+    width: 130px;
+    height: 170px;
     border: 1px solid #ccc;
     border-radius: 15px;
     padding-top: 15px;

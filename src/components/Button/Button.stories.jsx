@@ -14,3 +14,9 @@ Primary.args = {
   text: "Click Me",
   variant: "primary",
 };
+
+export const Secondary = (args) => <Button {...args} />;
+Secondary.args = {
+  text: "Click Me",
+  variant: "secondary",
+};

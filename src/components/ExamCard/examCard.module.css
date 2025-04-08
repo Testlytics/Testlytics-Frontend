@@ -56,7 +56,6 @@
 /* 📌 Responsive Adjustments */
 @media (max-width: 1024px) {
   .card {
-    max-width: 90%; /* ✅ Adjust width for tablets */
     padding: 14px;
   }
   

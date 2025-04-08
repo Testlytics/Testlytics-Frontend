@@ -47,7 +47,7 @@ export const authService = {
   }
 };
  
-// Student Service
+ 
 export const studentService = {
   getStudents: async () => {
     try {
@@ -87,7 +87,24 @@ export const testService = {
   getCompletedTests: async () => {
     const response = await api.get('/tests/history');
     return response.data.responseBody || [];
-  }
+  },
+ 
+  createTest: async (testData) => {
+    console.log("📡 POST /tests with data:", testData);
+    const response = await api.post('/tests', testData);
+    return response.data;
+  },
+ 
+  getAllTestData: async () => {
+    const [all, completed] = await Promise.all([
+      testService.getAllTests(),
+      testService.getCompletedTests()
+    ]);
+    return { allTests: all, completedTests: completed };
+  },
+  getTestById: (testId) => api.get(`/tests/${testId}`),
+ 
+ 
 };
  
 export const testAttemptService = {
@@ -101,8 +118,25 @@ export const testAttemptService = {
   getTestAttempt: async (testId, userId) => {
     const response = await api.get(`/attempts/${testId}/user/${userId}`);
     return response.data.responseBody; // Returns full attempt details
+  },
+  getStudentsByTest: async (testId) => {
+    const response = await api.get(`/attempts/test/${testId}/students`);
+    return response.data.responseBody || []; // Returns list of students
+  },
+  getAccuracyForTest: async (testId, userId) => {
+    try {
+      const response = await api.get(`/tests/${testId}/outcomes/accuracy`, {
+        params: { userId }
+      });
+      return response.data.responseBody;
+    } catch (error) {
+      console.error(`Error fetching accuracy for test ${testId} and user ${userId}:`, error);
+      return 0;
+    }
   }
+ 
 };
+ 
  
 export const subjectService = {
   getAllSubjects: async () => {
@@ -110,4 +144,137 @@ export const subjectService = {
     return response.data.responseBody || [];
   }
 };
-export default api; 
+ 
+export const createUser = async (user, imageFile) => {
+  const formData = new FormData();
+  formData.append("user", JSON.stringify(user));
+  if (imageFile) {
+    formData.append("image", imageFile);
+  }
+ 
+  try {
+    const response = await api.post("/users", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error creating user:", error);
+    throw error;
+  }
+};
+ 
+export const getUsersByRole = async (role) => {
+  try {
+    const response = await api.get("/users");
+    const users = response.data.responseBody;
+ 
+    // Normalize role and filter
+    const filtered = users.filter(
+      (user) => user.role && user.role.toLowerCase() === role.toLowerCase()
+    );
+ 
+    return filtered.map((user) => ({
+      id: user.userId || "-", // Use userId from backend
+      name: user.name || "Unknown",
+      email: user.email || "No Email",
+      modifiedAt: user.modifiedAt || "N/A",
+      image: user.image || null,
+      role: user.role,
+    }));
+  } catch (error) {
+    console.error(`Error fetching ${role}s:`, error);
+    throw new Error(`Failed to fetch ${role}s`);
+  }
+};
+export const updateUser = async (id, user, imageFile) => {
+  const formData = new FormData();
+  
+  // 1. Stringify the user object exactly as backend expects
+  formData.append("user", JSON.stringify({
+    username: user.username,
+    email: user.email,
+    password: user.password,
+    role: user.role // Should be the Role object with id
+  }));
+  
+  // 2. Proper image handling
+  if (imageFile instanceof File) {
+    formData.append("image", imageFile);
+  }
+ 
+  try {
+    const response = await api.put(`/users/${id}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        "Authorization": `Bearer ${localStorage.getItem('token')}`
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Update error details:", {
+      config: error.config,
+      response: error.response?.data
+    });
+    throw error;
+  }
+};
+export const deleteUser = async (userId) => {
+  const response = await api.delete(`/users/${userId}`);
+  return response.data;
+};
+
+
+export const userService = {
+  getAllUsers: async () => {
+    const response = await api.get('/users');
+    return response.data.responseBody || [];
+  }
+};
+export const questionService = {
+  addQuestion: async (testId, questionData, imageFile) => {
+    // ✅ Destructure out testId (if it exists accidentally)
+    const { testId: _, questionText, answer, options} = questionData;
+ 
+   
+const orderedQuestionData = {
+  questionText,
+  answer,
+  options,
+};
+ 
+ 
+    // ✅ Log what’s being sent
+    console.log("Sending JSON:", JSON.stringify(orderedQuestionData));
+ 
+    // ✅ Prepare FormData
+    const formData = new FormData();
+    formData.append("question", JSON.stringify(orderedQuestionData));
+ 
+    // ✅ Conditionally add image
+    if (imageFile instanceof File) {
+      formData.append("image", imageFile);
+    }
+ 
+    // ✅ Axios POST with multipart/form-data
+    const response = await api.post(`/tests/${testId}/questions`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+ 
+    return response.data;
+  },
+ 
+  getQuestionsByTestId: async (testId) => {
+    try {
+      const response = await api.get(`/tests/${testId}/questions`);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching questions by test ID:", error.response?.data || error.message);
+      throw error;
+    }
+  },
+};
+export default api;

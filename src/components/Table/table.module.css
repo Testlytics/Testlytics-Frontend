@@ -7,10 +7,11 @@
   border-radius: 8px;
   padding: 10px;
 }
+ 
 
-/* Table Styling */
 .tableContainer .table {
   width: 100%;
+  min-width: 600px;
   min-width: 600px;
   border-collapse: collapse;
   font-size: 1.6rem;
@@ -40,11 +41,12 @@
 .tableContainer td + td {
   border-left: 1px solid #000 !important;
 }
-
+ 
 /* No Data Message */
 .tableContainer .noDataMessage {
   text-align: center;
   padding: 20px;
+  font-size: 1.2rem;
   font-size: 1.2rem;
   color: #777;
 }

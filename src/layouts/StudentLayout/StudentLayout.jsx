@@ -117,24 +117,11 @@ StudentLayout.propTypes = {
   }),
   barGraphData: PropTypes.array,
   lineGraphData: PropTypes.array,
-  rectangleOneText: PropTypes.shape({
-    left: PropTypes.string.isRequired,
-    right: PropTypes.string.isRequired,
+  attendance: PropTypes.shape({
+    attended: PropTypes.number,
+    total: PropTypes.number,
   }),
-  rectangleTwoText: PropTypes.shape({
-    left: PropTypes.string.isRequired,
-    right: PropTypes.string.isRequired,
-  }),
+  accuracy: PropTypes.number,
 };
 
-// ✅ **Default Props to Prevent Undefined Errors**
-StudentLayout.defaultProps = {
-  profilePicture: { imageUrl: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" },
-  studentDetails: { firstName: "John Doe", studentId: "12345", rank: "1" },
-  tableData: { columns: [], data: [] },
-  barGraphData: [],
-  lineGraphData: [],
-  rectangleOneText: { left: "Performance", right: "85%" },
-  rectangleTwoText: { left: "Improvements", right: "+5%" },
-};
 export default StudentLayout;

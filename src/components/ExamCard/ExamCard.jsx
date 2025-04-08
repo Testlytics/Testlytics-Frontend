@@ -24,7 +24,7 @@ const ExamCard = ({ title, description, value, fetchData, buttonText, onButtonCl
 
   return (
     <div className={styles['card']}>
-      <h3 className={styles['title']}>{title}</h3>
+      <h2 className={styles['title']}>{title}</h2>
       {description && <p className={styles['description']}>{description}</p>}
       <p className={styles['value']}>{currentValue}</p>
 

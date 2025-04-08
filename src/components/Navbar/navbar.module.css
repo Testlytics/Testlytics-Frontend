@@ -1,11 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
-
+ 
+ 
 body {
   font-family: 'Outfit', sans-serif;
   margin: 0;
   padding: 0;
+  margin: 0;
+  padding: 0;
 }
-
+ 
 /* ✅ Navbar */
 .navbar {
   display: flex;
@@ -35,6 +38,7 @@ body {
   background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
+  display: inline-block;
 }
 
 /* ✅ Navigation Menu */
@@ -45,10 +49,15 @@ body {
   align-items: center;
   gap: 50px;
   margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  margin: 0 auto;
   padding: 0;
   transition: transform 0.4s ease-in-out, opacity 0.3s ease-in-out;
   position: absolute;
   left: 50%;
+  transform: translateX(-50%);
   transform: translateX(-50%);
 }
 
@@ -60,9 +69,10 @@ body {
   border-radius: 5px;
   transition: color 0.3s ease-in-out;
   position: relative;
+  position: relative;
   color: black;
 }
-
+ 
 /* ✅ Hover Effect */
 .menuItem:hover {
   color: #5A643C;
@@ -75,14 +85,17 @@ body {
   position: absolute;
   left: 0;
   bottom: -5px;
+  bottom: -5px;
   width: 100%;
   height: 7px;
+  height: 7px;
   background-color: #5A643C;
+  transform: scaleX(0);
   transform: scaleX(0);
   transform-origin: center;
   transition: transform 0.3s ease-in-out;
 }
-
+ 
 .menuItem:hover::after {
   transform: scaleX(1);
 }
@@ -103,7 +116,7 @@ body {
   background-color: #5A643C;
   transform: scaleX(1); /* Always visible for active tab */
 }
-
+ 
 /* ✅ User Section */
 .userSection {
   display: flex;
@@ -111,24 +124,25 @@ body {
   cursor: pointer;
   gap: 10px;
 }
-
+ 
 .profilePic {
   width: 40px;
   height: 40px;
   border-radius: 50%;
 }
-
+ 
 .username {
   font-size: 18px;
 }
-
+ 
 /* ✅ Dropdown Arrow Animation */
 .dropdownArrow {
   font-size: 18px;
   transition: transform 0.3s ease-in-out;
 }
-
+ 
 .dropdownArrow.open {
+  transform: rotate(180deg);
   transform: rotate(180deg);
 }
 
@@ -148,7 +162,7 @@ body {
   transform: translateY(20px);
   animation: fadeInUp 0.3s ease-out forwards;
 }
-
+ 
 @keyframes fadeInUp {
   0% {
     opacity: 0;
@@ -159,12 +173,12 @@ body {
     transform: translateY(0);
   }
 }
-
+ 
 /* ✅ Modal Exit Animation */
 .modal-exit {
   animation: fadeOutDown 0.3s ease-out forwards;
 }
-
+ 
 @keyframes fadeOutDown {
   0% {
     opacity: 1;
@@ -175,26 +189,26 @@ body {
     transform: translateY(20px);
   }
 }
-
-
+ 
+ 
 .modalProfilePic {
   width: 60px;
   height: 60px;
   border-radius: 50%;
   margin-bottom: 20px;
 }
-
+ 
 .modalUsername {
   font-size: 28px;
   font-weight: bold;
 }
-
+ 
 .modalRole {
   font-size: 18px;
   color: gray;
   margin-bottom: 10px;
 }
-
+ 
 .modalButton {
   background-color: transparent;
   color: #5A643C;
@@ -207,29 +221,39 @@ body {
   margin-bottom: 5px;
   transition: background-color 0.4s ease-in-out, transform 0.3s ease-in-out;
 }
-
+ 
 .modalButton:hover {
    /* Light gray on hover */
   transform: scale(1.15); /* Slightly enlarge the button */
 }
-
+ 
 .logoutButton {
-  background-color: #992e2e;
-  color: white;
-  padding: 10px;
-  border: none;
-  border-radius: 25px;
+  background-color: #992E2E;
+  color: #ffffff;
+  border: 1px solid #e74c3c;
+  padding: 8px 10px;
+  border-radius: 15px;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   cursor: pointer;
   width: 100%;
+  height: 50px;
   transition: background-color 0.4s ease-in-out, transform 0.3s ease-in-out;
 }
 
+.logoutIcon {
+  font-size: 25px;
+}
+ 
 .logoutButton:hover {
   background-color: #cc3a3a; /* Lighter red color on hover */
   transform: scale(1.05); /* Slightly enlarge the button */
 }
-
-
+ 
+ 
 /* ✅ Hamburger Menu */
 .hamburger {
   display: none;
@@ -239,7 +263,7 @@ body {
   justify-content: space-between;
   cursor: pointer;
 }
-
+ 
 .hamburger span {
   display: block;
   height: 4px;
@@ -248,20 +272,20 @@ body {
   border-radius: 2px;
   transition: all 0.3s ease-in-out;
 }
-
+ 
 /* ✅ Animation for Open Hamburger */
 .hamburger.open span:nth-child(1) {
   transform: translateY(9px) rotate(45deg);
 }
-
+ 
 .hamburger.open span:nth-child(2) {
   opacity: 0;
 }
-
+ 
 .hamburger.open span:nth-child(3) {
   transform: translateY(-9px) rotate(-45deg);
 }
-
+ 
 /* ✅ Responsive Styles */
 
 @media screen and (max-width: 992px) {
@@ -280,7 +304,12 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    align-items: center;
+    justify-content: center;
     position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
     top: 70px;
     left: 0;
     width: 100%;
@@ -298,9 +327,10 @@ body {
     opacity: 1;
     visibility: visible;
   }
-
+ 
   .menuItem {
     font-size: 22px;
+    padding: 12px 0;
     padding: 12px 0;
     text-align: center;
     width: 100%;
@@ -316,28 +346,28 @@ body {
     width: 150px;
   }
 }
-
+ 
 /* ✅ Small Phones (480px) */
 @media screen and (max-width: 480px) {
   .navbar {
     height: 55px;
     padding: 0 10px;
   }
-
+ 
   .logo {
     font-size: 22px;
   }
-
+ 
   .menuItem {
     font-size: 16px;
     padding: 10px;
   }
-
+ 
   .profilePic {
     width: 28px;
     height: 28px;
   }
-
+ 
   .username {
     font-size: 13px;
   }

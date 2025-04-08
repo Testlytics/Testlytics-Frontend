@@ -1,0 +1,25 @@
+/* Main container */
+.missedTestsContainer {
+    max-width: 800px;
+    margin: 40px auto;
+    
+   
+  }
+  
+  /* Heading styling */
+  .heading {
+    font-size: 38px;
+    font-weight: bold;
+    color: #5a643c;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Cards container */
+  .cardsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.05px;
+    align-items: center;
+  }
+  

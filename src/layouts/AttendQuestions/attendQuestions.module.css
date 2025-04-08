@@ -1,0 +1,125 @@
+/* src/layouts/AttendQuestions/AttendQuestions.module.css */
+
+* {
+    box-sizing: border-box;
+}
+
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* grid-template-columns: repeat(5, minmax(50px, 1fr)); 5 equal columns */
+    gap: 20px; /* Uniform spacing between rows & columns */
+    margin: 20px auto;
+    width: 432px;
+    height: 836px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  .questionWrapper {
+    width: 50px; /* Reduce the width */
+    height: 50px; /* Reduce the height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px; /* Adjust font size */
+    cursor: pointer;
+}
+
+  
+  .questionWrapper:hover {
+    opacity: 0.8;
+  }
+  
+  /* Heading at the top */
+  .heading {
+    grid-column: span 5;
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  /* Submit Button */
+  .Button {
+    align-items: center;
+  }
+  
+  .submitButton:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Circle Section (for Attended and Not Attended Circles) */
+  .circleSection {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+    gap:20px;
+  }
+  
+  .circleWrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+  }
+  
+  .circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #ccc; /* Default background color */
+  }
+  
+  .attended {
+    background-color: #5A643C; /* Green for attended */
+  }
+  
+  .questionGrid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    justify-items: center;
+    margin-top: 10px;
+}
+
+.questionNumber {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #eee;
+    border-radius: 50%;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.questionNumber.highlighted {
+    background-color: #5A643C;
+    color: #ffffff;
+}
+
+.highlighted {
+    background-color: #5A643C; /* Green highlight */
+    color: white;
+    font-weight: bold;
+  }
+  
+ /* Timer at the top-right */
+.timer {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #5A643C;
+   
+    padding: 5px 10px;
+    border-radius: 5px;
+}

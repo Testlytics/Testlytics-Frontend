@@ -3,169 +3,174 @@ import styles from "./studentPage.module.css";
 import Navbar from "../../components/Navbar/Navbar";
 import LeftList from "../../layouts/LeftList/LeftList";
 import StudentLayout from "../../layouts/StudentLayout/StudentLayout";
-import students from "./students"; 
-import Profile from "../../assets/images/profile.jpg";
+import { studentService, subjectService, testService, testAttemptService } from "../../services/api";
+import { buildSubjectTestMatrix } from "../../utils/testDataTransformer";
+import students from "./students";
 
-  const StudentPage = () => {
-    const [apiStudents, setApiStudents] = useState([]);
-    const [selectedStudent, setSelectedStudent] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
-    const [tableData, setTableData] = useState({ columns: [], data: [] });
-    const [usingLocalData, setUsingLocalData] = useState(false);
-    const [attendance, setAttendance] = useState({ attended: 0, total: 0 });
-   
-    const handleStudentClick = (student) => {
-      setSelectedStudent(student);
-    };
-   
+const StudentPage = () => {
+  const [apiStudents, setApiStudents] = useState([]);
+  const [selectedStudent, setSelectedStudent] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [barGraphData, setBarGraphData] = useState([]);
+  const [lineGraphData, setLineGraphData] = useState([]);
+  const [tableData, setTableData] = useState({ 
+    columns: ["Subject", "Status"], 
+    data: [{ Subject: "Loading Data", Status: "Please wait..." }] 
+  });
+  const [usingLocalData, setUsingLocalData] = useState(false);
+  const [attendance, setAttendance] = useState({ attended: 0, total: 0 });
+
+  const handleStudentClick = (student) => {
+    setSelectedStudent(student);
+  };
+
   useEffect(() => {
-      const fetchStudents = async () => {
-        try {
-          const data = await studentService.getStudents();
-          setApiStudents(data);
-          setSelectedStudent(data.length > 0 ? data[0] : null);
-          setUsingLocalData(false);
-          setLoading(false);
-        } catch (err) {
-          console.error("API failed, using local data:", err);
-          setSelectedStudent(students[0]);
-          setUsingLocalData(true);
-          setLoading(false);
-        }
-      };
-   
-      fetchStudents();
-    }, []);
-   
-    useEffect(() => {
-      const fetchTestData = async () => {
-        if (!selectedStudent?.userId && !selectedStudent?.studentId) {
-          console.error("No valid student ID available");
-          setTableData({ columns: [], data: [] });
+    const fetchStudents = async () => {
+      try {
+        const data = await studentService.getStudents();
+        setApiStudents(data);
+        setSelectedStudent(data.length > 0 ? data[0] : null);
+        setUsingLocalData(false);
+        setLoading(false);
+      } catch (err) {
+        console.error("API failed, using local data:", err);
+        setSelectedStudent(students[0]);
+        setUsingLocalData(true);
+        setLoading(false);
+        setError("Failed to load student list. Using local data.");
+      }
+    };
+    
+    fetchStudents();
+  }, []);
+
+  useEffect(() => {
+    const fetchTestData = async () => {
+      setTableData({
+        columns: ["Subject", "Status"],
+        data: [{ Subject: "Loading Test Data", Status: "Fetching records..." }]
+      });
+  
+      if (!selectedStudent?.studentId) {
+        setTableData({
+          columns: ["Subject", "Status"],
+          data: [{ Subject: "No Selection", Status: "Please select a student" }]
+        });
+        setAttendance({ attended: 0, total: 0 });
+        return;
+      }
+  
+      try {
+        const [subjects, completedTests, testIds] = await Promise.all([
+          subjectService.getAllSubjects(),
+          testService.getCompletedTests(),
+          testAttemptService.getUserTestIds(selectedStudent.studentId),
+        ]);
+  
+        const attendedCompletedTests = testIds.filter(testId =>
+          completedTests.some(ct => ct.testId === testId)
+        );
+  
+        setAttendance({
+          attended: attendedCompletedTests.length,
+          total: completedTests.length
+        });
+  
+        if (attendedCompletedTests.length === 0) {
+          setTableData({
+            columns: ["Subject", "Status"],
+            data: [{ Subject: "No Tests", Status: "Student hasn't taken any tests yet" }]
+          });
+          setBarGraphData([]);
           return;
         }
-    
-        const studentId = selectedStudent.userId || selectedStudent.studentId;
-        
-        try {
-          const [subjects, completedTests, testIds] = await Promise.all([
-            subjectService.getAllSubjects(),
-            testService.getCompletedTests(),
-            testAttemptService.getUserTestIds(studentId),
-          ]);
-    
-          const attendedCompletedTests = testIds.filter(testId =>
-            completedTests.some(ct => ct.testId === testId)
-          );
-    
-          setAttendance({
-            attended: attendedCompletedTests.length,
-            total: completedTests.length
+  
+        const attempts = await Promise.all(
+          attendedCompletedTests.map(testId =>
+            testAttemptService.getTestAttempt(testId, selectedStudent.studentId)
+              .then(attempt => attempt)
+              .catch(() => ({ id: { testId }, score: null }))
+        ));
+  
+        const matrix = buildSubjectTestMatrix(
+          subjects,
+          completedTests,
+          attendedCompletedTests,
+          attempts.filter(a => a !== null)
+        );
+  
+        if (matrix.data.length === 0) {
+          setTableData({
+            columns: ["Subject", "Status"],
+            data: [{ Subject: "No Data", Status: "No test records found" }]
           });
-    
-          const attempts = await Promise.all(
-            attendedCompletedTests.map(testId =>
-              testAttemptService.getTestAttempt(testId, studentId)
-                .then(attempt => attempt)
-                .catch(error => ({ id: { testId }, score: null }))
-            )
-          );
-    
-          const filteredAttempts = attempts.filter(a => a !== null && a.score !== null);
-    
-          // **Generate barGraphData**
-          const barGraphData = subjects.map(subject => {
-            const subjectAttempts = filteredAttempts.filter(attempt => 
-              completedTests.some(test => test.testId === attempt.id.testId && test.subjectId === subject.subjectId)
-            );
-    
-            const averageScore = subjectAttempts.length
-              ? subjectAttempts.reduce((sum, attempt) => sum + attempt.score, 0) / subjectAttempts.length
-              : 0;
-    
-            return {
-              subject: subject.name,
-              score: averageScore.toFixed(2)  // Keep two decimal places
-            };
-          });
-    
-          const matrix = buildSubjectTestMatrix(
-            subjects,
-            completedTests,
-            attendedCompletedTests,
-            filteredAttempts
-          );
-    
+          setBarGraphData([]);
+        } else {
           setTableData(matrix);
-    
-          // **Set selectedStudent with new data**
-          setSelectedStudent(prev => ({
-            ...prev,
-            barGraphData,
-          }));
-          
-        } catch (error) {
-          console.error("Error loading test data:", error);
-          setTableData({ columns: [], data: [] });
-          setAttendance({ attended: 0, total: 0 });
         }
-      };
-    
-      fetchTestData();
-    }, [selectedStudent]);
-    
-    
-   
-    // Determine which student list to use
-    const studentList = usingLocalData ? students : apiStudents;
-   
-    if (loading) return <p>Loading students...</p>;
-    if (error) return <p>Error: {error}</p>;
-   
+  
+        setBarGraphData(matrix.barGraphData);
+        setLineGraphData(matrix.timeScoreData);
+        setError("");
+  
+      } catch (error) {
+        console.error("Error loading test data:", error);
+        setTableData({
+          columns: ["Subject", "Status"],
+          data: [{ Subject: "-", Status: "No test data" }]
+        });
+        setAttendance({ attended: 0, total: 0 });
+        setBarGraphData([]);
+        setLineGraphData([]);
+        setError("Failed to load test data. Please try again.");
+      }
+    };
+  
+    fetchTestData();
+  }, [selectedStudent]);
+  
+  const studentList = usingLocalData ? students : apiStudents;
+
+  if (loading) return (
+    <div className={styles.loadingContainer}>
+      <div className={styles.loadingSpinner}></div>
+      <p>Loading students...</p>
+    </div>
+  );
+
   return (
     <div className={styles.container}>
-
-
+      <Navbar />
+      
       <div className={styles.mainContent}>
-        {/* Left Sidebar */}
         <div className={styles.leftSidebar}>
           <LeftList
             title="Students"
             data={studentList}
             itemKey="studentId"
             itemLabel="firstName"
-            selectedItemId={selectedStudent?.studentId} 
-            onItemClick={handleStudentClick} 
+            selectedItemId={selectedStudent?.studentId}
+            onItemClick={handleStudentClick}
           />
         </div>
 
-        {/* Right Section */}
         <div className={styles.rightContainer}>
-  {selectedStudent ? (
-    <div className={styles.studentLayout}>
-      <StudentLayout
-        studentDetails={{
-          src: Profile,
-          title: selectedStudent.title,
-          firstName: selectedStudent.firstName,
-          studentId: selectedStudent.studentId,
-          rank: selectedStudent.rank,
-        }}
-        tableData={
-          (tableData && Array.isArray(tableData.columns) && Array.isArray(tableData.data))
-            ? tableData
-            : { columns: [], data: [] }
-        }
-        barGraphData={selectedStudent.barGraphData || []}
-        lineGraphData={selectedStudent.lineGraphData || []}
-        attendance={attendance}
-      />
-    </div>
-  ) : (
-    <p className={styles.noStudent}>No student selected</p>
-  )}
-</div>
+          {selectedStudent ? (
+            <StudentLayout
+              {...selectedStudent}
+              tableData={tableData}
+              barGraphData={barGraphData}
+              lineGraphData={lineGraphData}
+              attendance={attendance}
+              error={error}
+            />
+          ) : (
+            <div className={styles.noSelection}>
+              <p>Please select a student from the list</p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

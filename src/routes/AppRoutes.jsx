@@ -19,7 +19,10 @@ import ChangePassword from '../pages/ChangePassword/ChangePassword';
 import ReportPage from '../pages/ReportPage/ReportPage'; 
 import OverviewPage from '../pages/OverviewPage/OverviewPage';
 import StudentResultPage from "../pages/StudentResultPage/StudentResultPage";
-
+import Exams from "../pages/Exams/Exams";
+import MissednUpcoming from "../pages/MissednUpcoming/MissednUpcoming";
+import DetailedReport from "../pages/DetailedReport/DetailedReport";
+import TestReports from '../pages/TestReports/TestReports';
 const AppRoutes = () => {
   const setIsAuthenticated = useSetRecoilState(isAuthenticatedState);
   const setUser = useSetRecoilState(userState);
@@ -58,6 +61,11 @@ const AppRoutes = () => {
       <Route path="/manage-users" element={<ProtectedRoute><ManageUsersPage /></ProtectedRoute>} />
       <Route path="/reports" element={<ProtectedRoute><ReportPage /></ProtectedRoute>} />
       <Route path="/student-report" element={<ProtectedRoute><StudentResultPage /></ProtectedRoute>} />
+      <Route path="/exams" element={<ProtectedRoute><Exams /></ProtectedRoute>} />
+      <Route path="/missed-upcoming" element={<ProtectedRoute><MissednUpcoming /></ProtectedRoute>} />
+      <Route path="/detailed-report" element={<ProtectedRoute><DetailedReport /></ProtectedRoute>} />
+      <Route path="/test-reports" element={<ProtectedRoute><TestReports /></ProtectedRoute>} />
+    
       </Routes>
   );
 };

@@ -1,0 +1,76 @@
+/* Main card container */
+.card {
+  width: 90%;
+  max-width: 606px;
+  height: auto;
+  padding: 20px;
+  margin: 20px auto;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #C2CABE;
+  display: flex;
+  flex-wrap: wrap; /* Allows wrapping on small screens */
+  align-items: center;
+  gap: 12px;
+  justify-content: space-between;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Date styling */
+.date {
+  font-size: 18px;
+  color: #000000;
+  font-weight: bold;
+  flex: 1 1 100px;
+}
+
+/* Test name styling */
+.testName {
+  font-size: 24px;
+  font-weight: bold;
+  color: #5A643C;
+  text-align: left;
+  flex-grow: 2;
+}
+
+/* View button styling */
+.smallViewButton {
+  background-color: #5a643c;
+  color: #fff;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.3s;
+  flex: 1 1 auto;
+}
+
+.smallViewButton:hover {
+  background-color: #4a532e;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 576px) {
+  .card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    text-align: left;
+  }
+
+  .testName {
+    font-size: 20px;
+    text-align: left;
+    flex-grow: 0;
+  }
+
+  .date, .smallViewButton {
+    font-size: 14px;
+    flex: 1 1 100%;
+  }
+
+  .smallViewButton {
+    align-self: flex-start;
+  }
+}

@@ -1,0 +1,33 @@
+/* Main container */
+.upcomingTestsContainer {
+    width: 90%;
+    margin: 40px auto;
+   
+  }
+  
+  /* Heading styles */
+  .heading {
+    font-size: 38px;
+    font-weight: bold;
+    color: #5a643c;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Container for upcoming cards */
+  .cardsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.05px;
+    margin-bottom: 2px;
+  }
+  
+  /* Calendar section */
+  .calendarContainer {
+    margin-top: 2px;
+    padding: 15px;
+    border-radius: 12px;
+  }
+  
+ 
+  

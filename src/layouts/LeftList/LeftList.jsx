@@ -1,34 +1,46 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import ListCard from "../../components/ListCard/ListCard";
 import styles from "./leftList.module.css";
-
-const LeftList = ({ title, data, onItemClick, selectedItemId, itemKey, itemLabel }) => {
+ 
+const LeftList = ({ title, data = [], onItemClick, selectedItemId, itemKey, itemLabel }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
-  // ✅ Filter items based on search query (Supports any data type)
-  const filteredData = data.filter((item) =>
-    item[itemLabel].toLowerCase().includes(searchQuery.toLowerCase()) ||
-    item[itemKey].toString().includes(searchQuery)
-  );
+  
 
+  const filteredData = useMemo(() => {
+    if (!Array.isArray(data)) return [];
+    return data.filter((item) => {
+      const key = item[itemKey]?.toString().toLowerCase() || "";
+      const label = item[itemLabel]?.toString().toLowerCase() || "";
+      const query = searchQuery.toLowerCase();
+      return key.includes(query) || label.includes(query);
+    });
+  }, [data, searchQuery, itemKey, itemLabel]);
+ 
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>{title}</h1>
-      <SearchBar onSearch={(query) => setSearchQuery(query)} />
+      <SearchBar onSearch={setSearchQuery} />
       <div className={styles.listContainer}>
-        {filteredData.map((item) => (
-          <ListCard
-            key={item[itemKey]}
-            id={item[itemKey]}
-            name={item[itemLabel]}
-            isSelected={selectedItemId === item[itemKey]} // ✅ Highlight selected item
-            onClick={() => onItemClick(item)} // ✅ Pass selected item
-          />
-        ))}
+        {filteredData.length > 0 ? (
+          filteredData.map((item) => (
+            <ListCard
+              key={item[itemKey]}
+              id={item[itemKey]}
+              name={item[itemLabel]}
+              isSelected={selectedItemId === item[itemKey]}
+              onClick={() => onItemClick(item)}
+            />
+          ))
+        ) : (
+          <p className={styles.noResults}>No matching results</p>
+        )}
       </div>
     </div>
   );
 };
-
+ 
+ 
 export default LeftList;
+ 

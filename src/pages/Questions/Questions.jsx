@@ -6,25 +6,25 @@ import Navbar from '../../components/Navbar/Navbar';
 import ViewButton from '../../components/Button/View/ViewButton';
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap
 import styles from './questions.module.css';
-
+ 
 const testNames = [
   { name: 'Physics | Measurements', status: 'Completed' },
   { name: 'Chemistry | Organic', status: 'Scheduled' },
   { name: 'Biology | Brain', status: 'Ongoing' },
   { name: 'Physics | Measurements', status: 'Completed' },
 ];
-
+ 
 const Questions = () => {
   return (
     <div className={styles['questions-page']}>
       {/* Navbar Component */}
       <Navbar />
-
+ 
       <h1 className={styles['questions-heading']}>Questions</h1>
-
+ 
       {/* SearchBar Component */}
       
-
+ 
       {/* Test Names with Rectangles */}
       <div className="container-fluid mt-4">
         {testNames.map((test, index) => (
@@ -34,7 +34,7 @@ const Questions = () => {
             <div className="col-12 col-md-6 d-flex justify-content-center">
               <TestName text={test.name} />
             </div>
-
+ 
             {/* View Button & Status Rectangle (Right) */}
             <div className="col-12 col-md-6 d-flex justify-content-center align-items-center">
               <div className="d-flex justify-content-center align-items-center gap-3">
@@ -43,12 +43,12 @@ const Questions = () => {
                 
               </div>
             </div>
-
+ 
           </div>
         ))}
       </div>
     </div>
   );
 };
-
+ 
 export default Questions;

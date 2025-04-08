@@ -2,7 +2,7 @@ import { RecoilRoot } from "recoil";
 import { BrowserRouter, useLocation } from "react-router-dom";
 import AppRoutes from "./routes/AppRoutes";
 import Navbar from "./components/Navbar/Navbar";
- 
+
 function App() {
   return (
     <RecoilRoot>
@@ -24,5 +24,6 @@ function MainContent() {
     </>
   );
 }
- 
+
 export default App;
+

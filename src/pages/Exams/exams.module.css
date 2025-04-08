@@ -1,0 +1,35 @@
+.pageContainer {
+  margin-top: 80px;
+}
+
+.mainWrapper {
+  padding: 0;
+}
+
+.sidebar {
+  background-color: #fff;
+  padding: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.content {
+  background-color: #F3F5ED;
+  padding: 40px 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  font-weight: 400;
+}
+
+.pageContainer {
+  font-size: 40px;
+  color: #5A643C;
+  font-weight: 400;
+  margin-bottom: 20px;
+}
