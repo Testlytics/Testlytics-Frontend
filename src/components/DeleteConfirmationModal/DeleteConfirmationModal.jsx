@@ -1,9 +1,9 @@
 import React from "react";
 import styles from "./deleteConfirmationModal.module.css";
- 
+
 const DeleteConfirmationModal = ({ isOpen, onClose, onConfirm, user }) => {
   if (!isOpen) return null;
- 
+
   return (
     <div className={styles.overlay}>
       <div className={styles.modal}>
@@ -17,5 +17,5 @@ const DeleteConfirmationModal = ({ isOpen, onClose, onConfirm, user }) => {
     </div>
   );
 };
- 
+
 export default DeleteConfirmationModal;

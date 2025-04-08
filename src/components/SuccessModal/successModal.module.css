@@ -1,0 +1,193 @@
+/* === Overlay / Backdrop === */
+.backdrop,
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px; /* Safe spacing on small screens */
+  box-sizing: border-box;
+}
+
+/* === Modal Base === */
+.modal {
+  background: #ffffff;
+  padding: 30px 24px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  animation: fadeInUp 0.4s ease forwards;
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* === Message & Button === */
+.message {
+  font-size: 18px;
+  margin-top: 60px;
+  font-weight: 500;
+  color: #333;
+}
+
+.button,
+.closeBtn {
+  margin-top: 25px;
+  padding: 10px 20px;
+  background-color: #5a643c;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: fit-content;
+}
+
+.button:hover,
+.closeBtn:hover {
+  background-color: #47512e;
+}
+
+/* === Lottie Animation === */
+.lottie {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+}
+
+/* === Checkmark Fallback === */
+.checkmarkWrapper {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.checkmark {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 2;
+  stroke: #4caf50;
+  stroke-miterlimit: 10;
+  box-shadow: inset 0px 0px 0px #4caf50;
+  animation: fill 1.4s ease-in-out infinite, scale 1.2s ease-in-out infinite;
+  position: relative;
+}
+
+.checkmark::before {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 40px;
+  border-right: 4px solid #4caf50;
+  border-bottom: 4px solid #4caf50;
+  transform: rotate(45deg);
+  top: 18px;
+  left: 28px;
+  animation: drawCheck 1.2s ease-in-out infinite;
+opacity: 1;
+
+}
+
+/* === Cross Animation === */
+.crossWrapper {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.cross {
+  width: 80px;
+  height: 80px;
+  position: relative;
+}
+
+.cross::before,
+.cross::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60px;
+  height: 4px;
+  background-color: #e74c3c;
+  transform-origin: center;
+  animation: drawCross 1.2s ease-in-out infinite;
+  opacity: 1;
+  
+}
+
+.cross::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.cross::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* === Animations === */
+@keyframes fadeInUp {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes drawCheck {
+    0%, 100% {
+      transform: scale(0.5) rotate(45deg);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1) rotate(45deg);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes drawCross {
+    0%, 100% {
+      transform: scale(0.5) rotate(45deg);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1) rotate(45deg);
+      opacity: 1;
+    }
+  }
+  
+
+@keyframes fill {
+  0% {
+    box-shadow: inset 0px 0px 0px #4caf50;
+  }
+  100% {
+    box-shadow: inset 0px 0px 80px #4caf50;
+  }
+}
+
+@keyframes scale {
+  0%, 100% {
+    transform: none;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}

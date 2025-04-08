@@ -1,85 +1,100 @@
-/* Main calendar container */
+/* Responsive Calendar Styles */
 .calendarContainer {
-    width: 440px;
-    height: 400px;
-    margin: 20px auto;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    background-color: #B0BEA8;
-  }
-  
-  /* Header with month and navigation buttons */
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .monthTitle {
-    font-size: 20px;
-    font-weight: bold;
-    color: #5a643c;
-  }
-  
-  
+  width: 100%;
+  max-width: 440px;
+  height: auto;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #B0BEA8;
+  box-sizing: border-box;
+}
 
+/* Header with month and navigation buttons */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
 
-  .navButton {
+.monthTitle {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #5a643c;
+}
+
+.navButton {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 1.2rem;
   color: #5a643c;
-  padding: 0;
   margin: 0 10px;
-  outline: none;
   transition: color 0.3s;
 }
 
-  
-  /* Days of the week */
-  .weekDays {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    margin-bottom: 10px;
+/* Days of the week */
+.weekDays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 10px;
+}
+
+.dayHeader {
+  font-weight: bold;
+  text-align: center;
+  padding: 5px;
+  color: #3E4727;
+}
+
+/* Calendar grid styling */
+.daysGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+}
+
+.day {
+  width: 100%;
+  text-align: center;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  line-height: 40px;
+}
+
+.highlighted {
+  background-color: #5a643c;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 100px;
+}
+
+.empty {
+  background-color: transparent;
+}
+
+/* Media Queries */
+@media (max-width: 576px) {
+  .calendarContainer {
+    padding: 15px;
   }
-  
-  .dayHeader {
-    font-weight: bold;
-    text-align: center;
-    padding: 5px;
-    color: #3E4727;
+
+  .monthTitle {
+    font-size: 1rem;
   }
-  
-  /* Calendar grid styling */
-  .daysGrid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 5px;
+
+  .navButton {
+    font-size: 1rem;
   }
-  
-  .day {
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    text-align: center;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+
+  .dayHeader, .day {
+    font-size: 0.85rem;
   }
-  
-  /* Highlighted upcoming date */
-  .highlighted {
-    background-color: #5a643c;
-    color: #fff;
-    font-weight: bold;
-    border-radius: 100px;
+
+  .weekDays, .daysGrid {
+    gap: 3px;
   }
-  
-  /* Empty slots at the beginning */
-  .empty {
-    background-color: transparent;
-  }
-  
+}

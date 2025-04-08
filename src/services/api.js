@@ -1,14 +1,14 @@
 import axios from 'axios';
-
+ 
 const API_BASE_URL = 'http://localhost:8080/api';
-
+ 
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
 });
-
+ 
 // Request interceptor for auth token
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
@@ -17,7 +17,7 @@ api.interceptors.request.use((config) => {
   }
   return config;
 });
-
+ 
 // Response interceptor
 api.interceptors.response.use(
   (response) => response,
@@ -29,7 +29,7 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
+ 
 // Auth Service
 export const authService = {
   login: async (credentials) => {
@@ -66,16 +66,16 @@ export const studentService = {
       const users = response.data.responseBody;
      
       // Filter only users with role "STUDENT" (assuming role is case-insensitive)
-      const students = users.filter(user => 
+      const students = users.filter(user =>
         user.role && user.role.toLowerCase() === "student"
       );
-
+ 
       return students.map(student => ({
         studentId: String(student.userId), // Convert userId to a string
         firstName: student.name || "Unknown", // Ensure a valid name
         email: student.email || "No Email",
         image: student.image ,
-        title: "Student", 
+        title: "Student",
         rank: "N/A",
         tableData: [],
         barGraphData: [],
@@ -88,8 +88,8 @@ export const studentService = {
     }
   }
 };
-
-
+ 
+ 
 export const testService = {
   getAllTests: async () => {
     const response = await api.get('/tests/upcoming');
@@ -98,9 +98,26 @@ export const testService = {
   getCompletedTests: async () => {
     const response = await api.get('/tests/history');
     return response.data.responseBody || [];
-  }
+  },
+ 
+  createTest: async (testData) => {
+    console.log("📡 POST /tests with data:", testData);
+    const response = await api.post('/tests', testData);
+    return response.data;
+  },
+ 
+  getAllTestData: async () => {
+    const [all, completed] = await Promise.all([
+      testService.getAllTests(),
+      testService.getCompletedTests()
+    ]);
+    return { allTests: all, completedTests: completed };
+  },
+  getTestById: (testId) => api.get(`/tests/${testId}`),
+ 
+ 
 };
-
+ 
 export const testAttemptService = {
   // Get list of test IDs for a user
   getUserTestIds: async (userId) => {

@@ -7,9 +7,11 @@ body {
 }
 
 /* 📌 Base Button Styles */
+/* Ensures button itself stays centered when used inside a flex or block container */
 .button {
-  width: 100%; /* ✅ Full width on smaller screens */
-  max-width: 250px; /* ✅ Prevents it from becoming too large on big screens */
+  margin: 0 auto; /* ✅ Always center horizontally */
+  width: 100%; 
+  max-width: 250px;
   height: 55px;
   padding: 12px 20px;
   border: none;
@@ -23,6 +25,7 @@ body {
   font-weight: 500;
   transition: all 0.3s ease-in-out;
 }
+
 
 /* ✅ Primary Button */
 .primary {

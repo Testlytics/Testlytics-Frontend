@@ -1,44 +1,57 @@
-/* Prevent scrolling on the body and html */
+
 html, body {
   margin: 0;
   padding: 0;
   height: 100%;
   width: 100%;
-  overflow: hidden; 
+  overflow: hidden;
   overflow-y: auto;
 }
 
-/* Main container */
+
 .container {
   display: flex;
-  flex-direction: column;
-  height: 100vh;
-  width: 100vw;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
+  min-height: 100vh;
+  width: 100%;
+  margin-top: 80px;
   overflow-y: auto;
-  margin-top: 100px;
 }
 
-/* Wrapper to hold both sections and fill remaining space */
+
 .contentWrapper {
   display: flex;
-  flex-grow: 1; /* Fill available space */
+  flex-direction: row;
   width: 100%;
-  margin-top: 0;
-  overflow: hidden;
-  overflow-y: auto;
+  flex-wrap: wrap;
 }
 
-/* Left and Right Sections */
+
 .leftSection,
 .rightSection {
-  flex: 1; /* Equal space */
-  overflow-y: auto;
+  flex: 1;
+  min-width: 50%;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
-/* Optional: Add spacing between sections */
+
+.leftSection {
+  background-color: #fff;
+}
+
+
 .rightSection {
   background-color: #F3F5ED;
+}
+@media (max-width: 1024px) {
+    .rightSection{
+      height: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+  .leftSection,
+  .rightSection {
+    min-width: 100%;
+  }
 }

@@ -52,7 +52,7 @@ setIsAuthenticated(true);
       
       navigate(user.role === "admin" ? "/overview" : "/overview");
     } catch (err) {
-      setError(() => err.response?.data?.message || "Invalid credentials");
+      setError(err.response?.data?.message || "Invalid credentials");
       console.error("Login error:", err);
     } finally {
       setLoading(false);

@@ -9,7 +9,6 @@ const MissedCard = ({ date, testName, onViewClick }) => {
       <div className={styles.testName}>{testName}</div>
       <Button
           text="View"
-          variant="secondary"
           onClick={() => alert("View missed test!")}
         /> {/* Using the imported Button */}
     </div>

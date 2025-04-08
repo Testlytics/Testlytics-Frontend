@@ -64,7 +64,7 @@ const StudentLayout = ({
   return (
     <div className={`container-fluid ${styles.layout}`}>
       {/* 🚀 Row 1 */}
-      <div className="row align-items-start my-4 gy-4">
+      <div className="row align-items-center my-4 gy-4">
         {/* Profile Picture */}
         <div className="col-12 col-md-2 d-flex justify-content-center align-items-center">
           <ProfilePicture src={imageUrl} />
@@ -140,8 +140,8 @@ StudentLayout.propTypes = {
   email: PropTypes.string,
   image: PropTypes.string,
   tableData: PropTypes.shape({
-    columns: PropTypes.arrayOf(PropTypes.string),
-    data: PropTypes.arrayOf(PropTypes.object),
+    columns: PropTypes.arrayOf(PropTypes.string).isRequired,
+    data: PropTypes.arrayOf(PropTypes.object).isRequired,
   }),
   barGraphData: PropTypes.array,
   lineGraphData: PropTypes.array,

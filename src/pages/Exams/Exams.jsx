@@ -1,11 +1,13 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './exams.module.css';
 import ExamCard from '../../components/ExamCard/ExamCard';
 import Navbar from '../../components/Navbar/Navbar';
 import Table from "../../components/Table/Table";
 
 const Exams = () => {
-  // Sample data for 3 ExamCards
+  const navigate = useNavigate();
+
   const examsData = [
     {
       title: 'LIVE Exam',
@@ -26,38 +28,43 @@ const Exams = () => {
   ];
 
   const tableColumns = ["Sl No","Date", "Subject", "Exam Name" , "Score" ];
-
-   // Data for the Table
-   const tableData = [
+  const tableData = [
     { "Sl No": "1", Date: "18-06-2024", Subject: "Physics","Exam Name": "Measurements",  Score: "78/100" },
-    { "Sl No": "1", Date: "25-06-2024", Subject: "Chemistry","Exam Name": "Organic",  Score: "80/100" },
-    { "Sl No": "1", Date: "01-03-2025", Subject: "Maths","Exam Name": "Maths Quiz",  Score: "90/100" },
+    { "Sl No": "2", Date: "25-06-2024", Subject: "Chemistry","Exam Name": "Organic",  Score: "80/100" },
+    { "Sl No": "3", Date: "01-03-2025", Subject: "Maths","Exam Name": "Maths Quiz",  Score: "90/100" },
   ];
 
   return (
+    <div className={styles.pageContainer}>
+      <Navbar />
 
-    <div className={styles['page-container']}>
-        <Navbar />
-   
-    <div className={styles['exams-container']}>
-         
-      <div className={styles['sidebar']}>
-        {examsData.map((exam, index) => (
-          <ExamCard
-            key={index}
-            title={exam.title}
-            description={exam.description}
-            value={exam.value}
-            buttonText={exam.buttonText}
-            onButtonClick={() => alert(`${exam.title} button clicked!`)}
-          />
-        ))}
+      <div className={`container-fluid ${styles.mainWrapper}`}>
+        <div className="row">
+          <div className={`col-lg-3 col-md-12 ${styles.sidebar}`}>
+            {examsData.map((exam, index) => (
+              <ExamCard
+                key={index}
+                title={exam.title}
+                description={exam.description}
+                value={exam.value}
+                buttonText={exam.buttonText}
+                onButtonClick={() => {
+                  if (exam.title === 'Missed Exams' || exam.title === 'Upcoming Exams') {
+                    navigate('/missed-upcoming');
+                  } else {
+                    alert(`${exam.title} button clicked!`);
+                  }
+                }}
+              />
+            ))}
+          </div>
+
+          <div className={`col-lg-9 col-md-12 ${styles.content}`}>
+            <h1>History</h1>
+            <Table columns={tableColumns} data={tableData} />
+          </div>
+        </div>
       </div>
-      <div className={styles['content']}>
-        <h1>History</h1>
-        <Table columns={tableColumns} data={tableData} />
-      </div>
-    </div>
     </div>
   );
 };
