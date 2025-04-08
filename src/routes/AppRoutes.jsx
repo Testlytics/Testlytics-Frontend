@@ -1,20 +1,18 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
 import LoginPage from '../pages/LoginPage/LoginPage';
-import ChangePassword from '../pages/ChangePassword/ChangePassword';
+
 
 // Admin/Teacher Pages
-import OverviewPage from '../pages/OverviewPage/OverviewPage';
+
 import StudentPage from '../pages/StudentPage/StudentPage';
 import ExamOverviewPage from '../pages/ExamOverviewPage/ExamOverviewPage';
 import SubjectPage from '../pages/SubjectPage/SubjectPage';
 import AddQuestionPage from '../pages/AddQuestionPage/AddQuestionPage';
 import Questions from '../pages/Questions/Questions';
 import ManageUsersPage from '../pages/ManageUsersPage/ManageUsersPage';
-<<<<<<< HEAD
-import ReportPage from '../pages/ReportPage/ReportPage';
+
 import StudentResultPage from "../pages/StudentResultPage/StudentResultPage";
-=======
 import ChangePassword from '../pages/ChangePassword/ChangePassword';
 import ReportPage from '../pages/ReportPage/ReportPage'; // ✅ Import Report Page
 import OverviewPage from '../pages/OverviewPage/OverviewPage';
@@ -22,11 +20,9 @@ import OverviewPage from '../pages/OverviewPage/OverviewPage';
 import Exams from '../pages/Exams/Exams';
 
 import QuestionPaper from '../pages/QuestionPaper/QuestionPaper';
->>>>>>> feature-navaneetha
 
 // Test-Taking Pages
 import MissednUpcoming from '../pages/MissednUpcoming/MissednUpcoming';
-import QuestionPaper from '../pages/QuestionPaper/QuestionPaper';
 import StartTest from '../pages/StartTest/StartTest';
 import AttendTest from '../pages/AttendTest/AttendTest';
 

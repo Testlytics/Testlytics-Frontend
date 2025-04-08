@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import React, { useState, useEffect } from 'react';
+
 import Navbar from '../../components/Navbar/Navbar';
 import FormLayout from '../../layouts/FormLayout/FormLayout';
 import QuestionLayout from '../../layouts/QuestionLayout/QuestionLayout';
@@ -131,23 +131,10 @@ const AddQuestionPage = () => {
             setTestData={setTestData}
             onSave={handleSaveTest}
           />
-          <FormLayout
-            testData={testData}
-            setTestData={setTestData}
-            onSave={handleSaveTest}
-          />
+         
         </div>
         <div className={styles.rightSection}>
-          <QuestionLayout
-            question={question}
-            setQuestion={setQuestion}
-            options={options}
-            setOptions={setOptions}
-            correctAnswerIndex={correctAnswerIndex}
-            setCorrectAnswerIndex={setCorrectAnswerIndex}
-            onSave={handleSaveQuestion}
-            onSubmit={handleSubmitAll}
-          />
+          
           <QuestionLayout
             question={question}
             setQuestion={setQuestion}

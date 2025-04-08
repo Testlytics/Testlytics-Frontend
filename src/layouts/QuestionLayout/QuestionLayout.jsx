@@ -1,8 +1,6 @@
 import React from 'react';
-import React from 'react';
 import InputField from '../../components/InputField/InputField';
 import AddImage from '../../components/AddImage/AddImage';
-import Button from '../../components/Button/Button';
 import Button from '../../components/Button/Button';
 import styles from './questionLayout.module.css';
 import { toast } from 'react-toastify';
@@ -75,10 +73,6 @@ const QuestionLayout = ({
                 updated[index] = e.target.value;
                 setOptions(updated);
               }}
-                const updated = [...options];
-                updated[index] = e.target.value;
-                setOptions(updated);
-              }}
             />
  
             {options.length > 4 && (
@@ -97,7 +91,7 @@ const QuestionLayout = ({
   <br className={styles.mobileBreak} />
   It will be saved as the correct answer.
 </p>
-
+ 
       <div className={styles.buttonContainer}>
 <Button text="Save" onClick={onSave} />
 <Button text="Submit" onClick={onSubmit} />
@@ -107,3 +101,4 @@ const QuestionLayout = ({
 };
  
 export default QuestionLayout;
+ 

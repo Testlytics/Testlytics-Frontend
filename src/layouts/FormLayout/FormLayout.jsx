@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import React, { useEffect, useState } from 'react';
+
 import InputField from '../../components/InputField/InputField';
 import Dropdown from '../../components/Dropdown/Dropdown';
 import styles from './formLayout.module.css';

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import React, { useState, useEffect } from "react";
+
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import styles from "./upcomingTest.module.css";
 import Heading from "../Heading/Heading";
