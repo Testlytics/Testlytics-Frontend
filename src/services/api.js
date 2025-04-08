@@ -34,15 +34,14 @@ api.interceptors.response.use(
 export const authService = {
   login: async (credentials) => {
     const response = await api.post('/auth/login', credentials);
+    
     const token = response.data.token;
-const role = response.data.role.toLowerCase();
-
-    const userId = response.data.userId;
-
-
-    // Save to localStorage
+    const role = response.data.role.toLowerCase();
+    
+    // ✅ Save all necessary data to localStorage
     localStorage.setItem("token", token);
-    localStorage.setItem("user", JSON.stringify({ role })); // Add other user info as needed
+    localStorage.setItem("user", JSON.stringify({ role }));
+    
 
     return {
       token,
@@ -54,7 +53,8 @@ const role = response.data.role.toLowerCase();
 
   logout: () => {
     localStorage.removeItem('token');
-    localStorage.removeItem('user'); // Optional: remove user info too
+    localStorage.removeItem('user');
+    localStorage.removeItem('userId'); // ✅ Also clean up userId on logout
   }
 };
 
@@ -64,7 +64,7 @@ export const studentService = {
     try {
       const response = await api.get('/users'); // Fetch all users
       const users = response.data.responseBody;
-
+     
       // Filter only users with role "STUDENT" (assuming role is case-insensitive)
       const students = users.filter(user => 
         user.role && user.role.toLowerCase() === "student"

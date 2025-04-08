@@ -9,7 +9,7 @@ import LineGraph from "../../components/LineGraph/LineGraph";
 import Rectangle from "../../components/Rectangle/Rectangle";
 import Button from "../../components/Button/Button";
 import styles from "./subjectLayout.module.css"; // we'll use styles.centerColumn
- 
+
 const SubjectLayout = ({
   subjectDetails = { subject: "Unknown", totalExams: 0 },
   tableColumns = [],
