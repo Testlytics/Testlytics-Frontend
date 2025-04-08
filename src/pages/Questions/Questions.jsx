@@ -7,6 +7,7 @@ import ViewButton from '../../components/Button/View/ViewButton';
 import { testService, subjectService } from '../../services/api';
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap
 import { useNavigate } from 'react-router-dom';
+import styles from "./questions.module.css";
 
 
 const Questions = () => {

@@ -59,25 +59,26 @@ export const authService = {
 export const studentService = {
   getStudents: async () => {
     try {
-      const response = await api.get('/users');
+      const response = await api.get('/users'); // Fetch all users
       const users = response.data.responseBody;
-
-      const students = users.filter(user =>
+     
+      // Filter only users with role "STUDENT" (assuming role is case-insensitive)
+      const students = users.filter(user => 
         user.role && user.role.toLowerCase() === "student"
       );
 
       return students.map(student => ({
-        studentId: String(student.userId),
-        firstName: student.name || "Unknown",
+        studentId: String(student.userId), // Convert userId to a string
+        firstName: student.name || "Unknown", // Ensure a valid name
         email: student.email || "No Email",
-        image: student.image,
-        title: "Student",
+        image: student.image ,
+        title: "Student", 
         rank: "N/A",
         tableData: [],
         barGraphData: [],
         lineGraphData: []
       }));
-
+      
     } catch (error) {
       console.error('Error fetching students:', error);
       throw new Error('Failed to load students. Please try again.');

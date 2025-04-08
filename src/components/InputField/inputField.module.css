@@ -1,24 +1,34 @@
 .inputContainer {
-    margin-bottom: 20px; /* Space between input fields */
-  }
-  
-  .heading {
-    font-size: 32px; /* Heading font size */
-    margin-bottom: 8px;
-    font-weight: 400; /* Space between heading and input */
-  }
-  
-  .input {
-    border: none; /* No border by default */
-    border-bottom: 2px solid #000; /* Only a bottom border for the line effect */
-    width: 300px; /* Make the input take up the full width */
-    padding: 8px 0; /* Padding on the top and bottom */
-    font-size: 18px; /* Input text size */
-    outline: none; /* Remove default focus outline */
-    background: transparent; /* Transparent background */
-  }
-  
-  .input:focus {
-    border-bottom-color: #6f910b; /* Change color when focused */
-  }
-  
+  margin-bottom: 20px; /* Space between input fields */
+}
+ 
+.heading {
+  font-size: 32px; /* Heading font size */
+  margin-bottom: 8px;
+  font-weight: 400; /* Light heading weight */
+}
+ 
+.input {
+  border: none;
+  border-bottom: 2px solid #000; /* Bottom border only */
+  width: 300px;
+  padding: 8px 0;
+  font-size: 18px;
+  outline: none;
+  background: transparent;
+  transition: border-color 0.3s ease;
+}
+ 
+.input:focus {
+  border-bottom-color: #6f910b; /* Green shade on focus */
+}
+ 
+.errorBorder {
+  border-bottom-color: red !important; /* Red underline when error */
+}
+ 
+.error {
+  color: red;
+  font-size: 14px;
+  margin-top: 4px;
+}

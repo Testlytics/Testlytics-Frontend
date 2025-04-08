@@ -3,6 +3,7 @@ import styles from "./studentPage.module.css";
 import Navbar from "../../components/Navbar/Navbar";
 import LeftList from "../../layouts/LeftList/LeftList";
 import StudentLayout from "../../layouts/StudentLayout/StudentLayout";
+import { studentService, subjectService, testService, testAttemptService } from "../../services/api";
 import { buildSubjectTestMatrix } from "../../utils/testDataTransformer";
 import students from "./students";
 
