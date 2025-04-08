@@ -41,13 +41,14 @@ const LoginPage = () => {
       const { token, user } = await authService.login({ email, password });
       
       if (!token) throw new Error("Authentication token missing");
-      if (!token) throw new Error("Authentication token missing");
-  
-      localStorage.setItem("token", token);
-      setUser({ email: user.email, role: user.role });
       
-      setUserRole(user.role);
-      setIsAuthenticated(true);
+  localStorage.setItem("token", token);
+  localStorage.setItem("user", JSON.stringify({ email: user.email, role: user.role }));
+
+setUser({ email: user.email, role: user.role });
+setUserRole(user.role);
+setIsAuthenticated(true);
+
       
       navigate(user.role === "admin" ? "/overview" : "/overview");
     } catch (err) {

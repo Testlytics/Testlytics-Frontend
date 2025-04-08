@@ -1,13 +1,4 @@
-import { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
-import {
-  isAuthenticatedState,
-  userState,
-  authLoadingState,
-  userRoleState
-} from '../states/UserState';
-
 import ProtectedRoute from './ProtectedRoute';
 import LoginPage from '../pages/LoginPage/LoginPage';
 import ChangePassword from '../pages/ChangePassword/ChangePassword';
@@ -29,32 +20,7 @@ import QuestionPaper from '../pages/QuestionPaper/QuestionPaper';
 import StartTest from '../pages/StartTest/StartTest';
 import AttendTest from '../pages/AttendTest/AttendTest';
 
-
 const AppRoutes = () => {
-  const setIsAuthenticated = useSetRecoilState(isAuthenticatedState);
-  const setUser = useSetRecoilState(userState);
-  const setIsLoading = useSetRecoilState(authLoadingState);
-  const setUserRole = useSetRecoilState(userRoleState);
-
-  useEffect(() => {
-    const checkAuth = async () => {
-      setIsLoading(true);
-      try {
-        const user = await getCurrentUser();
-        setUser(user);
-        setUserRole(user.role);
-        setIsAuthenticated(true);
-      } catch (err) {
-        localStorage.removeItem('token');
-        setIsAuthenticated(false);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    checkAuth();
-  }, [setIsAuthenticated, setUser, setIsLoading, setUserRole]);
-
   return (
     <Routes>
       {/* Public Routes */}
@@ -75,11 +41,11 @@ const AppRoutes = () => {
       <Route path="/missednupcoming" element={<ProtectedRoute><MissednUpcoming /></ProtectedRoute>} />
       <Route path="/starttest" element={<ProtectedRoute><StartTest /></ProtectedRoute>} />
 
-      {/* Public Test Page (Optional: Protect if needed) */}
+      {/* Public Test Pages */}
       <Route path="/attend-test" element={<AttendTest />} />
       <Route path="/questionpaper/:variant" element={<QuestionPaper />} />
 
-      {/* Catch-All Route */}
+      {/* Fallback */}
       <Route path="*" element={<h1>Page Not Found</h1>} />
     </Routes>
   );

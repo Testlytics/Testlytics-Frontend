@@ -40,28 +40,29 @@ const Navbar = () => {
  
   const handleLogout = async () => {
     try {
-    
+      // Clear localStorage
       localStorage.removeItem('token');
-      localStorage.removeItem('userRole');
-      
+      localStorage.removeItem('user'); // ✅ Correct key
+  
       // Reset Recoil state
       setUserRole('');
       setIsAuthenticated(false);
-      
-      // Close modal and redirect to login
+  
+      // Close modal and navigate
       setIsModalOpen(false);
       navigate('/login');
-      
     } catch (error) {
       console.error('Logout failed:', error);
-      // Fallback: clear storage and state even if API fails
+  
+      // Fallback: ensure cleanup
       localStorage.removeItem('token');
-      localStorage.removeItem('userRole');
+      localStorage.removeItem('user'); // ✅ Correct key
       setUserRole('');
       setIsAuthenticated(false);
       navigate('/login');
     }
   };
+  
  
   return (
     <nav className={styles.navbar}>

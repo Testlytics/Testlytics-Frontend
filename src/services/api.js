@@ -34,16 +34,24 @@ api.interceptors.response.use(
 export const authService = {
   login: async (credentials) => {
     const response = await api.post('/auth/login', credentials);
+    const token = response.data.token;
+    const role = response.data.role.toLowerCase();
+
+    // Save to localStorage
+    localStorage.setItem("token", token);
+    localStorage.setItem("user", JSON.stringify({ role })); // Add other user info as needed
+
     return {
-      token: response.data.token,
+      token,
       user: {
-        role: response.data.role.toLowerCase(),
-       
+        role
       }
     };
   },
+
   logout: () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('user'); // Optional: remove user info too
   }
 };
 
