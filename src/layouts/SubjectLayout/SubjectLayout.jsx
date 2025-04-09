@@ -1,88 +1,90 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { userRoleState } from "../../states/UserState";
+import { testService } from "../../services/api";
+import { testAttemptService } from "../../services/api";
 import SubjectDetails from "../../components/SubjectDetails/SubjectDetails";
 import Table from "../../components/Table/Table";
 import AreaChartComponent from "../../components/AreaChartComponent/AreaChartComponent";
 import BarGraph from "../../components/BarGraph/BarGraph";
 import LineGraph from "../../components/LineGraph/LineGraph";
 import Rectangle from "../../components/Rectangle/Rectangle";
-import Button from "../../components/Button/Button";
 import styles from "./subjectLayout.module.css"; // we'll use styles.centerColumn
 
 const SubjectLayout = ({
-  subjectDetails = { subject: "Unknown", totalExams: 0 },
+  subjectDetails = { subject: "Unknown", totalExams: 0, subjectId: null },
   tableColumns = [],
   tableData = [],
-  performanceGraphData = [],
   classAccuracyData = [],
   classToppers = [],
   rectangleOneText = { left: "Attendance", right: "85%" },
   rectangleTwoText = { left: "Accuracy", right: "+6%" },
+  studentTableData = [],
+  timeVsScoreData = [],
 }) => {
   const userRole = useRecoilValue(userRoleState);
-
-  const timeVsScoreData = [
-    { testName: "Test 1", timeSpent: 30, score: 78 },
-    { testName: "Test 2", timeSpent: 45, score: 85 },
-    { testName: "Test 3", timeSpent: 45, score: 27 },
-    { testName: "Test 4", timeSpent: 50, score: 92 },
-    { testName: "Test 5", timeSpent: 35, score: 73 },
-  ];
+  const [performanceGraphData, setPerformanceGraphData] = useState([]);
 
   const studentTableColumns = ["Test No", "Date", "Test Name", "Score", "Actions"];
 
-  const studentTableData = [
-    {
-      "Test No": 1,
-      Date: "2025-03-01",
-      "Test Name": "Quiz 1",
-      Score: 80,
-      Actions: <Button text="View" />,
-    },
-    {
-      "Test No": 2,
-      Date: "2025-03-10",
-      "Test Name": "Midterm",
-      Score: 85,
-      Actions: <Button text="View" />,
-    },
-    {
-      "Test No": 3,
-      Date: "2025-03-20",
-      "Test Name": "Quiz 2",
-      Score: 88,
-      Actions: <Button text="View" />,
-    },
-    {
-      "Test No": 4,
-      Date: "2025-03-30",
-      "Test Name": "Final Exam",
-      Score: 90,
-      Actions: <Button text="View" />,
-    },
-    {
-      "Test No": 5,
-      Date: "2025-04-01",
-      "Test Name": "Unit Test",
-      Score: 78,
-      Actions: <Button text="View" />,
-    },
-    {
-      "Test No": 6,
-      Date: "2025-04-10",
-      "Test Name": "Monthly Test",
-      Score: 84,
-      Actions: <Button text="View" />,
-    },
-  ];
+  // 🔽 Fetch performance graph data (for teacher)
+  useEffect(() => {
+    const fetchPerformanceGraph = async () => {
+      if (!subjectDetails.subjectId || userRole !== "admin") {
+        console.log("Not fetching. Either subjectId is missing or user is not an admin.");
+        return;
+      }
+  
+      console.log("Fetching tests for subjectId:", subjectDetails.subjectId);
+  
+      try {
+        const allTests = await testService.getCompletedTests();
+        console.log("All tests fetched:", allTests);
+  
+        const subjectTests = allTests.filter(
+          (test) => test.subjectId === subjectDetails.subjectId
+        );
+        console.log("Filtered subject tests:", subjectTests);
+  
+        const graphData = await Promise.all(
+          subjectTests.map(async (test) => {
+            console.log(`Fetching attempts for test: ${test.testName} (${test.testId})`);
+  
+            const attempts = await testAttemptService.getStudentsByTest(test.testId);
+            console.log(`Attempts for ${test.testName}:`, attempts);
+  
+            const scores = attempts.map((a) => a.score || 0);
+            console.log(`Scores for ${test.testName}:`, scores);
+  
+            const avg = scores.length
+              ? scores.reduce((sum, score) => sum + score, 0) / scores.length
+              : 0;
+            console.log(`Average score for ${test.testName}:`, avg);
+  
+            return {
+              name: test.testName,
+              score: Math.round(avg),
+            };
+          })
+        );
+  
+        console.log("Final graph data (average scores):", graphData);
+        setPerformanceGraphData(graphData);
+      } catch (error) {
+        console.error("Error fetching performance graph:", error);
+      }
+    };
+  
+    fetchPerformanceGraph();
+  }, [subjectDetails.subjectId, userRole]);
+  
 
   return (
-    <div className={`container-fluid py-4`}>
+    <div className={`container-fluid py-4 mx-5`}>
       {/* First Row */}
-      <div className="row g-4 align-items-center">
+      <div className="row g-4 ">
         {/* Subject Details */}
-        <div className="col-md-4">
+        <div className="col-md-4 align-self-center">
           <SubjectDetails 
             subject={subjectDetails.subject} 
             totalExams={subjectDetails.totalExams} 
@@ -90,7 +92,7 @@ const SubjectLayout = ({
         </div>
 
         {/* Rectangles or Class Toppers */}
-        <div className={`col-md-4 ${styles.centerColumn}`}>
+        <div className={`col-md-4 align-self-center ${styles.centerColumn}`}>
           {userRole === "student" ? (
             <>
               <Rectangle 
@@ -104,25 +106,31 @@ const SubjectLayout = ({
               />
             </>
           ) : (
-            <>
-              <h2 className="text-center fw-bold fs-4 mb-3">Class Toppers</h2>
-              <ul className="list-unstyled text-center">
-                {classToppers.length > 0 ? (
-                  classToppers.map((topper, index) => (
-                    <li key={index} className="mb-2 fs-5">
-                      {index + 1}. {topper}
-                    </li>
-                  ))
-                ) : (
-                  <li>No toppers available</li>
-                )}
-              </ul>
-            </>
+            <div className={styles.classToppersContainer}>
+              <h2 className={styles.classToppersTitle}>Class Toppers</h2>
+              {classToppers.length > 0 ? (
+                <ul className="list-unstyled">
+                  {classToppers.map((topper, index) => {
+                    let topperClass = styles.topperItem;
+                    if (index === 0) topperClass += ` ${styles.gold}`;
+                    else if (index === 1) topperClass += ` ${styles.silver}`;
+                    else if (index === 2) topperClass += ` ${styles.bronze}`;
+                    return (
+                      <li key={index} className={topperClass}>
+                        {index + 1}. {topper}
+                      </li>
+                    );
+                  })}
+                </ul>
+              ) : (
+                <p className={styles.noToppers}>No toppers available</p>
+              )}
+            </div>
           )}
         </div>
 
         {/* Graph */}
-        <div className="col-md-4">
+        <div className="col-md-4 align-self-center">
           {userRole === "student" ? (
             <BarGraph 
               data={performanceGraphData} 
@@ -141,7 +149,7 @@ const SubjectLayout = ({
       {/* Second Row */}
       <div className="row g-4 mt-4">
         {/* Table */}
-        <div className="col-md-8">
+        <div className="col-12 col-md-8">
           <h2 className="fw-bold fs-4 mb-3 text-center">
             {userRole === "student" ? "Your Test Results" : "Subject Analysis"}
           </h2>
@@ -153,8 +161,8 @@ const SubjectLayout = ({
           </div>
         </div>
 
-        {/* Graph */}
-        <div className="col-md-4">
+        {/* Accuracy Graph */}
+        <div className="col-12 col-md-4 align-self-center">
           {userRole === "student" ? (
             <LineGraph 
               title="Time vs Score"

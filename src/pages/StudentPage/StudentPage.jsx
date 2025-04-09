@@ -6,6 +6,7 @@ import StudentLayout from "../../layouts/StudentLayout/StudentLayout";
 import { studentService, subjectService, testService, testAttemptService } from "../../services/api";
 import { buildSubjectTestMatrix } from "../../utils/testDataTransformer";
 import students from "./students";
+import Breadcrumbs from "../../components/BreadCrumbs/BreadCrumbs";
 
 const StudentPage = () => {
   const [apiStudents, setApiStudents] = useState([]);
@@ -155,22 +156,27 @@ const StudentPage = () => {
           />
         </div>
 
-        <div className={styles.rightContainer}>
-          {selectedStudent ? (
-            <StudentLayout
-              {...selectedStudent}
-              tableData={tableData}
-              barGraphData={barGraphData}
-              lineGraphData={lineGraphData}
-              attendance={attendance}
-              error={error}
-            />
-          ) : (
-            <div className={styles.noSelection}>
-              <p>Please select a student from the list</p>
-            </div>
-          )}
-        </div>
+<div className={styles.rightInnerContainer}>
+  <div className={styles.breadcrumbsWrapper}>
+    <Breadcrumbs />
+  </div>
+
+  {selectedStudent ? (
+    <StudentLayout
+      {...selectedStudent}
+      tableData={tableData}
+      barGraphData={barGraphData}
+      lineGraphData={lineGraphData}
+      attendance={attendance}
+      error={error}
+    />
+  ) : (
+    <div className={styles.noSelection}>
+      <p>Please select a student from the list</p>
+    </div>
+  )}
+</div>
+
       </div>
     </div>
   );

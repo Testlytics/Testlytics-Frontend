@@ -6,6 +6,7 @@ import Navbar from '../../components/Navbar/Navbar';
 import ViewButton from '../../components/Button/View/ViewButton';
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap
 import styles from './questions.module.css';
+import Breadcrumbs from '../../components/BreadCrumbs/BreadCrumbs';
  
 const testNames = [
   { name: 'Physics | Measurements', status: 'Completed' },
@@ -19,7 +20,7 @@ const Questions = () => {
     <div className={styles['questions-page']}>
       {/* Navbar Component */}
       <Navbar />
- 
+      <Breadcrumbs/>
       <h1 className={styles['questions-heading']}>Questions</h1>
  
       {/* SearchBar Component */}

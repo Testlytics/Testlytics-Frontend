@@ -2,7 +2,6 @@
 .layout {
     display: grid;
     grid-template-rows: auto auto; /* Two rows */
-    gap: 20px;
     width: 100%;
     box-sizing: border-box;
    
@@ -72,7 +71,6 @@
 .dataContainer {
     display: flex;
     justify-content: space-between;
-    gap: 20px;
     padding: 20px;
     border-radius: 8px;
 }

@@ -36,14 +36,14 @@ const StudentLayout = ({
   return (
     <div className={`container-fluid ${styles.layout}`}>
       {/* 🚀 Row 1 */}
-      <div className="row align-items-center my-4 gy-4">
+      <div className="row align-items-center  g-4">
         {/* Profile Picture */}
-        <div className="col-12 col-md-2 d-flex justify-content-center align-items-center">
+        <div className="col-12 col-md-2 d-flex justify-content-center align-items-center align-self-center">
           <ProfilePicture src={imageUrl} />
         </div>
 
         {/* Student Details */}
-        <div className="col-12 col-md-3 d-flex justify-content-center align-items-center">
+        <div className="col-12 col-md-3 d-flex justify-content-center align-items-center align-self-center">
           <StudentDetails
             id={studentId}
             firstName={firstName}
@@ -63,7 +63,7 @@ const StudentLayout = ({
         </div>
 
         {/* Bar Graph */}
-        <div className="col-12 col-md-5">
+        <div className="col-12 col-md-5 align-self-center">
           <h5 className={`text-center mb-3 ${styles.graphTitle}`}>Performance Graph</h5>
           <div className="d-flex justify-content-center">
             {barGraphData.length ? (
@@ -76,31 +76,32 @@ const StudentLayout = ({
       </div>
 
       {/* 📊 Row 2 */}
-      <div className="row mt-5 gy-4">
-        {/* Table */}
-        <div className="col-12 col-lg-6">
-          {safeTableData.columns.length && safeTableData.data.length ? (
-            <Table columns={safeTableData.columns} data={safeTableData.data} />
-          ) : (
-            <p className="text-center">No test score data available</p>
-          )}
-        </div>
+<div className="row  gy-4">
+  {/* Table (2/3 of the row) */}
+  <div className="col-12 col-lg-8">
+    {safeTableData.columns.length && safeTableData.data.length ? (
+      <Table columns={safeTableData.columns} data={safeTableData.data} />
+    ) : (
+      <p className="text-center">No test score data available</p>
+    )}
+  </div>
 
-        {/* Line Graph */}
-        <div className="col-12 col-lg-6">
-          <h5 className={`text-center mb-3 ${styles.graphTitle}`}>Time vs Score</h5>
-          <div className="d-flex justify-content-center">
-            {lineGraphData.length ? (
-              <LineGraph
-                data={lineGraphData}
-                lines={[{ dataKey: "marks", color: "#282A2B" }]}
-              />
-            ) : (
-              <p>No line graph data</p>
-            )}
-          </div>
-        </div>
-      </div>
+  {/* Line Graph (1/3 of the row) */}
+  <div className="col-12 col-lg-4">
+    <h5 className={`text-center mb-3 ${styles.graphTitle}`}>Time vs Score</h5>
+    <div className="d-flex justify-content-center">
+      {lineGraphData.length ? (
+        <LineGraph
+          data={lineGraphData}
+          lines={[{ dataKey: "marks", color: "#282A2B" }]}
+        />
+      ) : (
+        <p>No line graph data</p>
+      )}
+    </div>
+  </div>
+</div>
+
     </div>
   );
 };

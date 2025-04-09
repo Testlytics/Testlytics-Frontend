@@ -1,14 +1,13 @@
-// components/Breadcrumbs.jsx
 import { Link, useLocation } from 'react-router-dom';
 import { useMemo } from 'react';
-import "./breadCrumbs.module.css";
-
+import { ChevronRight } from 'lucide-react'; // ✅ Import arrow icon
+import styles from "./breadCrumbs.module.css";
 
 const routeNameMap = {
+  'overview': 'Dashboard',
   'login': 'Login',
   'change-password': 'Change Password',
   'studentlist': 'Students',
-  'overview': 'Dashboard',
   'exam': 'Exam Overview',
   'exams': 'All Exams',
   'subjects': 'Subjects',
@@ -29,7 +28,7 @@ const Breadcrumbs = () => {
     return pathSegments.map((segment, idx) => {
       const path = '/' + pathSegments.slice(0, idx + 1).join('/');
       return {
-        label: routeNameMap[segment] || segment,
+        label: routeNameMap[segment] || segment.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
         path,
       };
     });
@@ -38,15 +37,19 @@ const Breadcrumbs = () => {
   if (crumbs.length === 0) return null;
 
   return (
-    <nav className="p-4 text-sm text-gray-600">
-      <Link to="/" className="hover:underline text-[#5A643C] font-semibold">Home</Link>
+    <nav className={styles.breadcrumbsNav}>
+      <Link to="/overview" className={styles.dashboardLink}>
+        Dashboard
+      </Link>
       {crumbs.map((crumb, idx) => (
-        <span key={crumb.path}>
-          {' / '}
+        <span key={crumb.path} className={styles.crumb}>
+          <ChevronRight size={24} className={styles.arrowIcon} />
           {idx === crumbs.length - 1 ? (
-            <span className="text-black">{crumb.label}</span>
+            <span className={styles.active}>{crumb.label}</span>
           ) : (
-            <Link to={crumb.path} className="hover:underline text-[#5A643C]">{crumb.label}</Link>
+            <Link to={crumb.path} className={styles.link}>
+              {crumb.label}
+            </Link>
           )}
         </span>
       ))}

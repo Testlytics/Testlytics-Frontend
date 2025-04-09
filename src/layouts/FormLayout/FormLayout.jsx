@@ -10,9 +10,11 @@ import SuccessModal from '../../components/SuccessModal/SuccessModal';
 const FormLayout = ({ testData, setTestData, onSave }) => {
   const [subjects, setSubjects] = useState([]);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const handleChange = (field, value) => {
     setTestData(prev => ({ ...prev, [field]: value }));
+    setErrors(prev => ({ ...prev, [field]: '' }));
   };
 
   useEffect(() => {
@@ -28,21 +30,36 @@ const FormLayout = ({ testData, setTestData, onSave }) => {
     fetchSubjects();
   }, []);
 
+  const validateForm = () => {
+    const newErrors = {};
+    if (!testData.testName?.trim()) newErrors.testName = "Test Name is required";
+    if (!testData.subjectName) newErrors.subjectName = "Subject is required";
+    if (!testData.testDuration) newErrors.testDuration = "Test duration is required";
+    if (!testData.startTime) newErrors.startTime = "Start time is required";
+    if (!testData.endTime) newErrors.endTime = "End time is required";
+    if (!testData.testDate) newErrors.testDate = "Test date is required";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSave = async () => {
+    if (!validateForm()) return;
+
     const success = await onSave();
     if (success) {
       setIsSuccessModalOpen(true);
       setTimeout(() => setIsSuccessModalOpen(false), 3000);
 
-      // Optional: reset form
       setTestData({
-        testName: "",
-        subjectName: "",
-        testDuration: "",
-        startTime: "",
-        endTime: "",
+        testName: '',
+        subjectName: '',
+        testDuration: '',
+        startTime: '',
+        endTime: '',
         testDate: null,
       });
+      setErrors({});
     }
   };
 
@@ -55,26 +72,26 @@ const FormLayout = ({ testData, setTestData, onSave }) => {
 
       <InputField
         label="Test Name"
-        placeholder="Enter name"
+        placeholder="Enter test name"
         value={testData.testName}
-        onChange={(e) => handleChange("testName", e.target.value)}
+        onChange={(e) => handleChange('testName', e.target.value)}
+        error={errors.testName}
       />
 
       <Dropdown
         label="Subject"
         options={subjects}
         selected={testData.subjectName}
-        onChange={(value) => handleChange("subjectName", value)}
+        onChange={(value) => handleChange('subjectName', value)}
+        error={errors.subjectName}
       />
 
       <Dropdown
         label="Test Duration (min)"
         options={["30", "60", "90", "120", "180"]}
         selected={testData.testDuration}
-        onChange={(value) => {
-          console.log("🌀 Selected duration:", value);
-          handleChange("testDuration", value);
-        }}
+        onChange={(value) => handleChange('testDuration', value)}
+        error={errors.testDuration}
       />
 
       <div className={styles.timeInputs}>
@@ -85,9 +102,9 @@ const FormLayout = ({ testData, setTestData, onSave }) => {
             id="startTime"
             value={testData.startTime}
             onChange={(e) => handleChange("startTime", e.target.value)}
-            className={styles.inputField}
-            required
+            className={`${styles.inputField} ${errors.startTime ? styles.errorBorder : ''}`}
           />
+          {errors.startTime && <span className={styles.error}>{errors.startTime}</span>}
         </div>
 
         <div className={styles.timeInputGroup}>
@@ -97,19 +114,20 @@ const FormLayout = ({ testData, setTestData, onSave }) => {
             id="endTime"
             value={testData.endTime}
             onChange={(e) => handleChange("endTime", e.target.value)}
-            className={styles.inputField}
-            required
+            className={`${styles.inputField} ${errors.endTime ? styles.errorBorder : ''}`}
           />
+          {errors.endTime && <span className={styles.error}>{errors.endTime}</span>}
         </div>
 
         <div className={styles.datePicker}>
           <label className={styles.label}>Test Date</label>
           <DatePicker
             selected={testData.testDate}
-            onChange={date => handleChange('testDate', date)}
+            onChange={(date) => handleChange('testDate', date)}
             dateFormat="yyyy-MM-dd"
-            className={styles.inputField}
+            className={`${styles.inputField} ${errors.testDate ? styles.errorBorder : ''}`}
           />
+          {errors.testDate && <span className={styles.error}>{errors.testDate}</span>}
         </div>
       </div>
 

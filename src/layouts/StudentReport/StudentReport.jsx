@@ -41,7 +41,7 @@ const StudentReport = () => {
     <div className={`container ${styles.wrapper}`}>
       <div className="row mb-4">
         <div className="col">
-          <Heading text="Reports" size="36px" />
+          <Heading text="Reports" size="40px" />
         </div>
       </div>
 

@@ -55,9 +55,9 @@ const AppRoutes = () => {
       <Route path="/studentlist" element={<ProtectedRoute><StudentPage /></ProtectedRoute>} />
       <Route path="/overview" element={<ProtectedRoute><OverviewPage /></ProtectedRoute>} />
       <Route path="/exam" element={<ProtectedRoute><ExamOverviewPage /></ProtectedRoute>} />
-      <Route path="/subjects" element={<ProtectedRoute><SubjectPage /></ProtectedRoute>} />
+      <Route path="/exam/subjects" element={<ProtectedRoute><SubjectPage /></ProtectedRoute>} />
       <Route path="/add-question" element={<ProtectedRoute><AddQuestionPage /></ProtectedRoute>} />
-      <Route path="/questions" element={<ProtectedRoute><Questions /></ProtectedRoute>} />
+      <Route path="/exam/questions" element={<ProtectedRoute><Questions /></ProtectedRoute>} />
       <Route path="/manage-users" element={<ProtectedRoute><ManageUsersPage /></ProtectedRoute>} />
       <Route path="/reports" element={<ProtectedRoute><ReportPage /></ProtectedRoute>} />
       <Route path="/student-report" element={<ProtectedRoute><StudentResultPage /></ProtectedRoute>} />

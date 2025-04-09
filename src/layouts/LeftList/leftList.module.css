@@ -8,7 +8,7 @@ body {
   flex-direction: column;
   align-items: flex-start;
   gap: 20px;
-  margin-top: 50px;
+  max-width: 320px;
 }
 
 .title {

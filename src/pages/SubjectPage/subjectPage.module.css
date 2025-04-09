@@ -1,14 +1,14 @@
-/* Entire Page Container */
+
 .pageContainer {
   display: flex;
   flex-direction: column;
   overflow: hidden;
   margin-top: 80px;
-  margin-left: 30px;
   overflow-y: hidden;
+  margin-left: 30px;
 }
 
-/* Main Content: Left Sidebar + Right Content */
+
 .content {
   display: flex;
   align-items: flex-start;
@@ -17,15 +17,36 @@
   overflow: hidden;
 }
 
-/* Left Sidebar: Subject List */
-.leftList {
-  width: 450px;
-  min-width: 200px; /* Ensures LeftList does not shrink too much */
-  height: 100vh;
-  overflow-y: auto;
+.backButtonWrapper {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-start;
 }
 
-/* Right Content: Subject Layout */
+.backButton {
+  color: #5a643c;
+  background-color: transparent;
+  border: none;
+  padding: 10px 16px;
+  font-size: 26px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.backButton:hover {
+  color: black;
+}
+
+.leftList {
+  width: 380px;
+  min-width: 200px;
+  height: 100vh;
+  overflow-y: auto;
+  margin-top: 40px;
+}
+
+
 .subjectLayout {
   width: 100%;
   height: 100vh;
@@ -34,7 +55,7 @@
   overflow: hidden;
 }
 
-/* Message when no subject is selected */
+
 .noSubject {
   font-size: 18px;
   font-weight: bold;
@@ -43,8 +64,9 @@
   color: #5a643c;
 }
 
-/* Responsive Design */
+
 @media (max-width: 1024px) {
+  
   .content {
       flex-direction: column;
       align-items: center;
@@ -55,6 +77,7 @@
       max-width: none;
       text-align: center;
       height: auto;
+      margin-left: 30px ;
   }
 
   .subjectLayout {

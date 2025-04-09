@@ -7,7 +7,7 @@ const ListCard = ({ id, name, isSelected, onClick }) => {
       onClick={onClick}
     >
       <span className={styles.name}>
-        {id} • {name}
+        {name}
       </span>
       <span className={`${styles.arrow} ${isSelected ? styles.arrowSelected : ""}`}>
         &#10132;

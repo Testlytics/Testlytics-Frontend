@@ -6,6 +6,7 @@ import styles from './addQuestionPage.module.css';
 import { testService, questionService, subjectService } from '../../services/api';
 import { toast } from 'react-toastify';
 import SuccessModal from '../../components/SuccessModal/SuccessModal';
+import FailureModal from '../../components/SuccessModal/FailureModal';
 
 const AddQuestionPage = () => {
   const [testData, setTestData] = useState({
@@ -25,6 +26,9 @@ const AddQuestionPage = () => {
 
   const [modalMessage, setModalMessage] = useState('');
   const [showModal, setShowModal] = useState(false);
+
+  const [failureMessage, setFailureMessage] = useState('');
+  const [showFailureModal, setShowFailureModal] = useState(false);
 
   useEffect(() => {
     const fetchSubjects = async () => {
@@ -68,10 +72,15 @@ const AddQuestionPage = () => {
 
       setTestId(createdId);
       toast.success('Test created successfully!');
-      setModalMessage(' Test created successfully!');
+      setModalMessage('Test created successfully!');
       setShowModal(true);
     } catch (error) {
-      toast.error('Failed to create test.');
+      let errorMsg = 'Failed to create test. Interrupting another Test';
+      if (error?.response?.data?.message) {
+        errorMsg = error.response.data.message;
+      }
+      setFailureMessage(`${errorMsg}`);
+      setShowFailureModal(true);
       console.error('Error creating test:', error);
     }
   };
@@ -102,21 +111,26 @@ const AddQuestionPage = () => {
 
       await questionService.addQuestion(testId, payload);
       toast.success('Question saved!');
-      setModalMessage('✅ Question created successfully!');
+      setModalMessage('Question created successfully!');
       setShowModal(true);
 
       setQuestion('');
       setOptions(['', '', '', '']);
       setCorrectAnswerIndex(null);
     } catch (error) {
-      toast.error('Failed to save question.');
+      let errorMsg = 'Failed to save question.';
+      if (error?.response?.data?.message) {
+        errorMsg = error.response.data.message;
+      }
+      setFailureMessage(`❌ ${errorMsg}`);
+      setShowFailureModal(true);
       console.error('Error saving question:', error);
     }
   };
 
   const handleSubmitAll = async () => {
     toast.success('Test and questions submitted successfully!');
-    setModalMessage('✅ Test and questions submitted successfully!');
+    setModalMessage('Test and questions submitted successfully!');
     setShowModal(true);
   };
 
@@ -132,17 +146,19 @@ const AddQuestionPage = () => {
           />
         </div>
         <div className={styles.rightSection}>
-          <QuestionLayout
-            question={question}
-            setQuestion={setQuestion}
-            options={options}
-            setOptions={setOptions}
-            correctAnswerIndex={correctAnswerIndex}
-            setCorrectAnswerIndex={setCorrectAnswerIndex}
-            onSave={handleSaveQuestion}
-            onSubmit={handleSubmitAll}
-          />
-        </div>
+
+    <QuestionLayout
+      question={question}
+      setQuestion={setQuestion}
+      options={options}
+      setOptions={setOptions}
+      correctAnswerIndex={correctAnswerIndex}
+      setCorrectAnswerIndex={setCorrectAnswerIndex}
+      onSave={handleSaveQuestion}
+      onSubmit={handleSubmitAll}
+    />
+</div>
+
       </div>
 
       {/* ✅ Success Modal */}
@@ -150,6 +166,14 @@ const AddQuestionPage = () => {
         <SuccessModal
           message={modalMessage}
           onClose={() => setShowModal(false)}
+        />
+      )}
+
+      {/* ❌ Failure Modal */}
+      {showFailureModal && (
+        <FailureModal
+          message={failureMessage}
+          onClose={() => setShowFailureModal(false)}
         />
       )}
     </div>

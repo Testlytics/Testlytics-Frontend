@@ -4,6 +4,7 @@ import styles from './exams.module.css';
 import ExamCard from '../../components/ExamCard/ExamCard';
 import Navbar from '../../components/Navbar/Navbar';
 import Table from "../../components/Table/Table";
+import Breadcrumbs from '../../components/BreadCrumbs/BreadCrumbs';
 
 const Exams = () => {
   const navigate = useNavigate();
@@ -60,7 +61,8 @@ const Exams = () => {
           </div>
 
           <div className={`col-lg-9 col-md-12 ${styles.content}`}>
-            <h1>History</h1>
+            <Breadcrumbs className = 'align-self-start' />
+            <h1 className='align-self-center'>History</h1>
             <Table columns={tableColumns} data={tableData} />
           </div>
         </div>

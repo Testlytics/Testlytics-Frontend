@@ -39,6 +39,7 @@ html, body {
   background-color: #F3F5ED;
   overflow: visible; /* ✅ Allow page to scroll instead of just this section */
   width: calc(100vw - 430px);
+  margin-top: 20px;
 }
 
 /* 🔽 Responsive for Tablets & Small Screens */

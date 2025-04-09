@@ -31,7 +31,7 @@ const Navbar = () => {
         ]
       : [
           { name: "Dashboard", path: "/overview" },
-          { name: "Subjects", path: "/subjects" },
+          { name: "Subjects", path: "/exam/subjects" },
           { name: "Exams", path: "/exams" },
           { name: "Questions", path: "/question-paper" },
           { name: "Reports", path: "/student-report" }
@@ -163,8 +163,12 @@ const Navbar = () => {
           />
           <p className={styles.modalUsername}>{userName}</p>
           <p className={styles.modalRole}>{userRole?.toUpperCase() || "UNKNOWN"}</p>
-          <button className={styles.modalButton}>Change Password</button>
-          <button className={styles.logoutButton} onClick={handleLogout}>
+          <button
+      className={styles.modalButton}
+      onClick={() => navigate('/change-password')}
+    >
+      Change Password
+    </button>          <button className={styles.logoutButton} onClick={handleLogout}>
             <FiLogOut className={styles.logoutIcon} />
           </button>
         </div>

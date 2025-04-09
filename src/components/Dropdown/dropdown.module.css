@@ -4,75 +4,91 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-   /* Ensure the container takes full width */
 }
 
+/* Label */
 .label {
   font-size: 26px;
   font-weight: 400;
   margin-bottom: 10px;
   text-align: left;
+  width: 100%;
+  max-width: 350px;
 }
 
 /* Dropdown styling */
 .dropdown {
-  width: 100%; /* Ensure responsiveness */
-  max-width: 350px; /* Set max width for larger screens */
+  width: 100%;
+  max-width: 350px;
   padding: 10px;
   font-size: 16px;
-  background-color: #c2cabe; /* Default background color */
+  background-color: #C2CABE;
   color: #333;
   border: 1px solid #ccc;
   border-radius: 4px;
   appearance: none;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, border-color 0.3s;
+
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="10" height="5" viewBox="0 0 10 5"%3E%3Cpath fill="none" stroke="%235A643C" stroke-width="1" d="M0 0l5 5 5-5"%3E%3C/path%3E%3C/svg%3E');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 10px 5px;
 }
 
 /* Hover effect */
 .dropdown:hover {
-  background-color: #a6b0a1; /* Slight dark shade on hover */
+  background-color: #a6b0a1;
 }
 
-/* Custom dropdown arrow */
-.dropdown {
-  background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="10" height="5" viewBox="0 0 10 5"%3E%3Cpath fill="none" stroke="%235A643C" stroke-width="1" d="M0 0l5 5 5-5"%3E%3C/path%3E%3C/svg%3E') no-repeat right 10px center;
-  background-color: #C2CABE;
+/* Error border */
+.errorBorder {
+  border: 2px solid red !important;
 }
 
-/* 📌 Adjust for tablets (≤1024px) */
+/* Error text */
+.error {
+  color: red;
+  font-size: 14px;
+  margin-top: 4px;
+  text-align: left;
+  width: 100%;
+  max-width: 350px;
+}
+
+/* 📌 Tablet (≤1024px) */
 @media (max-width: 1024px) {
   .label {
-      font-size: 22px;
+    font-size: 22px;
   }
 
   .dropdown {
-      max-width: 300px;
-      padding: 8px;
+    max-width: 300px;
+    padding: 8px;
   }
 }
 
-/* 📌 Adjust for mobile screens (≤768px) */
+/* 📌 Mobile (≤768px) */
 @media (max-width: 768px) {
   .label {
-      font-size: 20px;
+    font-size: 20px;
   }
 
   .dropdown {
-      max-width: 100%; /* Take full width on smaller screens */
-      padding: 8px;
-      font-size: 14px;
+    max-width: 100%;
+    font-size: 14px;
+    padding: 8px;
   }
 }
 
-/* 📌 Adjust for very small screens (≤480px) */
+/* 📌 Very small screens (≤480px) */
 @media (max-width: 480px) {
   .label {
-      font-size: 18px;
+    font-size: 18px;
   }
 
   .dropdown {
-      font-size: 14px;
-      padding: 6px;
+    font-size: 14px;
+    padding: 6px;
   }
 }

@@ -40,8 +40,6 @@
 }
 @media (max-width: 768px) {
   .rectangle {
-    width: 100%;
-    max-width: 300px;
     height: 90px;
     padding: 0 15px;
   }
@@ -61,7 +59,7 @@
 
 @media (max-width: 480px) {
   .rectangle {
-    height: auto;
+    height: 100px;
     padding: 10px 15px;
     flex-direction: column;
     justify-content: center;

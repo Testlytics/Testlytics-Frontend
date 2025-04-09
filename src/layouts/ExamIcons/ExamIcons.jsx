@@ -26,7 +26,7 @@ const ExamIcons = () => {
 
         {/* Questions - Clickable */}
         <div className="col-12 col-md-6 col-lg-3 d-flex justify-content-center">
-          <Link to="/questions" style={{ textDecoration: "none", color: "inherit" }}>
+          <Link to="/exam/questions" style={{ textDecoration: "none", color: "inherit" }}>
             <div className={styles.statCard}>
               <StatCard heading="Questions" variant="withIcon" icon={<FaQuestion size={60} />} />
             </div>
@@ -35,7 +35,7 @@ const ExamIcons = () => {
 
         {/* Subjects - Clickable */}
         <div className="col-12 col-md-6 col-lg-3 d-flex justify-content-center">
-          <Link to="/subjects" style={{ textDecoration: "none", color: "inherit" }}>
+          <Link to="/exam/subjects" style={{ textDecoration: "none", color: "inherit" }}>
             <div className={styles.statCard}>
               <StatCard heading="Subjects" variant="withIcon" icon={<FaBook size={60} />} />
             </div>

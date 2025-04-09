@@ -6,19 +6,31 @@ import Rectangle from "../../components/Rectangle/Rectangle";
 import styles from "./reportInfo.module.css";
 
 const ReportInfo = () => {
+  const rectangleData = [
+    { leftText: "Attendance", rightText: "20%" },
+    { leftText: "Accuracy", rightText: "80%" },
+    { centerText: "Student Wise Reports", link: "/studentlist" },
+    { centerText: "Subject Wise Reports", link: "/subjects" }
+  ];
+
   return (
     <div className={`container-fluid ${styles.gridContainer}`}>
-      {/* First Row: Stat Card, Area Chart, and Class Toppers */}
+      {/* First Row: 2x2 Rectangles, Area Chart, and Stat Card */}
       <div className="row d-flex align-items-center g-4">
-        {/* Class Toppers - 1st Column */}
-        <div className="col-lg-4 col-md-12 d-flex justify-content-center">
-          <div className={styles.toppers}>
-            <h3 className={styles.heading}>Class Toppers</h3>
-            <ul className={styles.toppersList}>
-              <li>1. Alex Johnson</li>
-              <li>2. Maria Lee</li>
-              <li>3. Daniel Smith</li>
-            </ul>
+        {/* Rectangles Grid - 1st Column */}
+        <div className="col-lg-4 col-md-12 d-flex justify-content-center align-self-end">
+          <div className="row w-100">
+            {rectangleData.map((item, index) => (
+              <div key={index} className="col-6 d-flex justify-content-center mb-3 ">
+                {item.link ? (
+                  <Link to={item.link} className={styles.linkWrapper}>
+                    <Rectangle centerText={item.centerText} />
+                  </Link>
+                ) : (
+                  <Rectangle leftText={item.leftText} rightText={item.rightText} />
+                )}
+              </div>
+            ))}
           </div>
         </div>
 
@@ -37,26 +49,6 @@ const ReportInfo = () => {
             onButtonClick={() => alert('Details Clicked')} 
           />
         </div>
-      </div>
-
-      {/* Second Row: Rectangle Components */}
-      <div className="row mt-5">
-        {[
-          { leftText: "Attendance", rightText: "20%" },
-          { leftText: "Accuracy", rightText: "80%" },
-          { centerText: "Student Wise Reports", link: "/studentlist" }, 
-          { centerText: "Subject Wise Reports", link: "/subjects" }  
-        ].map((item, index) => (
-          <div key={index} className="col-md-3 d-flex justify-content-center">
-            {item.link ? (
-              <Link to={item.link} className={styles.linkWrapper}>
-                <Rectangle centerText={item.centerText} />
-              </Link>
-            ) : (
-              <Rectangle leftText={item.leftText} rightText={item.rightText} />
-            )}
-          </div>
-        ))}
       </div>
     </div>
   );

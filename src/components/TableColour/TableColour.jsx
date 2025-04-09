@@ -1,9 +1,9 @@
 import React from "react";
-import styles from "./tableColour.module.css"; // Import styles
+import styles from "./tableColour.module.css";
 
 const TableColour = ({ columnNames, data }) => {
   return (
-    <div className={styles.tableContainer}>  {/* ✅ Scrollable container */}
+    <div className={styles.tableContainer}>
       <table className={styles.table}>
         <thead>
           <tr>
@@ -14,7 +14,10 @@ const TableColour = ({ columnNames, data }) => {
         </thead>
         <tbody>
           {data.map((row, rowIndex) => (
-            <tr key={rowIndex} className={rowIndex % 2 === 0 ? styles.rowEven : styles.rowOdd}>
+            <tr
+              key={rowIndex}
+              className={rowIndex % 2 === 0 ? styles.rowEven : styles.rowOdd}
+            >
               {row.map((cell, colIndex) => (
                 <td key={colIndex}>{cell}</td>
               ))}
@@ -25,6 +28,7 @@ const TableColour = ({ columnNames, data }) => {
     </div>
   );
 };
+
 
 // Default Props
 TableColour.defaultProps = {

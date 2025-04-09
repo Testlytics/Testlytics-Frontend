@@ -3,6 +3,7 @@ import Navbar from "../../components/Navbar/Navbar";
 import ManageUsersLayout from "../../layouts/ManageUsersLayout/ManageUsersLayout";
 import ManageUsersTableLayout from "../../layouts/ManageUsersTableLayout/ManageUsersTableLayout";
 import styles from "./manageUsersPage.module.css";
+import Breadcrumbs from "../../components/BreadCrumbs/BreadCrumbs";
 
 const ManageUsersPage = () => {
   // ✅ Sample data (Replace with API data later)
@@ -32,6 +33,7 @@ const ManageUsersPage = () => {
 
         {/* ✅ Right Section (Tables) */}
         <div className={styles.rightSection}>
+          <Breadcrumbs  />
           <ManageUsersTableLayout students={students} admins={admins} />
         </div>
       </div>
