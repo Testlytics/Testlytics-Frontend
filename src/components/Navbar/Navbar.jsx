@@ -27,14 +27,14 @@ const Navbar = () => {
           { name: "Students", path: "/studentlist" },
           { name: "Exams", path: "/exam" },
           { name: "Reports", path: "/reports" },
-          { name: "Manage Users", path: "/manage-users" }
+          { name: "Manage Users", path: "/manage-users" },
         ]
       : [
           { name: "Dashboard", path: "/overview" },
           { name: "Subjects", path: "/subjects" },
           { name: "Exams", path: "/studentexam" },
           { name: "Questions", path: "/questions" },
-          { name: "Reports", path: "/student-report" }
+          { name: "Reports", path: "/student-report" },
         ];
 
   const handleMenuItemClick = (path) => {
@@ -44,30 +44,62 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      // Clear localStorage
-      localStorage.removeItem('token');
-      localStorage.removeItem('user'); // ✅ Correct key
-  
-      // Reset Recoil state
-      setUserRole('');
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      setUserRole("");
       setIsAuthenticated(false);
-  
-      // Close modal and navigate
       setIsModalOpen(false);
-      navigate('/login');
+      navigate("/login");
     } catch (error) {
-      console.error('Logout failed:', error);
-  
-      // Fallback: ensure cleanup
-      localStorage.removeItem('token');
-      localStorage.removeItem('user'); // ✅ Correct key
-      setUserRole('');
+      console.error("Logout failed:", error);
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      setUserRole("");
       setIsAuthenticated(false);
       navigate("/login");
     }
   };
-  
- 
+
+  useEffect(() => {
+    const fetchUsername = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) return;
+
+        const base64Url = token.split(".")[1];
+        const decodedToken = JSON.parse(atob(base64Url));
+        const email = decodedToken.sub;
+
+        const allUsers = await studentService.getStudents();
+        const matchedUser = allUsers.find((user) => user.email === email);
+
+        if (matchedUser) {
+          setUserName(matchedUser.firstName || "User");
+        }
+      } catch (error) {
+        console.error("Failed to fetch username:", error);
+      }
+    };
+
+    fetchUsername();
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        modalRef.current &&
+        userSectionRef.current &&
+        !modalRef.current.contains(event.target) &&
+        !userSectionRef.current.contains(event.target)
+      ) {
+        setIsModalOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
     <nav className={styles.navbar}>
       {/* Hamburger Menu */}
@@ -79,7 +111,7 @@ const Navbar = () => {
         <span></span>
         <span></span>
       </div>
- 
+
       {/* Logo */}
       <h1 className={styles.logo} onClick={() => navigate("/")}>
         Testlytics
@@ -129,7 +161,15 @@ const Navbar = () => {
           />
           <p className={styles.modalUsername}>{userName}</p>
           <p className={styles.modalRole}>{userRole?.toUpperCase() || "UNKNOWN"}</p>
-          <button className={styles.modalButton}>Change Password</button>
+          <button
+            className={styles.modalButton}
+            onClick={() => {
+              navigate("/change-password");
+              setIsModalOpen(false);
+            }}
+          >
+            Change Password
+          </button>
           <button className={styles.logoutButton} onClick={handleLogout}>
             <FiLogOut className={styles.logoutIcon} />
           </button>

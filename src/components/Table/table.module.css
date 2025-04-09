@@ -26,6 +26,8 @@
   background: none;
   border: 0px;
   border-bottom: 2px solid #000 !important;
+  background-color: #f3f5ed;
+  z-index: 1;
 }
 
 /* Row Styling - No Borders */

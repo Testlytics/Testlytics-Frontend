@@ -38,8 +38,19 @@ const DashboardOverview = () => {
         const avgScorePerTest = [];
   
         for (const test of tests) {
-          const studentIds = await testAttemptService.getStudentsByTest(test.testId);
-  
+          let studentIds = [];
+try {
+  const res = await testAttemptService.getStudentsByTest(test.testId);
+  studentIds = res; // Assuming your service unwraps the actual body
+} catch (error) {
+  if (error.response && error.response.status === 404) {
+    // No students attempted this test — skip to next test
+    continue;
+  } else {
+    throw error; // Other unexpected errors should still surface
+  }
+}
+
           let total = 0;
           let count = 0;
   

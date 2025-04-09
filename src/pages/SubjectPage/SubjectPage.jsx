@@ -20,7 +20,7 @@ const SubjectPage = () => {
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
 
-  // 🔄 Fetch initial data
+  // 🔄 Fetch initial data and select subject
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -39,13 +39,11 @@ const SubjectPage = () => {
 
         setSelectedSubject(foundSubject);
 
-        // Compute Top Scorers
         if (foundSubject) {
           setLoadingToppers(true);
           const subjectTests = fetchedCompletedTests.filter(
             (test) =>
-              test.subjectId.toString() ===
-              foundSubject.subjectId.toString()
+              test.subjectId.toString() === foundSubject.subjectId.toString()
           );
           const topScorers = await computeTopScorers(subjectTests);
           setClassToppers(topScorers);
@@ -59,6 +57,59 @@ const SubjectPage = () => {
 
     fetchData();
   }, [subjectId]);
+
+  // 📊 Build performance table
+  useEffect(() => {
+    if (!selectedSubject || completedTests.length === 0) return;
+
+    const prepareTable = async () => {
+      const subjectTests = completedTests.filter(
+        (test) =>
+          test.subjectId.toString() === selectedSubject.subjectId.toString()
+      );
+
+      const allStudents = await studentService.getStudents();
+      const studentMap = new Map(
+        allStudents.map((student) => [String(student.studentId), student])
+      );
+
+      const columns = ["Student ID", "Name"];
+      const testIds = [];
+      subjectTests.forEach((test, index) => {
+        columns.push(`Test ${index + 1}`);
+        testIds.push({ id: test.testId, label: `Test ${index + 1}` });
+      });
+
+      const studentScores = {};
+
+      for (const test of testIds) {
+        const studentIds = await testAttemptService.getStudentsByTest(test.id);
+
+        for (const studentId of studentIds) {
+          const studentIdStr = String(studentId);
+          if (!studentScores[studentIdStr]) {
+            const student = studentMap.get(studentIdStr);
+            studentScores[studentIdStr] = {
+              "Student ID": studentIdStr,
+              Name: student?.firstName || `Student ${studentIdStr}`,
+            };
+          }
+
+          const attempt = await testAttemptService.getTestAttempt(
+            test.id,
+            studentIdStr
+          );
+          studentScores[studentIdStr][test.label] =
+            attempt?.score?.toFixed(2) ?? "-";
+        }
+      }
+
+      setTableColumns(columns);
+      setTableData(Object.values(studentScores));
+    };
+
+    prepareTable();
+  }, [selectedSubject, completedTests]);
 
   // 🧮 Compute top scorers
   const computeTopScorers = async (tests) => {
@@ -117,64 +168,6 @@ const SubjectPage = () => {
       .slice(0, 3);
   };
 
-  // 📊 Build performance table
-  useEffect(() => {
-    if (!selectedSubject || completedTests.length === 0) return;
-
-    const prepareTable = async () => {
-      const subjectTests = completedTests.filter(
-        (test) =>
-          test.subjectId.toString() === selectedSubject.subjectId.toString()
-      );
-
-      const allStudents = await studentService.getStudents();
-      const studentMap = new Map(
-        allStudents.map((student) => [String(student.studentId), student])
-      );
-
-      const columns = ["Student ID", "Name"];
-      const testIds = [];
-      subjectTests.forEach((test, index) => {
-        columns.push(`Test ${index + 1}`);
-        testIds.push({ id: test.testId, label: `Test ${index + 1}` });
-      });
-
-      const studentScores = {};
-
-      for (const test of testIds) {
-        const studentIds = await testAttemptService.getStudentsByTest(test.id);
-
-        for (const studentId of studentIds) {
-          const studentIdStr = String(studentId);
-          if (!studentScores[studentIdStr]) {
-            const student = studentMap.get(studentIdStr);
-            studentScores[studentIdStr] = {
-              "Student ID": studentIdStr,
-              Name: student?.firstName || `Student ${studentIdStr}`,
-            };
-          }
-
-          const attempt = await testAttemptService.getTestAttempt(
-            test.id,
-            studentIdStr
-          );
-          studentScores[studentIdStr][test.label] =
-            attempt?.score?.toFixed(2) ?? "-";
-        }
-      }
-
-      setTableColumns(columns);
-      setTableData(Object.values(studentScores));
-    };
-
-    prepareTable();
-  }, [selectedSubject, completedTests]);
-
-  // 🔍 Debug
-  useEffect(() => {
-    console.log("Class Toppers:", classToppers);
-  }, [classToppers]);
-
   return (
     <div className={styles.pageContainer}>
       <div className={styles.content}>
@@ -202,15 +195,17 @@ const SubjectPage = () => {
         <div className={styles.subjectLayout}>
           {selectedSubject ? (
             <SubjectLayout
-              subjectDetails={{
-                subject: selectedSubject.subjectName,
-                totalExams: completedTests.filter(
-                  (test) => test.subjectId === selectedSubject.subjectId
-                ).length,
-              }}
-              classToppers={classToppers.map((topper) => `${topper.name}`)}
+            subjectDetails={{
+              subject: selectedSubject?.subjectName || "Unknown",
+              subjectId: selectedSubject?.subjectId,
+              totalExams: completedTests.filter(
+                (test) => test.subjectId.toString() === selectedSubject.subjectId.toString()
+              ).length,
+            }}
+            
               tableColumns={tableColumns}
               tableData={tableData}
+              classToppers={classToppers.map((topper) => topper.name)}
             />
           ) : (
             <p className={styles.noSubject}>No subject selected</p>

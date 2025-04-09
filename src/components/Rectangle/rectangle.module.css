@@ -40,8 +40,6 @@
 }
 @media (max-width: 768px) {
   .rectangle {
-    width: 100%;
-    max-width: 300px;
     height: 90px;
     padding: 0 15px;
   }

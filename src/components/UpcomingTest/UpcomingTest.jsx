@@ -77,7 +77,7 @@ const UpcomingTest = () => {
             <div className={styles.month}>{item.month}</div>
             <div className={styles.day}>{item.day}</div>
             {item.test && <div className={styles.subject}>{item.test.testName}</div>}
-            {item.test && <div className={styles.subject}>{item.test.testName}</div>}
+           
           </div>
         ))}
       </div>
