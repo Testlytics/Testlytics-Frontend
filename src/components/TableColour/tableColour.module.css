@@ -8,7 +8,6 @@
     width: 100%;
     margin: 20px auto;
     border: 2px solid black; /* ✅ Keeps border around the table */
-    max-height: 400px; /* ✅ Fixed height for vertical scroll */
     overflow-y: auto; /* ✅ Enables only vertical scrolling */
     
 }

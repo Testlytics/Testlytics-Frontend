@@ -15,13 +15,31 @@ const ReportInfo = () => {
 
   return (
     <div className={`container-fluid ${styles.gridContainer}`}>
-      {/* First Row: 2x2 Rectangles, Area Chart, and Stat Card */}
       <div className="row d-flex align-items-center g-4">
-        {/* Rectangles Grid - 1st Column */}
-        <div className="col-lg-4 col-md-12 d-flex justify-content-center align-self-end">
-          <div className="row w-100">
+        {/* Stat Card */}
+        <div className="col-lg-4 col-md-6 d-flex justify-content-center">
+          <StatCard 
+            heading="Pending Results" 
+            value="5" 
+            variant="default" 
+            buttonText="View Details" 
+            onButtonClick={() => alert('Details Clicked')} 
+          />
+        </div>
+
+        {/* Area Chart */}
+        <div className="col-lg-4 col-md-6 d-flex justify-content-center align-self-center">
+          <AreaChartComponent />
+        </div>
+
+        {/* Rectangles Grid */}
+        <div className="col-lg-4 col-md-12">
+          <div className="row">
             {rectangleData.map((item, index) => (
-              <div key={index} className="col-6 d-flex justify-content-center mb-3 ">
+              <div
+                key={index}
+                className="col-12 col-sm-6 col-md-6 col-lg-6 mb-3 d-flex justify-content-center"
+              >
                 {item.link ? (
                   <Link to={item.link} className={styles.linkWrapper}>
                     <Rectangle centerText={item.centerText} />
@@ -32,22 +50,6 @@ const ReportInfo = () => {
               </div>
             ))}
           </div>
-        </div>
-
-        {/* Area Chart - 2nd Column */}
-        <div className="col-lg-4 col-md-6 d-flex justify-content-center">
-          <AreaChartComponent />
-        </div>
-
-        {/* Stat Card - 3rd Column */}
-        <div className="col-lg-4 col-md-6 d-flex justify-content-center">
-          <StatCard 
-            heading="Pending Results" 
-            value="5" 
-            variant="withButton" 
-            buttonText="View Details" 
-            onButtonClick={() => alert('Details Clicked')} 
-          />
         </div>
       </div>
     </div>

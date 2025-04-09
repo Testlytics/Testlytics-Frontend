@@ -112,7 +112,19 @@ const StudentPage = () => {
         }
   
         setBarGraphData(matrix.barGraphData);
-        setLineGraphData(matrix.timeScoreData);
+        // Normalize lineGraphData to ensure all subject keys are present at each time point
+const allSubjects = matrix.columns.filter(col => col !== "time" && col !== "Subject");
+
+const normalizedLineGraphData = matrix.timeScoreData.map(point => {
+  const newPoint = { time: point.time };
+  allSubjects.forEach(subject => {
+    newPoint[subject] = point[subject] ?? 0;
+  });
+  return newPoint;
+});
+
+setLineGraphData(normalizedLineGraphData);
+
         setError("");
   
       } catch (error) {

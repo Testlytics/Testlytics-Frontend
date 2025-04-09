@@ -3,7 +3,7 @@ import UpcomingTest from "../../components/UpcomingTest/UpcomingTest";
 import VerticalCard from "../../components/VerticalCard/VerticalCard";
 import Heading from "../../components/Heading/Heading";
 import styles from "./studentExamOverview.module.css";
-import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const StudentExamOverview = () => {
   return (
@@ -11,19 +11,19 @@ const StudentExamOverview = () => {
       {/* Section Heading */}
       <Heading title="Student Exam Overview" />
 
+      {/* Bootstrap Grid Row */}
       <div className="row g-4">
         {/* Upcoming Test */}
         <div className="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
           <UpcomingTest />
         </div>
 
-        {/* Two Vertical Cards in One Column */}
-        <div className="col-12 col-md-6 col-lg-4 d-flex justify-content-center align-items-center gap-4 mt-5">
-  <VerticalCard heading="Attendance" value="80%" />
-  <VerticalCard heading="Rank" value="10" variant="withDescription" description="Completed & upcoming" />
-  <VerticalCard heading="Total Exams " value="13" />
-</div>
-
+        {/* Vertical Cards Group */}
+        <div className="col-12 col-md-6 col-lg-4 d-flex flex-column flex-lg-row justify-content-center align-items-center gap-4">
+          <VerticalCard heading="Attendance" value="80%" />
+          <VerticalCard heading="Rank" value="10" variant="withDescription" description="Completed & upcoming" />
+          <VerticalCard heading="Total Exams" value="13" />
+        </div>
 
         {/* Exam Tips */}
         <div className="col-12 col-lg-4 d-flex justify-content-center">
