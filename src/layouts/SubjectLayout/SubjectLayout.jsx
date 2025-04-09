@@ -23,7 +23,10 @@ const SubjectLayout = ({
 }) => {
   const userRole = useRecoilValue(userRoleState);
   const [studentTestData, setStudentTestData] = useState([]);
+  const [attendanceText, setAttendanceText] = useState(rectangleOneText.right);
+  const [accuracyText, setAccuracyText] = useState(rectangleTwoText.right);
   
+
   // Dummy data remains the same for the charts
   const timeVsScoreData = [
     { testName: "Test 1", timeSpent: 30, score: 78 },
@@ -34,35 +37,75 @@ const SubjectLayout = ({
   ];
 
   const studentTableColumns = ["Test No", "Date", "Test Name", "Score", "Actions"];
-  
+
   useEffect(() => {
-    // Only run the table logic if the role is student and subjectDetails.subjectId is set
     if (userRole === "student" && subjectDetails?.subjectId) {
       const currentUserId = parseInt(localStorage.getItem("userId"));
-      
+  
       if (!currentUserId || !subjectDetails.subjectId) {
-        console.warn("Missing userId or subjectId", { currentUserId, subjectId: subjectDetails.subjectId });
+        console.warn("Missing userId or subjectId", {
+          currentUserId,
+          subjectId: subjectDetails.subjectId,
+        });
         return;
       }
-      
-      // Fetch attended test IDs for the user
-      testAttemptService.getUserTestIds(currentUserId)
+  
+      testAttemptService
+        .getUserTestIds(currentUserId)
         .then((attendedTestIds) => {
-          // Fetch all completed tests
-          testService.getCompletedTests()
+          testService
+            .getCompletedTests()
             .then(async (completedTests) => {
-              // Filter the tests the user attended from the completed tests
               const attendedCompletedTests = completedTests.filter(
                 (test) =>
                   attendedTestIds.includes(test.testId) &&
                   String(test.subjectId) === String(subjectDetails.subjectId)
               );
-              
-              // For each test, fetch the student's attempt details to get the score
+  
+              // 🟢 Attendance
+const attendancePercentage = subjectDetails.totalExams
+? Math.round(
+    (attendedCompletedTests.length /
+      subjectDetails.totalExams) *
+      100
+  )
+: 0;
+setAttendanceText(`${attendancePercentage}%`); // ✅ FIXED
+
+// 🟢 Accuracy (per test)
+const accuracies = await Promise.all(
+attendedCompletedTests.map(async (test) => {
+  try {
+    const accuracy =
+      await testAttemptService.getAccuracyForTest(
+        test.testId,
+        currentUserId
+      );
+    return accuracy || 0;
+  } catch (error) {
+    console.error("[Accuracy Error] Test:", test.testId, error);
+    return 0;
+  }
+})
+);
+
+const avgAccuracy =
+accuracies.length > 0
+  ? Math.round(
+      accuracies.reduce((a, b) => a + b, 0) / accuracies.length
+    )
+  : 0;
+
+setAccuracyText(`${avgAccuracy}%`); // ✅ FIXED
+
+              // 🟢 Table Data
               const formattedData = await Promise.all(
                 attendedCompletedTests.map(async (test, index) => {
                   try {
-                    const attempt = await testAttemptService.getTestAttempt(test.testId, currentUserId);
+                    const attempt = await testAttemptService.getTestAttempt(
+                      test.testId,
+                      currentUserId
+                    );
                     return {
                       "Test No": index + 1,
                       Date: new Date(test.testDate).toLocaleDateString(),
@@ -71,12 +114,17 @@ const SubjectLayout = ({
                       Actions: (
                         <Button
                           text="View"
-                          onClick={() => console.log("Viewing test attempt:", attempt)}
+                          onClick={() =>
+                            console.log("Viewing test attempt:", attempt)
+                          }
                         />
                       ),
                     };
                   } catch (error) {
-                    console.error(`Error fetching attempt for test ${test.testId}:`, error);
+                    console.error(
+                      `Error fetching attempt for test ${test.testId}:`,
+                      error
+                    );
                     return {
                       "Test No": index + 1,
                       Date: new Date(test.testDate).toLocaleDateString(),
@@ -85,14 +133,16 @@ const SubjectLayout = ({
                       Actions: (
                         <Button
                           text="View"
-                          onClick={() => console.log("Viewing test attempt: error", test.testId)}
+                          onClick={() =>
+                            console.log("Viewing test attempt: error", test.testId)
+                          }
                         />
                       ),
                     };
                   }
                 })
               );
-              
+  
               setStudentTestData(formattedData);
             })
             .catch((error) => {
@@ -104,6 +154,7 @@ const SubjectLayout = ({
         });
     }
   }, [userRole, subjectDetails.subjectId]);
+  
 
   return (
     <div className="container-fluid py-4">
@@ -116,20 +167,13 @@ const SubjectLayout = ({
             totalExams={subjectDetails.totalExams}
           />
         </div>
- 
+
         {/* Rectangles or Class Toppers */}
         <div className={`col-md-4 ${styles.centerColumn}`}>
           {userRole === "student" ? (
             <>
-              <Rectangle
-                leftText={rectangleOneText.left}
-                rightText={rectangleOneText.right}
-                className="mb-3"
-              />
-              <Rectangle
-                leftText={rectangleTwoText.left}
-                rightText={rectangleTwoText.right}
-              />
+              <Rectangle leftText="Attendance" rightText={attendanceText} className="mb-3" />
+              <Rectangle leftText="Accuracy" rightText={accuracyText} />
             </>
           ) : (
             <>
@@ -148,14 +192,11 @@ const SubjectLayout = ({
             </>
           )}
         </div>
- 
+
         {/* Graph */}
         <div className="col-md-4">
           {userRole === "student" ? (
-            <BarGraph
-              data={performanceGraphData}
-              title="Test-wise Performance"
-            />
+            <BarGraph data={performanceGraphData} title="Test-wise Performance" />
           ) : (
             <AreaChartComponent
               data={performanceGraphData}
@@ -165,7 +206,7 @@ const SubjectLayout = ({
           )}
         </div>
       </div>
- 
+
       {/* Second Row */}
       <div className="row g-4 mt-4">
         {/* Table */}
@@ -180,7 +221,7 @@ const SubjectLayout = ({
             />
           </div>
         </div>
- 
+
         {/* Graph */}
         <div className="col-md-4">
           {userRole === "student" ? (
