@@ -43,10 +43,6 @@ const UpcomingTest = () => {
         day: date.toLocaleDateString("en-US", { weekday: "short" }),
         isToday: date.toDateString() === today.toDateString(),
         test: matchedTest || null,
-        month: date.toLocaleDateString("en-US", { month: "short" }),
-        day: date.toLocaleDateString("en-US", { weekday: "short" }),
-        isToday: date.toDateString() === today.toDateString(),
-        test: matchedTest || null,
       });
     }
 

@@ -4,8 +4,12 @@ import ExamCard from '../../components/ExamCard/ExamCard';
 import Navbar from '../../components/Navbar/Navbar';
 import Table from "../../components/Table/Table";
 import { testService, testAttemptService } from '../../services/api';
+import { useNavigate } from 'react-router-dom';
+
 
 const Exams = () => {
+
+  const navigate = useNavigate();
 
   const [liveExam, setLiveExam] = useState(null);
   const [missedExams, setMissedExams] = useState([]);
@@ -96,7 +100,7 @@ if (!Array.isArray(upcomingResponse.responseBody)) {
       buttonText: liveExam ? 'Attend' : 'N/A',
       onButtonClick: () => {
         if (liveExam) {
-          alert(`Starting exam: ${liveExam.testName}`);
+          navigate(`/start-test/${liveExam.testId}`);
         }
       },
     },
@@ -135,7 +139,7 @@ console.log("Upcoming Exams Count:", upcomingExams.length);
                   if (exam.title === 'Missed Exams' || exam.title === 'Upcoming Exams') {
                     navigate('/missed-upcoming');
                   } else {
-                    alert(`${exam.title} button clicked!`);
+                    navigate(`/start-test/${liveExam.testId}`);
                   }
                 }}
               />

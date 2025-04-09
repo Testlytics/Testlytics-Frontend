@@ -46,40 +46,20 @@ const AppRoutes = () => {
       <Route path="/student-report" element={<ProtectedRoute><StudentResultPage /></ProtectedRoute>} />
       <Route path="/reports" element={<ProtectedRoute><ReportPage /></ProtectedRoute>} />
       <Route path="/missednupcoming" element={<ProtectedRoute><MissednUpcoming /></ProtectedRoute>} />
-      <Route path="/starttest" element={<ProtectedRoute><StartTest /></ProtectedRoute>} />
+      <Route path="/start-test/:testId" element={<StartTest />} />
+
 
       {/* Public Test Pages */}
-      <Route path="/attend-test" element={<AttendTest />} />
+      <Route path="/attend-test/:testId" element={<AttendTest />} />
       <Route path="/questionpaper/:variant" element={<QuestionPaper />} />
       
 
    
      
 
-      <Route
-        path="/missednupcoming"
-        element={
-        //   <ProtectedRoute>
-            <MissednUpcoming />
-        //   </ProtectedRoute>
-        }
-      />
-       {/* Default route for question paper */}
-       <Route path="/questionpaper/:variant" element={<QuestionPaper />} />
-      
-      <Route
-        path="/starttest"
-        element={
-        //   <ProtectedRoute>
-            <StartTest />
-        //   </ProtectedRoute>
-        }
-      />
      
 
-     <Route path="/attend-test/:testName" element={<AttendTest />} />
 
-      <Route path="*" element={<h1>Page Not Found</h1>} />
 
 
       {/* Fallback */}

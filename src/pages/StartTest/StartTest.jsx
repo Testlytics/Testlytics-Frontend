@@ -3,29 +3,101 @@ import styles from "./startTest.module.css"; // Import the CSS file for styling
 import Navbar from '../../components/Navbar/Navbar';
 import Button from '../../components/Button/Button';
 import { useNavigate } from 'react-router-dom'; 
-import { testService } from '../../services/api'; 
+import { testService, subjectService, questionService, testAttemptService } from '../../services/api'; 
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+
 
 const StartTest = () => {
 
+
   const navigate = useNavigate();
   const [testData, setTestData] = useState(null);
+  const [subjectName, setSubjectName] = useState("Loading...");
+  const [totalQuestions, setTotalQuestions] = useState(0);
+  const [totalMarks, setTotalMarks] = useState(0);
+  const { testId } = useParams();
+
+console.log("Fetched testId from URL:", testId); 
 
   useEffect(() => {
     const fetchTestData = async () => {
       try {
-        const response = await testService.getTestById(1); // Replace 1 with dynamic ID if needed
-        setTestData(response.data);
+        console.log("Calling getTestById with testId:", testId);
+        const response = await testService.getTestById(testId);
+        const test = response.data.responseBody;
+       
+        setTestData(test);
+
+        if (test.subjectId) {
+          const subjectResponse = await subjectService.getSubjectById(test.subjectId);
+          const subject = subjectResponse.data.responseBody;
+          setSubjectName(subject.subjectName || "Unknown Subject");
+        }
+
+        // Fetch Questions
+        const questionsResponse = await questionService.getQuestionsByTestId(testId);
+        console.log("Questions API response:", questionsResponse);
+        const questions = Array.isArray(questionsResponse?.data)
+  ? questionsResponse.data
+  : [];
+
+console.log("Extracted Questions:", questions);
+console.log("Total Questions:", questions.length);
+
+        setTotalQuestions(questions.length);
+        setTotalMarks(questions.length); 
+
+
       } catch (error) {
         console.error('Error fetching test data:', error);
       }
     };
 
-    fetchTestData();
-  }, []);
 
-  const handleStartTest = () => {
-    if (testData && testData.testName) {
-      navigate(`/attend-test/${testData.testName}`);
+    if (testId) {
+      fetchTestData();
+    }
+  }, [testId]);
+
+
+  
+
+
+
+  const handleStartTest = async () => {
+    
+    try {
+      console.log("handle start test triggered");
+      const userId = parseInt(localStorage.getItem("userId"),10); 
+console.log("Calling API with testId:", testId, "userId:", userId);
+      if (testData && testId && userId) {
+        // Call the backend to start the test attempt
+        console.log("blah");
+        const attemptResponse = await testAttemptService.startTestAttempt(testId, userId);
+        console.log("Test attempt started:", attemptResponse);
+
+
+// const attemptResponse = await axios.post(
+//   `http://localhost:8080/attempts/start`,
+//   null,
+//   {
+//     params: {
+//       testId: testData.testId,
+//       userId: userId,
+//     },
+//   }
+// );
+
+console.log("Response from direct Axios:", attemptResponse);
+        
+        // Then navigate to attend-test
+        navigate(`/attend-test/${testId}`);
+      } else {
+        console.error("Missing testId or userId");
+      }
+    } catch (error) {
+      console.error("Failed to start test attempt:", error);
     }
   };
 
@@ -87,37 +159,34 @@ const StartTest = () => {
   <div className={styles['detail-row']}>
     <span className={styles['label']}>Subject Name &nbsp; &nbsp; &nbsp;</span>
     <span className={styles['colon']}>:</span>
-    <span className={styles['value']}>Physics</span>
+    <span className={styles['value']}>{subjectName}</span>
   </div>
   <div className={styles['detail-row']}>
     <span className={styles['label']}>Test Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
     <span className={styles['colon']}>:</span>
-    <span className={styles['value']}>Measurements</span>
+    
+<span className={styles['value']}>{testData.testName}</span>
   </div>
-  <div className={styles['detail-row']}>
-    <span className={styles['label']}>Assigned By &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
-    <span className={styles['colon']}>:</span>
-    <span className={styles['value']}>Mentor name</span>
-  </div>
+ 
   <div className={styles['detail-row']}>
     <span className={styles['label']}>Duration &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
     <span className={styles['colon']}>:</span>
-    <span className={styles['value']}>60 min</span>
+    <span className={styles['value']}>{testData.testDuration} min</span>
   </div>
   <div className={styles['detail-row']}>
     <span className={styles['label']}>Total Questions &nbsp;</span>
     <span className={styles['colon']}>:</span>
-    <span className={styles['value']}>100</span>
+    <span className={styles['value']}>{totalQuestions}</span>
   </div>
   <div className={styles['detail-row']}>
     <span className={styles['label']}>Total Marks &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span>
     <span className={styles['colon']}>:</span>
-    <span className={styles['value']}>100</span>
+    <span className={styles['value']}>{totalMarks}</span>
   </div>
 </div>
 {/* Call the Button Component Here */}
 <div className={styles['button-container']}>
-            <Button label="Start Test" text="Start Test" onClick={handleStartTest}/>
+            <Button text="Start Test" onClick={handleStartTest}/>
           </div>
 
  

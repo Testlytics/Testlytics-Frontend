@@ -32,8 +32,8 @@ const Navbar = () => {
       : [
           { name: "Dashboard", path: "/overview" },
           { name: "Subjects", path: "/subjects" },
-          { name: "Exams", path: "/exams" },
-          { name: "Questions", path: "/question-paper" },
+          { name: "Exams", path: "/studentexam" },
+          { name: "Questions", path: "/questions" },
           { name: "Reports", path: "/student-report" }
         ];
 

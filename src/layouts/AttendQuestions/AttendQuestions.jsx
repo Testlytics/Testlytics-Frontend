@@ -3,25 +3,46 @@ import AttendQuestion from "../../components/AttendQuestion/AttendQuestion";
 import styles from "./attendQuestions.module.css";
 import Button from "../../components/Button/Button";
 
-const AttendQuestions = ({ totalQuestions = 0, highlightedQuestions = new Set(), timeLimit = 1 }) => {
+const AttendQuestions = ({ totalQuestions = 0, highlightedQuestions = new Set(), timeLimit = 1, onSubmit }) => {
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [attendedQuestions, setAttendedQuestions] = useState(new Set());
   const [timeRemaining, setTimeRemaining] = useState(timeLimit * 60); // Convert minutes to seconds
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  // Countdown timer effect
+
   useEffect(() => {
-    if (timeRemaining <= 0) {
-      handleSubmit(); // Auto-submit when time is up
-      return;
+    setTimeRemaining(timeLimit * 60); // Reset timer if timeLimit changes
+  }, [timeLimit]);
+  
+  useEffect(() => {
+    if (typeof timeLimit === "number" && timeLimit > 0) {
+      const timer = setTimeout(() => {
+        alert("Time is up!");
+        // Optional: redirect or disable input
+      }, timeLimit * 60 * 1000); // Convert minutes to milliseconds
+  
+      return () => clearTimeout(timer);
     }
+  }, [timeLimit]);
+  
 
-    const timer = setInterval(() => {
-      setTimeRemaining((prevTime) => prevTime - 1);
-    }, 1000);
-
-    return () => clearInterval(timer); // Cleanup timer on unmount
+  useEffect(() => {
+    if (timeRemaining <= 0 && !isSubmitted) {
+      setIsSubmitted(true); // Prevent further auto-submits
+      handleSubmit();
+    }
+  }, [timeRemaining, isSubmitted]);
+  
+  useEffect(() => {
+    if (timeRemaining > 0) {
+      const timer = setInterval(() => {
+        setTimeRemaining((prevTime) => prevTime - 1);
+      }, 1000);
+  
+      return () => clearInterval(timer);
+    }
   }, [timeRemaining]);
+  
 
   // Convert time into MM:SS format
   const formatTime = (seconds) => {
@@ -36,13 +57,28 @@ const AttendQuestions = ({ totalQuestions = 0, highlightedQuestions = new Set(),
     setAttendedQuestions((prev) => new Set(prev).add(questionNumber)); // Mark question as attended
   };
 
-  // Handle submit button click
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    console.log("Submit button clicked");
     if (!isSubmitted) {
-      alert("Time is up! Questions Submitted.");
-      setIsSubmitted(true); // Prevent multiple submissions
+      console.log("blah");
+      setIsSubmitted(true);
     }
+      try {
+        console.log("blah1");
+        await onSubmit?.();
+      } catch (err) {
+        console.error("Submission failed inside AttendQuestions:", err);
+        setIsSubmitted(false); // revert flag if error
+      }
+    
   };
+  
+
+  useEffect(() => {
+    console.log("onSubmit prop received in AttendQuestions:", onSubmit);
+  }, [onSubmit]);
+  
+  
 
   return (
     <div className={styles.container}>
@@ -73,7 +109,7 @@ const AttendQuestions = ({ totalQuestions = 0, highlightedQuestions = new Set(),
       {/* Circle Section (Attended & Not Attended) */}
       <div className={styles.circleSection}>
         <div className={styles.circleWrapper}>
-          <div className={`${styles.circle} ${attendedQuestions.size > 0 ? styles.attended : ""}`}></div>
+          <div className={`${styles.circle} ${styles.attended} : ""}`}></div>
           <span>Attended</span>
         </div>
         <div className={styles.circleWrapper}>

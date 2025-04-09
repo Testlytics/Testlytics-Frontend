@@ -7,7 +7,7 @@ import {
   testAttemptService,
   studentService,
 } from "../../services/api";
-
+ 
 // Converts percentile to grade
 const getGradeFromPercentile = (percentile) => {
   if (percentile >= 90) return "A+";
@@ -16,15 +16,15 @@ const getGradeFromPercentile = (percentile) => {
   if (percentile >= 40) return "C";
   return "D";
 };
-
+ 
 const DashboardOverview = () => {
   const [topScorers, setTopScorers] = useState([]);
   const [performanceData, setPerformanceData] = useState([]);
   const [avgGrade, setAvgGrade] = useState("N/A");
   const [classPercentile, setClassPercentile] = useState("N/A");
   const [classAvgChartData, setClassAvgChartData] = useState([]);
-
-
+ 
+ 
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -117,7 +117,7 @@ const DashboardOverview = () => {
             }
           />
         </div>
-
+ 
         <div className="col-lg-4 col-md-6 d-flex justify-content-center">
         <AreaChartComponent
   title="Overall Performance Graph"
@@ -128,12 +128,12 @@ const DashboardOverview = () => {
   dataKey="score"
   gradientId="classAverage"
 />
-
+ 
 </div>
-
-
-
-
+ 
+ 
+ 
+ 
         {/* Class Toppers */}
         <div className="col-lg-4 col-md-12 d-flex justify-content-center">
           <div className={styles.toppers}>
@@ -155,5 +155,5 @@ const DashboardOverview = () => {
     </div>
   );
 };
-
+ 
 export default DashboardOverview;

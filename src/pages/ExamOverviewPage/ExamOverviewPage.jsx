@@ -13,7 +13,7 @@ const ExamOverviewPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const columnNames = ["Test ID", "Date", "Test Name", "Subject", "Question paper"];
+  const columnNames = ["Test ID", "Date", "Test Name", "Subject", "Answer sheets"];
 
   useEffect(() => {
     const fetchData = async () => {

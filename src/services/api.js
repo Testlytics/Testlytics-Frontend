@@ -142,6 +142,29 @@ export const testAttemptService = {
     const response = await api.get(`/attempts/user/${userId}/attendance`);
     return response.data.responseBody || [];
   },
+
+  startTestAttempt: async (testId, userId) => {
+    const response = await api.post(
+      '/attempts/start',
+      null, // send empty body (Postman behavior)
+      {
+        params: {
+          testId : testId,
+          userId: parseInt(userId, 10),
+        }
+      }
+    );
+    return response.data;
+  },
+  
+  
+
+  submitTest : async (testId, userId, query = "") => {
+    return api.put(`/attempts/submit?testId=${testId}&userId=${userId}`, {
+      query,
+    });
+  },
+
 };
 
 export const subjectService = {
@@ -183,7 +206,22 @@ export const questionService = {
   getQuestionsByTestId: async (testId) => {
     try {
       const response = await api.get(`/tests/${testId}/questions`);
-      return response.data;
+      const rawData = response.data.responseBody;
+      if (!Array.isArray(rawData)) {
+        throw new Error("Invalid format: responseBody is not an array");
+      }
+      const formattedData = rawData.map((q) => ({
+        questionId: q.questionId,
+        questionText: q.questionText,
+        answer: q.answer,
+        imageBase64: q.imageBase64 || null,
+        options: (q.options || []).map((opt) => ({
+          optionId: opt.optionId,
+          optionText: opt.optionText,
+          correct: opt.correct,
+        })),
+      }));
+      return { data: formattedData };
     } catch (error) {
       console.error("Error fetching questions by test ID:", error.response?.data || error.message);
       throw error;
@@ -269,5 +307,15 @@ export const deleteUser = async (userId) => {
   const response = await api.delete(`/users/${userId}`);
   return response.data;
 };
+
+
+export const outcomeService = {
+
+ addOutcome : async (testId, outcomes) => {
+  return api.post(`/tests/${testId}/outcomes`, outcomes);
+},
+
+
+}
 
 export default api;
