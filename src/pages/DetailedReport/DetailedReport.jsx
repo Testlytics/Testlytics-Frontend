@@ -4,102 +4,144 @@ import Navbar from "../../components/Navbar/Navbar";
 import styles from "./detailedReport.module.css";
 import TableColour from "../../components/TableColour/TableColour";
 import Button from "../../components/Button/Button";
-import { testAttemptService } from "../../services/api";
+import { testAttemptService, studentService, testService } from "../../services/api";
+import SuccessModal from "../../components/SuccessModal/SuccessModal";
 
 const DetailedReport = () => {
   const { testId } = useParams();
-  const columnNames = ["Student ID", "Student Name", "Submitted Time", "Score", "Accuracy", "Query", "Feedback"];
+  const columnNames = ["Student ID", "Student Name", "Score", "Accuracy", "Query", "Feedback"];
   const [feedbackData, setFeedbackData] = useState([]);
   const [classAverage, setClassAverage] = useState(0);
+  const [error, setError] = useState(null);
+  const [testName, setTestName] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isPublishing, setIsPublishing] = useState(false);  // State to track publish process
+  const [publishError, setPublishError] = useState(null); // Track publish errors
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const students = await testAttemptService.getStudentsByTest(testId);
+    const fetchTestData = async () => {
+      console.log('Test ID received:', testId);
 
-        const enrichedData = await Promise.all(
-          students.map(async (student) => {
-            const userId = student.id || student.userId;
-            const name = student.name || student.firstName || "Unknown";
+      if (!testId) {
+        setError("Test ID is missing or invalid.");
+        console.log('No Test ID found');
+        return;
+      }
+
+      try {
+        // Fetch the test details using testService
+        const testDetails = await testService.getTestById(testId);
+        console.log('Test details fetched:', testDetails); // Log the full response
+
+        if (testDetails && testDetails.data) {
+          setTestName(testDetails.data.responseBody.testName || "Test Name not found");
+        } else {
+          setTestName("Test Name not available");
+        }
+
+        // Fetch students who attended the test
+        const studentsData = await testAttemptService.getStudentsByTest(testId);
+        console.log('Attended Students:', studentsData);
+
+        if (Array.isArray(studentsData)) {
+          const studentInfoPromises = studentsData.map(async (studentId) => {
+            console.log(`Fetching data for student with ID: ${studentId}`);
+
+            if (!studentId) {
+              console.error(`Student ID is missing for student: ${studentId}`);
+              return null;
+            }
 
             try {
-              const attempt = await testAttemptService.getTestAttempt(testId, userId);
-              const accuracy = await testAttemptService.getAccuracyForTest(testId, userId);
+              const accuracy = await testAttemptService.getAccuracyForTest(testId, studentId);
+              const scoreData = await testAttemptService.getTestAttempt(testId, studentId);
+              const score = scoreData ? scoreData.score : 0;
+              const query = scoreData.query || "";
 
-              const score = attempt?.responseBody?.score ?? "N/A";
-              const submittedTime = attempt?.responseBody?.attemptEndTime?.split("T")[0] ?? "N/A";
-              const query = attempt?.responseBody?.query ?? "N/A";
-              const feedback = attempt?.responseBody?.feedback ?? "";
-
-              return [
-                userId,
-                name,
-                submittedTime,
-                `${score}%`,
-                `${accuracy}%`,
+              const studentData = await studentService.getStudentById(studentId);
+              return {
+                studentId: studentId,
+                firstName: studentData.firstName || "Unknown",
+                accuracy,
+                score,
                 query,
-                feedback,
-              ];
-            } catch (err) {
-              console.error("Error fetching attempt for student", userId, err);
-              return [
-                userId,
-                name,
-                "N/A",
-                "N/A",
-                "0%",
-                "N/A",
-                "",
-              ];
+                feedback: "", // Initialize empty feedback
+              };
+            } catch (error) {
+              console.error(`Error fetching student with ID ${studentId}:`, error);
+              return null;
             }
-          })
-        );
+          });
 
-        setFeedbackData(enrichedData);
+          const studentDetailsData = await Promise.all(studentInfoPromises);
+          setFeedbackData(studentDetailsData.filter(student => student !== null));
 
-        // Compute average score
-        const totalScore = enrichedData.reduce((sum, row) => {
-          const score = parseFloat(row[3].replace('%', ''));
-          return isNaN(score) ? sum : sum + score;
-        }, 0);
-        const average = enrichedData.length ? (totalScore / enrichedData.length).toFixed(2) : "0.00";
-        setClassAverage(average);
-      } catch (err) {
-        console.error("Error loading report data", err);
+          const totalScore = studentDetailsData.reduce((sum, student) => sum + student.score, 0);
+          const average = studentDetailsData.length ? (totalScore / studentDetailsData.length).toFixed(2) : "0.00";
+          setClassAverage(average);
+        }
+      } catch (error) {
+        console.error('Error fetching test data:', error);
       }
     };
 
-    if (testId) {
-      fetchData();
-    }
+    fetchTestData();
   }, [testId]);
 
   const handleFeedbackChange = (index, value) => {
     const updatedData = [...feedbackData];
-    updatedData[index][6] = value;
+    updatedData[index].feedback = value;
     setFeedbackData(updatedData);
   };
 
-  const modifiedData = feedbackData.map((row, index) => [
-    row[0],
-    row[1],
-    row[2],
-    row[3],
-    row[4],
-    row[5],
+  const handlePublish = async () => {
+    console.log("Publishing feedback:", feedbackData);
+    let allFeedbackPublished = true;
+    
+    // Iterate over all students and publish their feedback
+    for (const student of feedbackData) {
+      if (student.feedback) {
+        try {
+          await testAttemptService.addTeacherFeedback(testId, student.studentId, student.feedback);
+          console.log(`Feedback for student ${student.studentId} published.`);
+        } catch (error) {
+          console.error(`Error publishing feedback for student ${student.studentId}:`, error.response ? error.response.data : error.message);
+          allFeedbackPublished = false;  // If any feedback fails, set this flag to false
+        }
+      }
+    }
+    
+    // If all feedback is published successfully, publish the test and show success modal
+    if (allFeedbackPublished) {
+      try {
+        await testService.publishTest(testId);  // Publish the test after feedback
+        console.log("Test published successfully.");
+        setIsModalOpen(true);  // Show success modal after publishing
+      } catch (error) {
+        console.error("Error publishing test:", error.response ? error.response.data : error.message);
+        // Optionally, handle any errors when publishing the test
+      }
+    } else {
+      // Optionally show an error message if any feedback failed to publish
+      console.error("Some feedback failed to publish.");
+    }
+   
+  };
+
+  const modifiedData = feedbackData.map((student, index) => [
+    student.studentId,
+    student.firstName,
+    student.score,
+    student.accuracy,
+    student.query,
     <input
       type="text"
-      value={row[6]}
+      value={student.feedback}
       onChange={(e) => handleFeedbackChange(index, e.target.value)}
       className={styles.feedbackInput}
       placeholder="Enter feedback"
     />,
   ]);
-
-  const handlePublish = () => {
-    // Placeholder: Replace with API call to save feedback
-    console.log("Publishing feedback:", feedbackData);
-  };
 
   return (
     <div className={styles.detailedReportContainer}>
@@ -107,21 +149,31 @@ const DetailedReport = () => {
       <h1 className={styles.title}>Detailed Report</h1>
 
       <div className={styles.headerRow}>
-        <h2 className={styles.testTitle}>Test: {testId}</h2>
-        <h2 className={styles.classAverage}>Class Average: {classAverage}%</h2>
+        <h2 className={styles.testTitle}>Test: {testName || "Loading..."}</h2>
       </div>
 
       <div className={styles.tableContainer}>
-        <TableColour columnNames={columnNames} data={modifiedData} />
+        <TableColour columnNames={columnNames} data={modifiedData} height="auto" />
       </div>
+
+      {error && <p className={styles.errorMessage}>{error}</p>}
+      {publishError && <p className={styles.errorMessage}>{publishError}</p>}
 
       <div className={styles.publishButtonContainer}>
         <Button
           text="Publish"
           className={styles.publishButton}
           onClick={handlePublish}
+          disabled={isPublishing}  // Disable button if already publishing
         />
       </div>
+
+      {isModalOpen && (
+        <SuccessModal
+          onClose={() => setIsModalOpen(false)}
+          message="Feedback published successfully!"
+        />
+      )}
     </div>
   );
 };

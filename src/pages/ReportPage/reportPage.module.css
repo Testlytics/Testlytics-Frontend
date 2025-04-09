@@ -2,18 +2,17 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: #F3F5ED; /* Ensures the top half is colored */
+  background-color: #F3F5ED;
+  margin-top: 70px; /* Ensures the top half is colored */
 }
 
 .headingSection {
-  padding: 100px 0 0px; 
   text-align: center;
 }
 
 .topSection {
   background-color: #F3F5ED; 
   padding: 20px;
-  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -24,6 +23,11 @@
   padding: 20px;
   flex: 1;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
+}
+
+.bottomSection h1{
+  font-size: 34x;
+  font-weight: 600;
 }

@@ -1,57 +1,57 @@
 .reportInfoContainer {
-    background-color: #f3f5ed; /* Light background */
-    padding: 20px;
-    border-radius: 10px;
-  }
-  
-  /* StatCard Layout */
-  .statCard {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Rectangle Layout */
-  .rectangle {
-    background: white;
-    height: 150px; /* Adjust height as needed */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    font-weight: bold;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-  }
-  .toppers {
-    padding: 15px;
-    border-radius: 10px;
-    color: rgb(0, 0, 0);
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  
-  .heading {
-    font-size: 30px;
-    font-weight: 600;
-  }
-  .linkWrapper {
-    text-decoration: none;
-  }
-  
-  .toppersList {
-    list-style: none;
-    text-align: left;
-    padding: 0;
-    font-size: 24px;
-  }
-  
-  .toppersList li {
-    margin-top: 50px;
-    font-weight: 500;
-  }
+  background-color: #f3f5ed; /* Light background */
+  padding: 20px;
+  border-radius: 10px;
+}
+
+/* StatCard Layout */
+.statCard {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Rectangle Layout */
+.rectangle {
+  background: white;
+  height: 150px; /* Adjust height as needed */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+.toppers {
+  padding: 15px;
+  border-radius: 10px;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.heading {
+  font-size: 30px;
+  font-weight: 600;
+}
+.linkWrapper {
+  text-decoration: none;
+}
+
+.toppersList {
+  list-style: none;
+  text-align: left;
+  padding: 0;
+  font-size: 24px;
+}
+
+.toppersList li {
+  margin-top: 50px;
+  font-weight: 500;
+}

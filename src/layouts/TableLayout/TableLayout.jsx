@@ -22,7 +22,7 @@ const TableLayout = ({ columnNames, data, loading, error }) => {
           ) : error ? (
             <p className="text-danger">{error}</p>
           ) : (
-            <TableColour columnNames={columnNames} data={data} />
+            <TableColour columnNames={columnNames} data={data} height='300px' />
           )}
         </div>
       </div>

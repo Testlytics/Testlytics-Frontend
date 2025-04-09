@@ -1,9 +1,12 @@
 import React from "react";
 import styles from "./tableColour.module.css"; // Import styles
 
-const TableColour = ({ columnNames, data }) => {
+const TableColour = ({ columnNames, data, height }) => {
   return (
-    <div className={styles.tableContainer}>  {/* ✅ Scrollable container */}
+    <div
+      className={styles.tableContainer}
+      style={{ height }}  
+    >
       <table className={styles.table}>
         <thead>
           <tr>
@@ -16,14 +19,13 @@ const TableColour = ({ columnNames, data }) => {
           {data.map((row, rowIndex) => (
             <tr key={rowIndex} className={rowIndex % 2 === 0 ? styles.rowEven : styles.rowOdd}>
               {row.map((cell, colIndex) => (
-  <td
-    key={colIndex}
-    className={typeof cell === 'object' && cell.cellClass ? styles[cell.cellClass] : ""}
-  >
-    {typeof cell === 'object' && cell.content ? cell.content : cell}
-  </td>
-))}
-
+                <td
+                  key={colIndex}
+                  className={typeof cell === 'object' && cell.cellClass ? styles[cell.cellClass] : ""}
+                >
+                  {typeof cell === 'object' && cell.content ? cell.content : cell}
+                </td>
+              ))}
             </tr>
           ))}
         </tbody>
@@ -40,6 +42,7 @@ TableColour.defaultProps = {
     ["Row 2, Col 1", "Row 2, Col 2", "Row 2, Col 3"],
     ["Row 3, Col 1", "Row 3, Col 2", "Row 3, Col 3"],
   ],
+  height: "300px",  // Default height
 };
 
 export default TableColour;

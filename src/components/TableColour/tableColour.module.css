@@ -8,7 +8,7 @@
     width: 100%;
     margin: 20px auto;
     border: 2px solid black;
-    max-height: 240px; /* 🔁 Approx height for 3 rows + header */
+    max-height: 500px; /* 🔁 Approx height for 3 rows + header */
     overflow-y: auto;
   }
   

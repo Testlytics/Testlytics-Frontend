@@ -1,13 +1,19 @@
 .detailedReportContainer {
     padding: 20px;
+    margin-top: 150px;
   }
   
   .heading {
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 20px;
+    
   }
-  
+  .title{
+    text-align: center;
+    font-weight: 600;
+    color: #5a643c;
+  }
   .infoRow {
     display: flex;
     justify-content: space-between;
@@ -31,8 +37,9 @@
   }
   
   .testTitle {
-    font-size: 20px;
+    font-size: 30px;
     font-weight: bold;
+    margin-top: 40px;
   }
   
   .classAverage {

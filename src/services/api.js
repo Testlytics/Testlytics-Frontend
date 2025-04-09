@@ -84,7 +84,27 @@ export const studentService = {
       console.error('Error fetching students:', error);
       throw new Error('Failed to load students. Please try again.');
     }
-  }
+  },
+  getStudentById: async (studentId) => {
+    try {
+      const response = await api.get(`/users/${studentId}`);
+      const student = response.data.responseBody;
+      return {
+        studentId: String(student.userId),
+        firstName: student.name || "Unknown",
+        email: student.email || "No Email",
+        image: student.image,
+        title: "Student", 
+        rank: "N/A",
+        tableData: [],
+        barGraphData: [],
+        lineGraphData: []
+      };
+    } catch (error) {
+      console.error(`Error fetching student with ID ${studentId}:`, error);
+      throw new Error('Failed to load student. Please try again.');
+    }
+  },
 };
 
 export const testService = {
@@ -97,7 +117,7 @@ export const testService = {
     return response.data.responseBody || [];
   },
   createTest: async (testData) => {
-    console.log("📡 POST /tests with data:", testData);
+    console.log(" POST /tests with data:", testData);
     const response = await api.post('/tests', testData);
     return response.data;
   },
@@ -110,6 +130,15 @@ export const testService = {
   },
   getTestById: (testId) => api.get(`/tests/${testId}`),
   getUpcomingTests: () => api.get('/tests/upcoming'),
+  publishTest: async (testId) => {
+    try {
+      const response = await api.patch(`/tests/${testId}/publish`);
+      return response.data;  // Expected success message or data
+    } catch (error) {
+      console.error('Error publishing test:', error);
+      throw error;  // This will help us to catch errors in the UI
+    }
+  },
 };
 
 export const testAttemptService = {
@@ -144,6 +173,22 @@ export const testAttemptService = {
     const response = await api.get(`/attempts/user/${userId}/attendance`);
     return response.data.responseBody || [];
   },
+  addTeacherFeedback: async (testId, userId, feedbackText) => {
+    try {
+      const response = await api.put(
+        `/attempts/feedback`,
+        { feedback: feedbackText },
+        {
+          params: { testId, userId },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error submitting feedback:", error);
+      throw error;
+    }
+  },
+  
 };
 
 export const subjectService = {

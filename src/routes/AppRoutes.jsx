@@ -11,7 +11,7 @@ import SubjectPage from '../pages/SubjectPage/SubjectPage';
 import AddQuestionPage from '../pages/AddQuestionPage/AddQuestionPage';
 import Questions from '../pages/Questions/Questions';
 import ManageUsersPage from '../pages/ManageUsersPage/ManageUsersPage';
-import TestReports from '../pages/TestReports/TestReports';
+
 import StudentResultPage from "../pages/StudentResultPage/StudentResultPage";
 import ChangePassword from '../pages/ChangePassword/ChangePassword';
 import ReportPage from '../pages/ReportPage/ReportPage'; // ✅ Import Report Page
@@ -47,7 +47,7 @@ const AppRoutes = () => {
       <Route path="/reports" element={<ProtectedRoute><ReportPage /></ProtectedRoute>} />
       <Route path="/missednupcoming" element={<ProtectedRoute><MissednUpcoming /></ProtectedRoute>} />
       <Route path="/starttest" element={<ProtectedRoute><StartTest /></ProtectedRoute>} />
-      <Route path='/test-reports' element={<ProtectedRoute><TestReports /></ProtectedRoute>} />
+
       <Route path="/detailed-report/:testId" element={<ProtectedRoute><DetailedReport /></ProtectedRoute>} />
       {/* Public Test Pages */}
       <Route path="/attend-test" element={<AttendTest />} />
