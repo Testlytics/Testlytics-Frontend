@@ -53,7 +53,18 @@ export const authService = {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     localStorage.removeItem('userId');
+  },
+
+  changePassword: async (passwordData) => {
+    try {
+      const response = await api.post('/users/changepassword', passwordData);
+      return response.data;
+    } catch (error) {
+      console.error("Error changing password:", error.response?.data || error.message);
+      throw error;
+    }
   }
+  
 };
 
 export const studentService = {

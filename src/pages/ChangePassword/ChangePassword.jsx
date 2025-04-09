@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styles from "./changePassword.module.css";
 import LoginImage from "../../assets/images/Login.png";
+import { authService } from "../../services/api"; // adjust path if needed
 
 const ChangePassword = () => {
   const [formData, setFormData] = useState({
@@ -10,9 +11,12 @@ const ChangePassword = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [statusMessage, setStatusMessage] = useState("");
+  const [statusType, setStatusType] = useState(""); // "success" or "error"
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setStatusMessage(""); // Clear previous status on input change
   };
 
   const validateForm = () => {
@@ -27,11 +31,29 @@ const ChangePassword = () => {
     return Object.keys(tempErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log("Password Change Request: ", formData);
-      // Add your password change logic here
+      try {
+        const payload = {
+          currentPassword: formData.currentPassword,
+          newPassword: formData.newPassword,
+        };
+        const response = await authService.changePassword(payload);
+        console.log("Password changed successfully:", response);
+        setStatusType("success");
+        setStatusMessage("Password changed successfully!");
+        setFormData({
+          currentPassword: "",
+          newPassword: "",
+          confirmPassword: "",
+        });
+      } catch (error) {
+        const errorMsg = error.response?.data || "Failed to change password. Please try again.";
+        setStatusType("error");
+        setStatusMessage(errorMsg);
+        console.error("Error changing password:", error);
+      }
     }
   };
 
@@ -83,9 +105,14 @@ const ChangePassword = () => {
             {errors.confirmPassword && <p className={styles.error}>{errors.confirmPassword}</p>}
           </div>
 
-          
+          <button type="submit" className={styles.submitButton}>Submit</button>
+
+          {statusMessage && (
+            <p className={statusType === "success" ? styles.success : styles.error}>
+              {statusMessage}
+            </p>
+          )}
         </form>
-        <button type="submit" className={styles.submitButton}>Submit</button>
       </div>
     </div>
   );
