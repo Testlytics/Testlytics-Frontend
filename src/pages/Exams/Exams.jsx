@@ -6,25 +6,19 @@ import Table from "../../components/Table/Table";
 import { testService, testAttemptService } from '../../services/api';
 import { useNavigate } from 'react-router-dom';
 
-
 const Exams = () => {
-
   const navigate = useNavigate();
 
   const [liveExam, setLiveExam] = useState(null);
   const [missedExams, setMissedExams] = useState([]);
-const [upcomingExams, setUpcomingExams] = useState([]);
-const [historyTests, setHistoryTests] = useState([]);
+  const [upcomingExams, setUpcomingExams] = useState([]);
+  const [historyTests, setHistoryTests] = useState([]);
 
-  
-const userId = Number(localStorage.getItem("userId"));
+  const userId = Number(localStorage.getItem("userId"));
+  console.log("Fetched userId:", userId);
 
-console.log("Fetched userId from localStorage:", userId);
-
-  const tableColumns = ["Sl No","Date", "Subject", "Exam Name" , "Score" ];
-
-   // Data for the Table
-   const tableData = historyTests.map((test, index) => ({
+  const tableColumns = ["Sl No", "Date", "Subject", "Exam Name", "Score"];
+  const tableData = historyTests.map((test, index) => ({
     "Sl No": index + 1,
     Date: test.testDate,
     Subject: test.subjectName,
@@ -33,98 +27,113 @@ console.log("Fetched userId from localStorage:", userId);
   }));
 
   useEffect(() => {
-    const fetchTests = async () => {
+    const fetchData = async () => {
       try {
-        const response = await testService.getAllTests();
-        console.log("API response:", response);
-        const allTests = Array.isArray(response) ? response : [];
-  
-        allTests.forEach(test => {
-          console.log(`Test: ${test.testName}, active: ${test.active}`);
-        });
-  
+        // 1. Fetch all available tests
+        const allTestsResponse = await testService.getAllTests();
+        const allTests = Array.isArray(allTestsResponse) ? allTestsResponse : [];
         const activeTest = allTests.find(test => test.active === true);
         setLiveExam(activeTest || null);
+        console.log("All Tests:", allTests);
+        console.log("Active Test:", activeTest);
 
-        const missedResponse = await testAttemptService.getMissedTests(userId);
-console.log("Missed Exams:", missedResponse);
-setMissedExams(missedResponse.responseBody || []);
+        // 2. Missed Exams
+        const missed = await testAttemptService.getMissedTests(userId);
+        console.log("Missed Exams:", missed?.responseBody);
+        setMissedExams(missed?.responseBody || []);
 
-const upcomingResponse = await testService.getUpcomingTests();
-console.log("✅ Full Upcoming Response:", JSON.stringify(upcomingResponse, null, 2));
+        // 3. Upcoming Exams
+        const upcoming = await testService.getUpcomingTests();
+        console.log("Upcoming Exams:", upcoming?.responseBody);
+        setUpcomingExams(upcoming?.responseBody || []);
 
-setUpcomingExams(upcomingResponse.responseBody || []);
+        // 4. Get test history
+        const getStudentTestHistory = async (userId) => {
+          try {
+            const testIds = await testAttemptService.getUserTestIds(userId);
 
-if (!Array.isArray(upcomingResponse.responseBody)) {
-  console.warn("⚠️ upcomingResponse.responseBody is not an array:", upcomingResponse.responseBody);
-} else if (upcomingResponse.responseBody.length === 0) {
-  console.warn("⚠️ Upcoming exams list is empty");
-}
+            const testHistory = await Promise.all(
+              testIds.map(async (testId) => {
+                try {
+                  const [attempt, test] = await Promise.all([
+                    testAttemptService.getTestAttempt(testId, userId),
+                    testService.getTestById(testId)
+                  ]);
 
+                  console.log(`Parsed Attempt for ${testId}:`, attempt);
+                  console.log(`Parsed Test for ${testId}:`, test?.data?.responseBody);
 
+                  const testData = test?.data?.responseBody;
 
-        const attendedTestIds = await testAttemptService.getUserAttendance(userId);
+                  if (!testData || !testData.published) {
+                    console.warn(`Skipping testId ${testId} (not published or missing test data)`);
+                    return null;
+                  }
 
-        const completedTestDetails = await Promise.all(
-          attendedTestIds.map(async (testId) => {
-            const testAttempt = await testAttemptService.getTestAttempt(testId, userId);
-            return {
-              testId: testAttempt.testId,
-              testName: testAttempt.testName,
-              subjectName: testAttempt.subjectName,
-              testDate: testAttempt.testDate,
-              score: testAttempt.score,
-              totalMarks: testAttempt.totalMarks
-            };
-          })
-        );
+                  return {
+                    testId: testId,
+                    testName: testData.testName,
+                    subjectName: testData.subjectName,
+                    testDate: testData.testDate,
+                    score: attempt?.score ?? "Not Submitted",
+                    totalMarks: testData.totalMarks || "N/A",
+                    status: attempt ? "Submitted" : "Not Submitted"
+                  };
+                } catch (err) {
+                  console.error(`Error processing testId ${testId}:`, err);
+                  return null;
+                }
+              })
+            );
 
-        setHistoryTests(completedTestDetails);
+            return testHistory.filter(Boolean);
+          } catch (error) {
+            console.error("Failed to fetch test history:", error);
+            return [];
+          }
+        };
+
+        const filteredHistory = await getStudentTestHistory(userId);
+        console.log("Final Filtered History Tests:", filteredHistory);
+        setHistoryTests(filteredHistory);
 
       } catch (error) {
-        console.error("Error fetching tests:", error);
+        console.error("Error fetching exam data:", error);
       }
     };
-  
-    fetchTests();
-  }, []);
-  
 
-  // Sample data for 3 ExamCards
+    fetchData();
+  }, [userId]);
+
   const examsData = [
     {
-     
       title: 'LIVE Exam',
       description: liveExam?.testName || 'No exam currently',
       value: liveExam ? `${liveExam.startTime} to ${liveExam.endTime}` : '',
       buttonText: liveExam ? 'Attend' : 'N/A',
       onButtonClick: () => {
-        if (liveExam) {
-          navigate(`/start-test/${liveExam.testId}`);
-        }
-      },
+        if (liveExam) navigate(`/start-test/${liveExam.testId}`);
+      }
     },
     {
       title: 'Missed Exams',
+      description: 'Exams you didn\'t attend',
       value: `Total No : ${missedExams.length}`,
       buttonText: 'View',
+      onButtonClick: () => navigate('/missed-upcoming')
     },
     {
       title: 'Upcoming Exams',
+      description: 'Scheduled upcoming exams',
       value: `Total No : ${upcomingExams.length}`,
       buttonText: 'View',
-    },
+      onButtonClick: () => navigate('/missed-upcoming')
+    }
   ];
-
-
-console.log("Missed Exams Count:", missedExams.length);
-console.log("Upcoming Exams Count:", upcomingExams.length);
-
 
   return (
     <div className={styles.pageContainer}>
       <Navbar />
-
       <div className={`container-fluid ${styles.mainWrapper}`}>
         <div className="row">
           <div className={`col-lg-3 col-md-12 ${styles.sidebar}`}>
@@ -135,13 +144,7 @@ console.log("Upcoming Exams Count:", upcomingExams.length);
                 description={exam.description}
                 value={exam.value}
                 buttonText={exam.buttonText}
-                onButtonClick={() => {
-                  if (exam.title === 'Missed Exams' || exam.title === 'Upcoming Exams') {
-                    navigate('/missed-upcoming');
-                  } else {
-                    navigate(`/start-test/${liveExam.testId}`);
-                  }
-                }}
+                onButtonClick={exam.onButtonClick}
               />
             ))}
           </div>
