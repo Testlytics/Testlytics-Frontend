@@ -18,15 +18,37 @@ function App() {
  
 function MainContent() {
   const location = useLocation();
-  const hideNavbarPaths = ["/login"]; // Add more paths if needed
+ 
+  // List of routes where navbar should be visible
+  const showNavbarPaths = [
+    "/studentlist",
+    "/overview",
+    "/exam",
+    "/exam/subjects",
+    "/add-question",
+    "/exam/questions",
+    "/manage-users",
+    "/reports",
+    "/student-report",
+    "/exams",
+    "/missednupcoming",
+    "/detailed-report",
+    "/test-reports",
+    "/question-paper",
+    "/student-evaluated",
+    "/change-password"
+  ];
+ 
+  const shouldShowNavbar = showNavbarPaths.some(path =>
+    location.pathname.startsWith(path)
+  );
  
   return (
     <>
-      {!hideNavbarPaths.includes(location.pathname) && <Navbar />}
+      {shouldShowNavbar && <Navbar />}
       <AppRoutes />
     </>
   );
 }
-
+ 
 export default App;
-

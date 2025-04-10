@@ -25,6 +25,8 @@ import QuestionPaper from '../pages/QuestionPaper/QuestionPaper';
 import MissednUpcoming from '../pages/MissednUpcoming/MissednUpcoming';
 import StartTest from '../pages/StartTest/StartTest';
 import AttendTest from '../pages/AttendTest/AttendTest';
+import { Notebook } from 'lucide-react';
+import NotFound from '../pages/NotFound/NotFound';
 
 const AppRoutes = () => {
   return (
@@ -64,7 +66,7 @@ const AppRoutes = () => {
 
 
       {/* Fallback */}
-      <Route path="*" element={<h1>Page Not Found</h1>} />
+      <Route path="*" element={<NotFound/>} />
     </Routes>
   );
 };
