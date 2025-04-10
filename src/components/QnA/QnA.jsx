@@ -19,6 +19,16 @@ const QnA = ({
   onDelete
 }) => {
 
+  console.log("QnA Props:", {
+    variant,
+    questionId,
+    questionText,
+    options,
+    correctOption,
+    selectedOption: parentSelectedOption,
+  });
+  
+
   // Local state to manage selected option
   const [selectedOption, setSelectedOption] = useState(parentSelectedOption || null); // this is fine as long as parent gives UUID
 
@@ -96,7 +106,7 @@ const QnA = ({
             <div
               key={index}
               className={`${styles.optionWrapper} ${
-                variant === "highlighted" && correctOption === index
+                (variant === "highlighted" || variant === "default") && correctOption === index
                   ? styles.correctOption
                   : variant === "marked" && selectedOption === index
                   ? selectedOption === correctOption

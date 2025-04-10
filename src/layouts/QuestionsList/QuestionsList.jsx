@@ -4,6 +4,7 @@ import QnA from "../../components/QnA/QnA";
 import { FaChevronRight } from "react-icons/fa"; // ✅ Import icon
 import styles from "./questionsList.module.css";
 import Button from "../../components/Button/Button";
+import { questionService } from "../../services/api"; 
 
 const QuestionsList = ({
   subjectName,
@@ -16,9 +17,13 @@ const QuestionsList = ({
   isEvaluated = false, // Default: false
   variant = "default", // ✅ Variant, default "default"
   selectedIndex, // ✅ Selected index if needed for dynamic data
+  testId,
   studentName, // New prop for the student's name
 }) => {
   
+  console.log("✅ Received testId in QuestionsList:", testId);
+
+
   //✅ State to manage questions dynamically
   const [questionsData, setQuestionsData] = useState({
     subjectName: "",
@@ -30,16 +35,53 @@ const QuestionsList = ({
     variant: "default",
   });
 
-  const handleButtonClick = () => {
-    alert("Button Clicked!"); // Replace with actual functionality
+  const handleButtonClick = async () => {
+    if (questionsData.variant === "default") {
+      try {
+        
+        if (!testId) {
+          alert("No test selected.");
+          return;
+        }
+  
+        const response = await questionService.downloadQuestionPaper(testId);
+  
+        const blob = new Blob([response.data], { type: "application/pdf" });
+        const url = window.URL.createObjectURL(blob);
+  
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `${questionsData.testName || "QuestionPaper"}.pdf`);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+  
+      } catch (error) {
+        console.error("❌ Download error:", error);
+        alert("Failed to download question paper.");
+      }
+    } else {
+      alert("Button Clicked!"); // or handle other variants
+    }
   };
 
 
   // ✅ State to manage selected question dynamically
   const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(null);
 
-  // ✅ Load data dynamically (no default data now)
   useEffect(() => {
+    console.log("🧩 QuestionsList Props:", {
+      subjectName,
+      testName,
+      totalQuestions,
+      totalMarks,
+      duration,
+      questions,
+      variant,
+    });
+
+    console.log("QuestionsList loaded with variant:", variant);
+  
     setQuestionsData({
       subjectName,
       testName,
@@ -49,7 +91,8 @@ const QuestionsList = ({
       questions,
       variant,
     });
-  }, [subjectName, testName, totalQuestions, totalMarks, duration, questions,variant]);
+  }, [subjectName, testName, totalQuestions, totalMarks, duration, questions, variant]);
+  
 
   // ✅ Handle click to highlight and select question
   const handleItemClick = (index) => {
@@ -116,23 +159,27 @@ const QuestionsList = ({
               onClick={() => handleItemClick(index)}
             >
               <div className={styles.questionText}>
-                <QnA
-                  questionNumber={index + 1}
-                  question={question.text}
-                  correctOption={question.answer}
-                  options={question.options.map((opt) => opt.text)}
-                  image={question.image || null}
-                  // ✅ Determine variant based on isEditable and isEvaluated
-                  variant={
-                    isEvaluated
-                      ? "marked" // Highlight correct/incorrect answers
-                      : isEditable
-                      ? "editable" // Enable editable mode
-                      : "default" // Default variant
-                  }
-                   // ✅ For evaluation
-                  selectedOption={question.selectedOption} // ✅ For evaluation
-                />
+              <QnA
+  questionNumber={index + 1}
+  questionId={question.questionId} // optional if QnA uses it
+  questionText={question.text}     // pass this as questionText if QnA expects that prop name
+  correctOption={question.options.findIndex(opt => opt.isCorrect)} // index of correct option
+  selectedOption={question.selectedOption} // should be optionId
+  options={question.options.map((opt) => ({
+    optionId: opt.optionId,
+    optionText: opt.text,
+    isCorrect: opt.isCorrect
+  }))}
+  image={question.image || null}
+  variant={
+    isEvaluated
+      ? "marked"
+      : isEditable
+      ? "editable"
+      : "default"
+  }
+/>
+
               </div>
               {/* ✅ Show Icon when item is clicked */}
               {selectedQuestionIndex === index && (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom"; // ✅ Import useParams
 import QPList from "../../layouts/QPList/QPList";
 import QuestionsList from "../../layouts/QuestionsList/QuestionsList";
@@ -21,12 +21,18 @@ const [selectedTest, setSelectedTest] = useState(null);
   const [error, setError] = useState(null);
   const [allTests, setAllTests] = useState([]);
 const [completedTests, setCompletedTests] = useState([]);
+const [selectedTestId, setSelectedTestId] = useState(null);
 
   const location = useLocation();
 const { testId } = location.state || {};
 
- const testData = [...allTests, ...completedTests];
 
+const testData = useMemo(() => {
+  return [...allTests, ...completedTests]; // or whatever you're computing
+}, [allTests, completedTests]); // Make sure these are stable
+
+
+console.log("📦 Derived testData:", testData);
 
   useEffect(() => {
     const fetchTests = async () => {
@@ -36,10 +42,15 @@ const { testId } = location.state || {};
         const { allTests, completedTests } = await testService.getAllTestData();
         setAllTests(allTests);
         setCompletedTests(completedTests);
+        console.log("allTests:", allTests);
+console.log("completedTests:", completedTests);
         
         if (testId) {
-          const selected = allTests.find(t => t.testId === testId);
-          setSelectedTest(selected || null);
+          const selected = allTests.find(t => t.testId === testId) || completedTests.find(t => t.testId === testId);
+          if (selected) {
+            setSelectedTestId(selected.testId);
+            handleTestSelect(selected);
+          }
         }
       } catch (err) {
         setError(err.message || "Failed to load tests");
@@ -54,6 +65,8 @@ const { testId } = location.state || {};
 
   const handleTestSelect = async (selected) => {
     try {
+
+      setSelectedTestId(selected.testId);
       console.log("Selected Test ID:", selected.testId);
       console.log("Selected test object:", selected);
 
@@ -70,23 +83,18 @@ setSelectedVariant(variant);
 console.log("Auto-selected variant:", variant);
     let subjectName = "Unknown Subject";
 
-    if (!testDetails || !testDetails.subjectId) {
-      console.warn("Subject ID is missing from test details:", testDetails);
-    } else {
+    if (testDetails.subjectId) {
       try {
         const subjectResponse = await subjectService.getSubjectById(testDetails.subjectId);
-        console.log("Subject API response:", subjectResponse.data);
         subjectName = subjectResponse.data.responseBody.subjectName || "Unknown Subject";
-
-        console.log("Resolved subject name:", subjectName);
       } catch (e) {
         console.error("Error fetching subject name:", e);
       }
     }
     const questionsResponse = await questionService.getQuestionsByTestId(testDetails.testId);
-console.log("Raw Questions API response:", questionsResponse);
+console.log("Raw Questions API response:", questionsResponse.data);
 
-const rawQuestions = questionsResponse.responseBody; // ✅ FIXED
+const rawQuestions = questionsResponse.data; // ✅ FIXED
 
 
 const formattedQuestions = rawQuestions.map((question, index) => ({
@@ -103,6 +111,7 @@ const formattedQuestions = rawQuestions.map((question, index) => ({
 }));
       const testWithQuestions = {
         subjectName,
+        testId: testDetails.testId,
         testName: testDetails.testName,
         totalQuestions: formattedQuestions.length,
         totalMarks: formattedQuestions.length * 1, // 1 mark per Q or use actual marks
@@ -132,35 +141,48 @@ const formattedQuestions = rawQuestions.map((question, index) => ({
 
   const renderQuestionsList = () => {
     if (!selectedTest) return null;
-
+  
     switch (selectedVariant) {
-      case "default":
-        return (
-          <>
-            <QuestionsList {...selectedTest} />
-           
-          </>
-        );
-
       case "editable":
         return (
-          <>
-            <button className={styles.addquestion} onClick={handleAddQuestion}>
-              Add Question
-            </button>
+        
             
-            <QuestionsList {...selectedTest} isEditable />
-           
-          </>
+            <QuestionsList
+              {...selectedTest}
+             
+              isEditable
+              variant="editable"
+            />
+         
         );
-
+  
       case "evaluated":
-        return <QuestionsList {...selectedTest} isEvaluated />;
-
+        return (
+          <QuestionsList
+            {...selectedTest}
+            
+            isEvaluated
+            variant="evaluated"
+          />
+        );
+  
+      case "default":
       default:
-        return <QuestionsList {...selectedTest} />;
+        return (
+          <QuestionsList
+            {...selectedTest}
+            variant="default"
+          />
+        );
     }
   };
+  
+
+
+  
+
+console.log("📦 Derived testData:", testData);
+
 
   return (
     <div className={styles.pageContainer}>
@@ -176,13 +198,8 @@ const formattedQuestions = rawQuestions.map((question, index) => ({
           {console.log("testData passed to QPList:", testData)}
           <QPList
             title="QP List"
-            items={testData.map((t) => ({
-              testName: t.testName,
-              testId: t.testId,
-              subjectName: t.subjectName,
-              testDuration: t.testDuration,
-            }))}
-
+            items={testData}
+            selectedTestId={selectedTestId} 
             onSelect={handleTestSelect}
                    />
                     </>
@@ -198,6 +215,7 @@ const formattedQuestions = rawQuestions.map((question, index) => ({
       </div>
     </div>
   );
+
 };
 
 export default QuestionPaper;

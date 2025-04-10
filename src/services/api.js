@@ -227,6 +227,14 @@ export const questionService = {
       throw error;
     }
   },
+
+  downloadQuestionPaper: async (testId) => {
+    const response = await api.get(`/tests/${testId}/download`, {
+      responseType: "blob", // important for downloading files
+    });
+    return response;
+  },
+
 };
 
 export const createUser = async (user, imageFile) => {
