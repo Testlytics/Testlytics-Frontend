@@ -58,10 +58,11 @@ const SubjectLayout = ({
             .then(async (completedTests) => {
               const attendedCompletedTests = completedTests.filter(
                 (test) =>
+                  test.published && // ✅ Only include published tests
                   attendedTestIds.includes(test.testId) &&
                   String(test.subjectId) === String(subjectDetails.subjectId)
               );
-  
+              
               // 🟢 Attendance
 const attendancePercentage = subjectDetails.totalExams
 ? Math.round(

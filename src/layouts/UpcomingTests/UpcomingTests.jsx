@@ -1,58 +1,81 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import UpcomingCard from '../../components/UpcomingCard/UpcomingCard';
 import Calendar from '../../components/Calendar/Calendar';
 import styles from './upcomingTests.module.css';
-
-// Sample data for upcoming tests
-const upcomingTests = [
-   
-  {
-    date: '2025-04-10',
-    testName: 'Algebra',
-    time: '10:00 to 12:30',
-    score: 50,
-  },
-  {
-    date: '2025-04-15',
-    testName: 'Measurements',
-    time: '2:00 to 3:00',
-    score: 40,
-  },
-  {
-    date: '2025-05-2',
-    testName: 'Organic',
-    time: '11:00 to 13:00',
-    score: 70,
-  },
-
-];
-
-// Convert upcoming test dates to Date objects for the Calendar
-const upcomingDates = upcomingTests.map((test) => new Date(test.date));
+import { testService } from '../../services/api';
 
 const UpcomingTests = () => {
+  const [upcomingTests, setUpcomingTests] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUpcomingTests = async () => {
+      try {
+        const allTests = await testService.getAllTests();
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // normalize
+
+        const futureTests = allTests
+          .filter(test => {
+            const testDate = new Date(test.testDate);
+            testDate.setHours(0, 0, 0, 0);
+            return testDate >= today;
+          })
+          .map(test => {
+            const testDate = new Date(test.testDate);
+            testDate.setHours(0, 0, 0, 0);
+
+            return {
+              date: test.testDate,
+              testName: test.testName,
+              time: `${test.startTime} to ${test.endTime}`,
+              score: test.testDuration, // Or actual score
+              isToday: testDate.getTime() === today.getTime(),
+            };
+          })
+          .sort((a, b) => new Date(a.date) - new Date(b.date)); // sort by date
+
+        setUpcomingTests(futureTests);
+      } catch (error) {
+        console.error('Error fetching upcoming tests:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUpcomingTests();
+  }, []);
+
+  const upcomingDates = upcomingTests.map(test => new Date(test.date));
+
   return (
     <div className={styles.upcomingTestsContainer}>
-      {/* Heading */}
       <h1 className={styles.heading}>Upcoming Tests</h1>
 
-      {/* Upcoming Cards */}
-      <div className={styles.cardsContainer}>
-        {upcomingTests.map((test, index) => (
-          <UpcomingCard
-            key={index}
-            date={test.date}
-            testName={test.testName}
-            time={test.time}
-            score={test.score}
-          />
-        ))}
-      </div>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <>
+          {/* Upcoming Cards */}
+          <div className={styles.cardsContainer}>
+            {upcomingTests.map((test, index) => (
+              <UpcomingCard
+                key={index}
+                date={test.date}
+                testName={test.testName}
+                time={test.time}
+                score={test.score}
+                isToday={test.isToday} // pass flag to card
+              />
+            ))}
+          </div>
 
-      {/* Calendar */}
-      <div className={styles.calendarContainer}>
-        <Calendar upcomingDates={upcomingDates} />
-      </div>
+          {/* Calendar */}
+          <div className={styles.calendarContainer}>
+            <Calendar upcomingDates={upcomingDates} />
+          </div>
+        </>
+      )}
     </div>
   );
 };

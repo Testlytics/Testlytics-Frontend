@@ -5,7 +5,7 @@ import Button from '../../components/Button/Button';
 import { useNavigate } from 'react-router-dom'; 
 import { testService, subjectService, questionService, testAttemptService } from '../../services/api'; 
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+
 
 
 const StartTest = () => {

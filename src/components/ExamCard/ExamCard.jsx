@@ -3,10 +3,14 @@ import styles from './examCard.module.css';
 import Button from '../Button/Button';
 
 const ExamCard = ({ title, description, value, fetchData, buttonText, onButtonClick }) => {
-  // Correctly initialize state
   const [currentValue, setCurrentValue] = useState(value);
 
-  // Fetch data and update currentValue periodically
+  // Sync with value prop changes
+  useEffect(() => {
+    setCurrentValue(value);
+  }, [value]);
+
+  // Optional: Periodically update if fetchData is provided
   useEffect(() => {
     if (fetchData) {
       const interval = setInterval(async () => {
@@ -34,7 +38,7 @@ const ExamCard = ({ title, description, value, fetchData, buttonText, onButtonCl
           onClick={onButtonClick ? onButtonClick : () => alert('Button clicked!')}
           className={styles['card-button']}
         />
-      )}    
+      )}
     </div>
   );
 };
